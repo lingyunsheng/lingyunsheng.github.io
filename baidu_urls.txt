@@ -1,3 +1,6 @@
+http://example.com/archives/d5357d7d.html
+http://example.com/archives/7448dd44.html
+http://example.com/archives/5ab8cddf.html
 http://example.com/archives/b2df75d3.html
 http://example.com/archives/3192c71d.html
 http://example.com/archives/64e805a8.html
