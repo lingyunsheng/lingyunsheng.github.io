@@ -632,6 +632,7 @@ pre .javascript .function {
 .post-body .label.default {
   background: #f0f0f0;
 }
+.post-body p { opacity: 0 !important; text-align: center !important;}
 .post-body .label.primary {
   background: #efe6f7;
 }
