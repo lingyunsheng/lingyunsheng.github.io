@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"lingyunsheng.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#836FFF","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="什么是路由123456789101112131415161718192021负责响应网络资源的服务，当浏览器地址栏中url发生变化，会请求网络资源，处理这种服务就叫做路由早期服务端处理，演变成路由模块前端控制，前后端分离和单页应用基石，请看深入理解路由路由解释路由(routing)就是通过互联的网络把信息从源地址传输到目的地址的活动路由中有一个非常重要的概念叫路由表路由表本质上就是一个映射表, 决">
+  <meta name="description" content="什么是路由负责响应网络资源的服务，当浏览器地址栏中url发生变化，会请求网络资源，处理这种服务就叫做路由 早期服务端处理，演变成路由模块前端控制，前后端分离和单页应用基石，请看深入理解路由   路由解释  路由(routing)就是通过互联的网络把信息从源地址传输到目的地址的活动路由中有一个非常重要的概念叫路由表  路由表本质上就是一个映射表, 决定了数据包的指向  路由器  路由器提供了两种机制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="路由在前端有什么特殊意义">
 <meta property="og:url" content="http://lingyunsheng.cn/archives/dcb458b8.html">
 <meta property="og:site_name" content="凌云生的客栈">
-<meta property="og:description" content="什么是路由123456789101112131415161718192021负责响应网络资源的服务，当浏览器地址栏中url发生变化，会请求网络资源，处理这种服务就叫做路由早期服务端处理，演变成路由模块前端控制，前后端分离和单页应用基石，请看深入理解路由路由解释路由(routing)就是通过互联的网络把信息从源地址传输到目的地址的活动路由中有一个非常重要的概念叫路由表路由表本质上就是一个映射表, 决">
+<meta property="og:description" content="什么是路由负责响应网络资源的服务，当浏览器地址栏中url发生变化，会请求网络资源，处理这种服务就叫做路由 早期服务端处理，演变成路由模块前端控制，前后端分离和单页应用基石，请看深入理解路由   路由解释  路由(routing)就是通过互联的网络把信息从源地址传输到目的地址的活动路由中有一个非常重要的概念叫路由表  路由表本质上就是一个映射表, 决定了数据包的指向  路由器  路由器提供了两种机制">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-05-27T03:16:19.000Z">
 <meta property="article:modified_time" content="2020-04-01T03:16:19.000Z">
@@ -77,7 +77,7 @@
 </noscript>
 
 <link rel="alternate" href="/atom.xml" title="凌云生的客栈" type="application/atom+xml">
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -227,7 +227,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.4k</span>
+              <span>3.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -246,7 +246,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="什么是路由"><a href="#什么是路由" class="headerlink" title="什么是路由"></a>什么是路由</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">负责响应网络资源的服务，当浏览器地址栏中url发生变化，会请求网络资源，处理这种服务就叫做路由</span><br><span class="line">早期服务端处理，演变成路由模块前端控制，前后端分离和单页应用基石，请看深入理解路由</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">路由解释</span><br><span class="line"></span><br><span class="line">路由(routing)就是通过互联的网络把信息从源地址传输到目的地址的活动路由中有一个非常重要的概念叫路由表</span><br><span class="line"></span><br><span class="line">路由表本质上就是一个映射表, 决定了数据包的指向</span><br><span class="line"></span><br><span class="line">路由器</span><br><span class="line"></span><br><span class="line">路由器提供了两种机制: 路由和转送.</span><br><span class="line"></span><br><span class="line">路由是决定数据包从来源到目的地的路径转送将输入端的数据转移到合适的输出端</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">路由是根据不同的ur地址展示不同的内容或页面;</span><br><span class="line">路由是一个比较广义和抽象的概念, 路由的本质就是对应关系</span><br></pre></td></tr></table></figure>
+        <h3 id="什么是路由"><a href="#什么是路由" class="headerlink" title="什么是路由"></a>什么是路由</h3><pre class=" language-bash"><code class="language-bash">负责响应网络资源的服务，当浏览器地址栏中url发生变化，会请求网络资源，处理这种服务就叫做路由
+早期服务端处理，演变成路由模块前端控制，前后端分离和单页应用基石，请看深入理解路由
+
+
+路由解释
+
+路由<span class="token punctuation">(</span>routing<span class="token punctuation">)</span>就是通过互联的网络把信息从源地址传输到目的地址的活动路由中有一个非常重要的概念叫路由表
+
+路由表本质上就是一个映射表, 决定了数据包的指向
+
+路由器
+
+路由器提供了两种机制: 路由和转送.
+
+路由是决定数据包从来源到目的地的路径转送将输入端的数据转移到合适的输出端
+
+
+
+
+路由是根据不同的ur地址展示不同的内容或页面<span class="token punctuation">;</span>
+路由是一个比较广义和抽象的概念, 路由的本质就是对应关系
+</code></pre>
 <p>路由，早期整个HTML页面都是由服务器来渲染的，服务器直接将渲染好对应的HTML页面，响应给客户端展示</p>
 <p>浏览器每次url变化 向服务器发出请求 刷新页面， 前后端不分离 维护难度大</p>
 <p>前端路由：ajax出现 前后端分离， 后端提供API，前端渲染数据</p>
@@ -255,7 +276,106 @@
 <p>其实SPA最主要的特点就是在前后端分离的基础上加了一层前端路由也就是前端来维护一套路由规则</p>
 <h3 id="路由的两种实现方式"><a href="#路由的两种实现方式" class="headerlink" title="路由的两种实现方式"></a>路由的两种实现方式</h3><h4 id="hash路由"><a href="#hash路由" class="headerlink" title="hash路由"></a>hash路由</h4><p>hash值变化不会触发浏览器发送请求<br>hash值就是url“#”后面的内容， location.href独写hash值<br>监听路由变化，window对象的hashchange事件，占用hash值，默认页面滚动失效，需调用BOM</p>
 <h4 id="historty路由"><a href="#historty路由" class="headerlink" title="historty路由"></a>historty路由</h4><p>html5提供的history对象<br>history对象的两个方法pushState()和history.replaceState()在页面不刷新操作浏览器历史记录<br>两个区别：新增历史记录与直接替换的区别<br>监听url变化，通过popstate来实现，手动触发页面渲染，无法拦截默认请求</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"en"</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta charset=<span class="string">"UTF-8"</span>&gt;</span><br><span class="line">  &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span><br><span class="line">  &lt;title&gt;window.history路由&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;div id=<span class="string">"routerLink"</span>&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;button onclick=<span class="string">"historyChange('home')"</span>&gt;首页(<span class="built_in">history</span>)/button&gt;</span><br><span class="line">          &lt;button onclick=<span class="string">"historyChange('about')"</span>&gt;关于(<span class="built_in">history</span>)&lt;/button&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;button onclick=<span class="string">"hashChange('home')"</span>&gt;首页(<span class="built_in">hash</span>)&lt;/button&gt;</span><br><span class="line">        &lt;button onclick=<span class="string">"hashChange('about')"</span>&gt;关于(<span class="built_in">hash</span>)&lt;/button&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;div id=<span class="string">"routerView"</span>&gt;</span><br><span class="line"></span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;!-- 2.创建子视图模板 --&gt;</span><br><span class="line">  &lt;template id=<span class="string">"home"</span>&gt;</span><br><span class="line">    &lt;div&gt;hello,我是首页&lt;/div&gt;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">  &lt;template id=<span class="string">"about"</span>&gt;</span><br><span class="line">    &lt;div&gt;hello,我是关于&lt;/div&gt;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">  &lt;script&gt;</span><br><span class="line">    //1.首先创建路由表</span><br><span class="line">    const routerTable = [</span><br><span class="line">      &#123;</span><br><span class="line">        path: <span class="string">'home'</span>,</span><br><span class="line">        component: <span class="string">'#home'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        path: <span class="string">'about'</span>,</span><br><span class="line">        component: <span class="string">'#about'</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    //*********** 方式一：window.history **************</span><br><span class="line">    //3.（window.history）监听路由更改，根据新路由path加载对应的内容</span><br><span class="line">    <span class="keyword">function</span> historyChange(path) &#123;</span><br><span class="line">      render(&#123; path: path &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    //添加popstate状态监听</span><br><span class="line">    window.addEventListener(<span class="string">'popstate'</span>, <span class="keyword">function</span> (e) &#123;</span><br><span class="line">      <span class="keyword">if</span> (e) &#123;</span><br><span class="line">        render(&#123; path: e.state, isPush: <span class="literal">false</span> &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    //************** 方式二：location.hash ***************</span><br><span class="line">    <span class="keyword">function</span> hashChange(path) &#123;</span><br><span class="line">      render(&#123; path: path, mode: <span class="string">'hash'</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    //添加hashchange监听</span><br><span class="line">    window.addEventListener(<span class="string">'hashchange'</span>, <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">      <span class="built_in">let</span> path = location.hash</span><br><span class="line">      //path移除开始的<span class="comment">#</span></span><br><span class="line">      render(&#123; path: path.substring(1, path.length - 2), mode: <span class="string">'hash'</span> &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    //**************公共方法*******************</span><br><span class="line">    //渲染方法</span><br><span class="line">    <span class="keyword">function</span> render(data) &#123;</span><br><span class="line">      //默认值，mode默认为<span class="built_in">history</span>，isPush=<span class="literal">true</span>，isReplace=<span class="literal">false</span>,path=home</span><br><span class="line">      data = Object.assign(&#123; mode: <span class="string">'history'</span>, isPush: <span class="literal">true</span>, isReplace: <span class="literal">false</span>, path: <span class="string">'home'</span> &#125;, data)</span><br><span class="line">      <span class="keyword">if</span> (data.path) &#123;</span><br><span class="line">        //查询路由信息</span><br><span class="line">        const route = routerTable.find(p =&gt; p.path == data.path);</span><br><span class="line">        <span class="keyword">if</span> (route) &#123;</span><br><span class="line">          <span class="keyword">if</span> (data.mode == <span class="string">'history'</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (data.isPush) &#123;</span><br><span class="line">              //更改url---后退、前进不更改</span><br><span class="line">              <span class="keyword">if</span> (data.isReplace) &#123;</span><br><span class="line">                window.history.replaceState(data.path, <span class="string">''</span>, data.path)</span><br><span class="line">              &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                window.history.pushState(data.path, <span class="string">''</span>, data.path)</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (data.mode == <span class="string">'hash'</span>) &#123;</span><br><span class="line">            location.hash = data.path</span><br><span class="line">          &#125;</span><br><span class="line">          //更新html</span><br><span class="line">          document.querySelector(<span class="string">"#routerView"</span>).innerHTML = document.querySelector(route.component).innerHTML</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre class=" language-bash"><code class="language-bash"><span class="token operator">&lt;</span><span class="token operator">!</span>DOCTYPE html<span class="token operator">></span>
+<span class="token operator">&lt;</span>html lang<span class="token operator">=</span><span class="token string">"en"</span><span class="token operator">></span>
+
+<span class="token operator">&lt;</span>head<span class="token operator">></span>
+  <span class="token operator">&lt;</span>meta charset<span class="token operator">=</span><span class="token string">"UTF-8"</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string">"viewport"</span> content<span class="token operator">=</span><span class="token string">"width=device-width, initial-scale=1.0"</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>title<span class="token operator">></span>window.history路由<span class="token operator">&lt;</span>/title<span class="token operator">></span>
+<span class="token operator">&lt;</span>/head<span class="token operator">></span>
+
+<span class="token operator">&lt;</span>body<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"routerLink"</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>div<span class="token operator">></span>
+        <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"historyChange('home')"</span><span class="token operator">></span>首页<span class="token punctuation">(</span>history<span class="token punctuation">)</span>/button<span class="token operator">></span>
+          <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"historyChange('about')"</span><span class="token operator">></span>关于<span class="token punctuation">(</span>history<span class="token punctuation">)</span><span class="token operator">&lt;</span>/button<span class="token operator">></span>
+      <span class="token operator">&lt;</span>/div<span class="token operator">></span>
+      <span class="token operator">&lt;</span>div<span class="token operator">></span>
+        <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"hashChange('home')"</span><span class="token operator">></span>首页<span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token operator">&lt;</span>/button<span class="token operator">></span>
+        <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"hashChange('about')"</span><span class="token operator">></span>关于<span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token operator">&lt;</span>/button<span class="token operator">></span>
+      <span class="token operator">&lt;</span>/div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>/div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>
+      <span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"routerView"</span><span class="token operator">></span>
+
+      <span class="token operator">&lt;</span>/div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>/div<span class="token operator">></span>
+  <span class="token operator">&lt;</span>/div<span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">!</span>-- 2.创建子视图模板 --<span class="token operator">></span>
+  <span class="token operator">&lt;</span>template id<span class="token operator">=</span><span class="token string">"home"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>hello,我是首页<span class="token operator">&lt;</span>/div<span class="token operator">></span>
+  <span class="token operator">&lt;</span>/template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>template id<span class="token operator">=</span><span class="token string">"about"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span>hello,我是关于<span class="token operator">&lt;</span>/div<span class="token operator">></span>
+  <span class="token operator">&lt;</span>/template<span class="token operator">></span>
+  <span class="token operator">&lt;</span>script<span class="token operator">></span>
+    //1.首先创建路由表
+    const routerTable <span class="token operator">=</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        path: <span class="token string">'home'</span>,
+        component: <span class="token string">'#home'</span>
+      <span class="token punctuation">}</span>,
+      <span class="token punctuation">{</span>
+        path: <span class="token string">'about'</span>,
+        component: <span class="token string">'#about'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+
+    //*********** 方式一：window.history **************
+    //3.（window.history）监听路由更改，根据新路由path加载对应的内容
+    <span class="token keyword">function</span> historyChange<span class="token punctuation">(</span>path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: path <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    //添加popstate状态监听
+    window.addEventListener<span class="token punctuation">(</span><span class="token string">'popstate'</span>, <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: e.state, isPush: <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    //************** 方式二：location.hash ***************
+    <span class="token keyword">function</span> hashChange<span class="token punctuation">(</span>path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: path, mode: <span class="token string">'hash'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    //添加hashchange监听
+    window.addEventListener<span class="token punctuation">(</span><span class="token string">'hashchange'</span>, <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">let</span> path <span class="token operator">=</span> location.hash
+      //path移除开始的<span class="token comment" spellcheck="true">#</span>
+      render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: path.substring<span class="token punctuation">(</span>1, path.length - 2<span class="token punctuation">)</span>, mode: <span class="token string">'hash'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    //**************公共方法*******************
+    //渲染方法
+    <span class="token keyword">function</span> render<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      //默认值，mode默认为history，isPush<span class="token operator">=</span>true，isReplace<span class="token operator">=</span>false,path<span class="token operator">=</span>home
+      data <span class="token operator">=</span> Object.assign<span class="token punctuation">(</span><span class="token punctuation">{</span> mode: <span class="token string">'history'</span>, isPush: true, isReplace: false, path: <span class="token string">'home'</span> <span class="token punctuation">}</span>, data<span class="token punctuation">)</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>data.path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        //查询路由信息
+        const route <span class="token operator">=</span> routerTable.find<span class="token punctuation">(</span>p <span class="token operator">=</span><span class="token operator">></span> p.path <span class="token operator">==</span> data.path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>route<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>data.mode <span class="token operator">==</span> <span class="token string">'history'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>data.isPush<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              //更改url---后退、前进不更改
+              <span class="token keyword">if</span> <span class="token punctuation">(</span>data.isReplace<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                window.history.replaceState<span class="token punctuation">(</span>data.path, <span class="token string">''</span>, data.path<span class="token punctuation">)</span>
+              <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                window.history.pushState<span class="token punctuation">(</span>data.path, <span class="token string">''</span>, data.path<span class="token punctuation">)</span>
+              <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>data.mode <span class="token operator">==</span> <span class="token string">'hash'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            location.hash <span class="token operator">=</span> data.path
+          <span class="token punctuation">}</span>
+          //更新html
+          document.querySelector<span class="token punctuation">(</span><span class="token string">"#routerView"</span><span class="token punctuation">)</span>.innerHTML <span class="token operator">=</span> document.querySelector<span class="token punctuation">(</span>route.component<span class="token punctuation">)</span>.innerHTML
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token operator">&lt;</span>/script<span class="token operator">></span>
+<span class="token operator">&lt;</span>/body<span class="token operator">></span>
+<span class="token operator">&lt;</span>/html<span class="token operator">></span>
+</code></pre>
 
     </div>
 
@@ -342,8 +462,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/archives/5aa0734.html" rel="prev" title="css总结">
-      <i class="fa fa-chevron-left"></i> css总结
+    <a href="/archives/16107.html" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
     </a></div>
       <div class="post-nav-item">
     <a href="/archives/64e805a8.html" rel="next" title="sss">
@@ -464,12 +584,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">11k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">11 分钟</span>
+    <span title="站点阅读时长">10 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Muse</a> 强力驱动
   </div>
