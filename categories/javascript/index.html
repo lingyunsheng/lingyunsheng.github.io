@@ -200,6 +200,24 @@
     <header class="post-header">
 
       <div class="post-meta">
+        <time itemprop="dateCreated" datetime="2020-11-11T08:46:38+08:00" content="2020-11-11">
+          11-11
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/archives/37724.html" itemprop="url">
+            <span itemprop="name">javascript查缺补漏，快上车</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
         <time itemprop="dateCreated" datetime="2020-11-06T10:36:13+08:00" content="2020-11-06">
           11-06
         </time>
@@ -299,7 +317,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -307,6 +325,12 @@
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
         <a href="https://github.com/lingyunsheng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lingyunsheng" rel="external nofollow noopener noreferrer" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1841046698@qq.com" title="E-Mail → mailto:1841046698@qq.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://juejin.im/user/729731451849134" title="掘金 → https:&#x2F;&#x2F;juejin.im&#x2F;user&#x2F;729731451849134" rel="external nofollow noopener noreferrer" target="_blank"><i class="heartbeat fa-fw"></i>掘金</a>
       </span>
   </div>
 
@@ -508,6 +532,35 @@
 
   
 
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'BRxjPOsqhLpeBGnhnWu544t6-MdYXbMMI',
+      appKey     : 'sjOlGST3QNba2IdputiNyNBq',
+      placeholder: "Just go go",
+      avatar     : 'monsterid',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
 </body>
 
 
@@ -532,6 +585,12 @@
       </path>
   </svg>`;
 },false);
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>;
+<script>
+<script>
+  $("body").backstretch("https://cdn.jsdelivr.net/gh/blleng/lx/assets/5.jpeg"); 
 </script>
 
 
