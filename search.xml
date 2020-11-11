@@ -1,612 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>动态规划</title>
-    <url>/archives/a80d0031.html</url>
-    <content><![CDATA[<a id="more"></a>
-
-<h1 id="动态规划概念"><a href="#动态规划概念" class="headerlink" title="动态规划概念"></a>动态规划概念</h1><p>动态规划：是把复杂的问题分解为简单的子问题来解决复杂问题的一种方法，适用于重叠子和最优结构性质的特征</p>
-<p>对于动态规划的学习，最重要的是找到一个正确的学习切入点：如果你是一个对相关理论一无所知的初学者，自然不能急于一上来就生吞“模型”、“状态转移方程”等高端概念——大家谨记，动态规划是一种思想，所谓思想，就是非常好用，好用到爆的套路。我们学习一种思想，重要的是建立起对它的感性认知，而不是反复咀嚼那些对现在的你来说还非常生硬的文字概念——从抽象去理解抽象是意淫，从具体去理解抽象才是学习。</p>
-<!-- more -->
-
-<h1 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h1><p>一个复杂问题，分解成若干个子问题，合并子问题得出原问题的解，并进行记忆搜索存储</p>
-<h1 id="分治思想和动态规划的异同"><a href="#分治思想和动态规划的异同" class="headerlink" title="分治思想和动态规划的异同"></a>分治思想和动态规划的异同</h1><p>分治问题的核心思想是：把一个问题分解为相互独立的子问题，逐个解决子问题后，再组合子问题的答案，就得到了问题的最终解。</p>
-<p>动态规划的思想和“分治”有点相似。不同之处在于，“分治”思想中，各个子问题之间是独立的：比如说归并排序中，子数组之间的排序并不互相影响。而动态规划划分出的子问题，往往是相互依赖、相互影响的。</p>
-<p><strong>共同点</strong><br>二者都是将原问题分而治之，分解成若干个子问题，解决后合并，形成原问题的解</p>
-<p><strong>不同点</strong></p>
-<p>分治法，子问题是独立的，用递归方法</p>
-<p>动态规划， 子问题之间相互有练习，有重叠部分，需要记忆存储， 迭代常用</p>
-<h1 id="爬楼梯"><a href="#爬楼梯" class="headerlink" title="爬楼梯"></a>爬楼梯</h1><h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>从“爬楼梯”问题说起<br>题目描述：假设你正在爬楼梯。需要 n 阶你才能到达楼顶。</p>
-<p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
-<pre class=" language-bash"><code class="language-bash">注意：给定 n 是一个正整数。
-
-示例 1：
-
-输入： 2
-
-输出： 2
-解释： 有两种方法可以爬到楼顶。
-
-1 阶 + 1 阶
-2 阶
-示例 2：
-
-输入： 3
-输出： 3
-解释： 有三种方法可以爬到楼顶。</code></pre>
-<p>1 阶 + 1 阶 + 1 阶<br>1 阶 + 2 阶<br>2 阶 + 1 阶</p>
-<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>思路分析与编码实现<br>这道题目有两个关键的特征：</p>
-<p>要求你给出达成某个目的的解法个数<br>不要求你给出每一种解法对应的具体路径<br>这样的问题，往往可以用动态规划进行求解（这个结论大家先记下来，后面我们会有很多验证它的机会）。</p>
-<h3 id="递归思想分析"><a href="#递归思想分析" class="headerlink" title="递归思想分析"></a>递归思想分析</h3><p>Step1：递归思想分析问题<br>基于动态规划的思想来做题，我们首先要想到的思维工具就是“倒着分析问题”。“倒着分析问题”分两步走：</p>
-<p>定位到问题的终点<br>站在终点这个视角，思考后退的可能性<br>在这道题里，“问题的终点”指的就是走到第 n 阶楼梯这个目标对应的路径数，我们把它记为 f(n)。</p>
-<p>那么站在第 n 阶楼梯这个视角， 有哪些后退的可能性呢？按照题目中的要求，一次只能后退 1 步或者 2 步。因此可以定位到从第 n 阶楼梯只能后退到第 n-1 或者第 n-2 阶。我们把抵达第 n-1 阶楼梯对应的路径数记为f(n-1)，把抵达第 n-2 阶楼梯对应的路径数记为 f(n-2)，不难得出以下关系：</p>
-<p>f(n) = f(n-1) + f(n-2)<br>这个关系用树形结构表示会更加形象</p>
-<p>现在我们不难看出，要想求出 f(n)，必须求出f(n-1) 和f(n-2)（我们假设 n 是一个大于 5 的数字）。<br>接下来站在第 n-1 阶台阶上，思考后退的姿势，也无非只能是退到 n-1-1层台阶 或 n-1-2层台阶上，所以f(n-1) 和 f(n-2)、f(n-3)间同样具有以下关系：</p>
-<p>f(n-1) = f(n-2) + f(n-3)<br>同理， f(n-2)也可以按照同样的规则进行拆分：</p>
-<p>f(n-2) = f(n-3) + f(n-4)<br>现在我们的树结构渐渐丰满起来了：</p>
-<p> 随着拆分的进行，一定会有一个时刻，求解到了 f(1) 或 f(2)。按照题设规则，第 1 阶楼梯只能走 1 步抵达，第 2 阶楼梯可以走 1 步或者走 2 步抵达，因此我们不难得出 f(1) 和 f(2) 的值：</p>
-<p>f(1) = 1<br>f(2) = 2<br>我们在学习递归与回溯思想的时候，曾经给大家强调过，遇到“树形思维模型”，就要想办法往递归上靠。这道题明显用到了树形思维模型，有着明确的重复内容(不断地按照 f(n) = f(n-1) + f(n-2)的规则拆分），同时有着明确的边界条件(遇到f(1)或f(2)就可以返回了)，因此我们不难写出其对应的递归解法代码：</p>
-<pre class=" language-bash"><code class="language-bash">/**
-* @param <span class="token punctuation">{</span>number<span class="token punctuation">}</span> n
-* @return <span class="token punctuation">{</span>number<span class="token punctuation">}</span>
-*/
-const climbStairs <span class="token operator">=</span> function<span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    // 处理递归边界
-    if<span class="token punctuation">(</span>n <span class="token operator">==</span><span class="token operator">=</span> 1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> 1
-    <span class="token punctuation">}</span>
-    if<span class="token punctuation">(</span>n <span class="token operator">==</span><span class="token operator">=</span> 2<span class="token punctuation">)</span><span class="token punctuation">{</span>
-        <span class="token keyword">return</span> 2
-    <span class="token punctuation">}</span>
-    // 递归计算
-    <span class="token keyword">return</span> climbStairs<span class="token punctuation">(</span>n-1<span class="token punctuation">)</span> + climbStairs<span class="token punctuation">(</span>n-2<span class="token punctuation">)</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<p>但是这个解法问题比较大，丢进 OJ 会直接超时。我们一起来看看原因，回到我们上面这张树形结构图上来：</p>
-<p> 这次我把 f(n-2) 和f(n-3)给标红了。大家不难看出，我们在图中对 f(n-2)和f(n-3) 进行了重复的计算。事实上，随着我们递归层级的加深，这个重复的问题会越来越严重：</p>
-<p> （图上标红的均为发生过重复计算的结点）</p>
-<h3 id="记忆化搜索"><a href="#记忆化搜索" class="headerlink" title="记忆化搜索"></a>记忆化搜索</h3><p>Step2：记忆化搜索来提效<br>重复计算带来了时间效率上的问题，要想解决这类问题，最直接的思路就是用空间换时间，也就是想办法记住之前已经求解过的结果。这里我们只需要定义一个数组：</p>
-<pre class=" language-bash"><code class="language-bash">const f <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-每计算出一个 f<span class="token punctuation">(</span>n<span class="token punctuation">)</span> 的值，都把它塞进 f 数组里。下次要用到这个值的时候，直接取出来就行了：
-
-/**
-* @param <span class="token punctuation">{</span>number<span class="token punctuation">}</span> n
-* @return <span class="token punctuation">{</span>number<span class="token punctuation">}</span>
-*/
-// 定义记忆数组 f
-const f <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-const climbStairs <span class="token operator">=</span> function<span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  if<span class="token punctuation">(</span>n<span class="token operator">==</span>1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> 1
-  <span class="token punctuation">}</span>
-  if<span class="token punctuation">(</span>n<span class="token operator">==</span>2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">return</span> 2
-  <span class="token punctuation">}</span>
-  // 若f<span class="token punctuation">[</span>n<span class="token punctuation">]</span>不存在，则进行计算
-  if<span class="token punctuation">(</span>f<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token operator">==</span><span class="token operator">=</span>undefined<span class="token punctuation">)</span>  f<span class="token punctuation">[</span>n<span class="token punctuation">]</span> <span class="token operator">=</span> climbStairs<span class="token punctuation">(</span>n-1<span class="token punctuation">)</span> + climbStairs<span class="token punctuation">(</span>n-2<span class="token punctuation">)</span>
-  // 若f<span class="token punctuation">[</span>n<span class="token punctuation">]</span>已经求解过，直接返回
-  <span class="token keyword">return</span> f<span class="token punctuation">[</span>n<span class="token punctuation">]</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-</code></pre>
-<p>以上这种在递归的过程中，不断保存已经计算出的结果，从而避免重复计算的手法，叫做记忆化搜索。<br>对于一些实用派的面试官来说，“记忆化搜索”和“动态规划”没有区别，它们都能够以不错的效率帮我们达到同样的目的。这种情况下，上面这个答案就足够了。<br>但是还有一部分面试官，比较讲究，善于咀嚼理论概念。他会告诉你记忆化搜索和动态规划是两个东西，别想糊弄哥，哥要的是动态规划的解法。<br>行吧，就给你动态规划的解法。</p>
-<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>Step3：记忆化搜索转化为动态规划<br>要想完成记忆化搜索与动态规划之间的转化，首先要清楚两者间的区别。<br>先说记忆化搜索，记忆化搜索可以理解为优化过后的递归。递归往往可以基于树形思维模型来做，以这道题为例：</p>
-<p>我们基于树形思维模型来解题时，实际上是站在了一个比较大的未知数量级（也就是最终的那个n），来不断进行拆分，最终拆回较小的已知数量级（f(1)、f(2)）。这个过程是一个明显的自顶向下的过程。</p>
-<p>动态规划则恰恰相反，是一个自底向上的过程。它要求我们站在已知的角度，通过定位已知和未知之间的关系，一步一步向前推导，进而求解出未知的值。<br>在这道题中，已知 f(1) 和 f(2) 的值，要求解未知的 f(n)，我们唯一的抓手就是这个等价关系：</p>
-<p>f(n) = f(n-1) + f(n-2)<br>以 f(1) 和 f(2) 为起点，不断求和，循环递增 n 的值，我们就能够求出f(n)了：</p>
-<pre class=" language-bash"><code class="language-bash">
-/**
-* @param <span class="token punctuation">{</span>number<span class="token punctuation">}</span> n
-* @return <span class="token punctuation">{</span>number<span class="token punctuation">}</span>
-*/
-const climbStairs <span class="token operator">=</span> function<span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    // 初始化状态数组
-    const f <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    // 初始化已知值
-    f<span class="token punctuation">[</span>1<span class="token punctuation">]</span> <span class="token operator">=</span> 1<span class="token punctuation">;</span>
-    f<span class="token punctuation">[</span>2<span class="token punctuation">]</span> <span class="token operator">=</span> 2<span class="token punctuation">;</span>
-    // 动态更新每一层楼梯对应的结果
-    for<span class="token punctuation">(</span>let i <span class="token operator">=</span> 3<span class="token punctuation">;</span>i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span>i++<span class="token punctuation">)</span><span class="token punctuation">{</span>
-        f<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> f<span class="token punctuation">[</span>i-2<span class="token punctuation">]</span> + f<span class="token punctuation">[</span>i-1<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    // 返回目标值
-    <span class="token keyword">return</span> f<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<p>以上便是这道题的动态规划解法。</p>
-<p>从题解思路看动态规划<br>下面我们基于这个题解的过程，站在专业的角度来重新认识一下动态规划。</p>
-<p>前面咱们在排序专题学过“分治”思想，提到了“子问题”这个概念。</p>
-<h3 id="分治的核心思想"><a href="#分治的核心思想" class="headerlink" title="分治的核心思想"></a>分治的核心思想</h3><p>分治问题的核心思想是：把一个问题分解为相互独立的子问题，逐个解决子问题后，再组合子问题的答案，就得到了问题的最终解。</p>
-<p>动态规划的思想和“分治”有点相似。不同之处在于，“分治”思想中，各个子问题之间是独立的：比如说归并排序中，子数组之间的排序并不互相影响。而动态规划划分出的子问题，往往是相互依赖、相互影响的。</p>
-<h1 id="动态规划场景"><a href="#动态规划场景" class="headerlink" title="动态规划场景"></a>动态规划场景</h1><p>什么样的题应该用动态规划来做？我们要抓以下两个关键特征：</p>
-<ul>
-<li>最优子结构</li>
-<li>重叠子问题<br>拿这道题的分析过程来说：</li>
-</ul>
-<h2 id="最优子结构"><a href="#最优子结构" class="headerlink" title="最优子结构"></a>最优子结构</h2><p>最优子结构，它指的是问题的最优解包含着子问题的最优解——不管前面的决策如何，此后的状态必须是基于当前状态（由上次决策产生）的最优决策。就这道题来说，f(n)和f(n-1)、f(n-2)之间的关系印证了这一点（这玩意儿叫状态转移方程，大家记一下）。</p>
-<p>状态转移方程</p>
-<h2 id="重叠子问题"><a href="#重叠子问题" class="headerlink" title="重叠子问题"></a>重叠子问题</h2><p>重叠子问题，它指的是在递归的过程中，出现了反复计算的情况。就这道题来说，图上标红的一系列重复计算的结点印证了这一点。<br>因此，这道题适合用动态规划来做。</p>
-<h3 id="分析技巧"><a href="#分析技巧" class="headerlink" title="分析技巧"></a>分析技巧</h3><p>动态规划问题的分析技巧<br>现在，大家理解了动态规划的概念，明确了其“自底向上”的脑回路特征。但在实际做题过程中，“自底向上”分析问题往往不是最舒服的解题姿势，按照这个脑回路去想问题，容易拧巴。</p>
-<p>什么姿势不拧巴？<br>递归！</p>
-<p>你现在回过头去看看咱们前面递归+记忆化搜索那一通操作，你觉得拧巴吗？不拧巴！舒服不？相当舒服了——只要你掌握了递归与回溯，就不难分析出图上的树形思维模型和递归边界条件，树形思维模型将帮助我们更迅速地定位到状态转移关系，边界条件往往对应的就是已知子问题的解；基于树形思维模型，结合一下记忆化搜索，难么？不难，谁还不会初始化个记忆数组了呢；最后再把递归往迭代那么一转，答案不就有了么！</p>
-<p>当然，咱们上面一通吹牛逼都只是为了衬托递归思路分析下来有多么爽，并不是说动态规划有多么简单。实际上，动态规划可复杂了，递归+记忆化搜索的思想只是帮助我们简化问题，但并不能送佛送到西。说到底，还是得靠我们自己。<br>动态规划到底复杂在什么地方，这里我先预告一下：</p>
-<p>状态转移方程不好确定<br>已知的状态可能不明显<br>递归转迭代，一部分同学可能不知道怎么转（这个就是纯粹的编程基础问题了，多写多练哈）<br>多的也没法说了，大家后面慢慢体会吧：）。<br>总结一下，对于动态规划，笔者建议大家优先选择这样的分析路径：</p>
-<p>递归思想明确树形思维模型：找到问题终点，思考倒退的姿势，往往可以帮助你更快速地明确状态间的关系<br>结合记忆化搜索，明确状态转移方程<br>递归代码转化为迭代表达（这一步不一定是必要的，1、2本身为思维路径，而并非代码实现。若你成长为熟手，2中分析出来的状态转移方程可以直接往循环里塞，根本不需要转换）。</p>
-<h1 id="找硬币零钱问题KMP"><a href="#找硬币零钱问题KMP" class="headerlink" title="找硬币零钱问题KMP"></a>找硬币零钱问题KMP</h1><h2 id="“最值”型问题典范：如何优雅地找硬币"><a href="#“最值”型问题典范：如何优雅地找硬币" class="headerlink" title="“最值”型问题典范：如何优雅地找硬币"></a>“最值”型问题典范：如何优雅地找硬币</h2><p>题目描述：给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。</p>
-<pre class=" language-bash"><code class="language-bash">示例1：
-输入: coins <span class="token operator">=</span> <span class="token punctuation">[</span>1, 2, 5<span class="token punctuation">]</span>, amount <span class="token operator">=</span> 11
-
-输出: 3
-解释: 11 <span class="token operator">=</span> 5 + 5 + 1
-
-示例2：
-输入: coins <span class="token operator">=</span> <span class="token punctuation">[</span>2<span class="token punctuation">]</span>, amount <span class="token operator">=</span> 3
-
-输出: -1</code></pre>
-<pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> clac <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>coins<span class="token punctuation">,</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//  初始化数组</span>
-    <span class="token keyword">const</span> dp <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-    <span class="token comment" spellcheck="true">//  提前定义</span>
-    f<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
-    <span class="token comment" spellcheck="true">// 遍历[1, amount]区间硬币的总额</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">&lt;=</span>amount<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//  定义最小值</span>
-        dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">Infinity</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> j<span class="token operator">&lt;</span>coins<span class="token punctuation">.</span>length<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token comment" spellcheck="true">//  硬币金额小于总额</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">-</span>coins<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i<span class="token operator">-</span>coins<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token operator">==</span> <span class="token number">Infinity</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-<span class="token punctuation">}</span>
-</code></pre>
-<p>提示：最值问题是动态规划的常见对口题型，见到最值问题，应该想到动态规划<br>思路分析<br>现在思维工具已经给到大家了，详细的步骤我就不啰嗦了。我直接讲难点：这道题对于初学者来说，难的是状态转移方程的明确。</p>
-<p>要明确状态转移关系，我们依然是借助“倒推”的思想：解决爬楼梯问题时，我们首先思考的是站在第 n 阶楼梯上的后退姿势。这道题也一样，我们需要思考的是站在 amount 这个组合结果上的“后退姿势”—— 我们可以假装此时手里已经有了 36 美分，只是不清楚硬币的个数，把“如何凑到36”的问题转化为“如何从36减到0”的问题。</p>
-<p>硬币的英文是 coin，因此我们这里用 c1、c2、c3……cn 分别来表示题目中给到我们的第 1-n 个硬币。现在我如果从 36 美分的总额中拿走一个硬币，那么有以下几种可能：</p>
-<p>拿走 c1<br>拿走 c2<br>拿走 c3<br>……<br>拿走 cn<br>重复往前推导这个“拿走”的过程，我们可以得到以下的树形思维模型：</p>
-<p>假如用 f(x）表示每一个总额数字对应的最少硬币数，那么我们可以得到以下的对应关系：</p>
-<p>f(36) = Math.min(f(36-c1)+1,f(36-c2)+1,f(36-c3)+1……f(36-cn)+1)<br>这套对应关系，就是本题的状态转移方程。</p>
-<p>找出了状态转移方程，我们接下来需要思考的是递归的边界条件：在什么情况下，我的“后退”（实际是做减法）可以停下来？这里需要考虑的是硬币总额为 0 的情况，这种情况对应的硬币个数毫无疑问也会是 0，因而不需要任何的回溯计算。由此我们就得到了一个已知的最基本的子问题的结果：</p>
-<p>f[0] = 0<br>现在，明确了状态转移方程，明确了已知子问题的解，我们来写代码：</p>
-<p>编码实现</p>
-<pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> coinChange <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>coins<span class="token punctuation">,</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 用于保存每个目标总额对应的最小硬币个数</span>
-    <span class="token keyword">const</span> f <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-    <span class="token comment" spellcheck="true">// 提前定义已知情况</span>
-    f<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
-    <span class="token comment" spellcheck="true">// 遍历 [1, amount] 这个区间的硬币总额</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span>amount<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 求的是最小值，因此我们预设为无穷大，确保它一定会被更小的数更新</span>
-        f<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">Infinity</span>
-        <span class="token comment" spellcheck="true">// 循环遍历每个可用硬币的面额</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>coins<span class="token punctuation">.</span>length<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token comment" spellcheck="true">// 若硬币面额小于目标总额，则问题成立</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">-</span>coins<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                <span class="token comment" spellcheck="true">// 状态转移方程</span>
-                f<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>f<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>f<span class="token punctuation">[</span>i<span class="token operator">-</span>coins<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">// 若目标总额对应的解为无穷大，则意味着没有一个符合条件的硬币总数来更新它，本题无解，返回-1</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>f<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token operator">===</span><span class="token number">Infinity</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">// 若有解，直接返回解的内容</span>
-    <span class="token keyword">return</span> f<span class="token punctuation">[</span>amount<span class="token punctuation">]</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<h1 id="跳台阶问题"><a href="#跳台阶问题" class="headerlink" title="跳台阶问题"></a>跳台阶问题</h1><h2 id="递归解法斐波那契数列"><a href="#递归解法斐波那契数列" class="headerlink" title="递归解法斐波那契数列"></a>递归解法斐波那契数列</h2><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> fibonaqi <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//  n个台阶， 对一次跳1、2、3、5、8</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token number">1</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token number">2</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">//  当n>=3时</span>
-    <span class="token keyword">return</span> <span class="token function">fibonaqi</span><span class="token punctuation">(</span>n<span class="token number">-1</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token function">fibonaqi</span><span class="token punctuation">(</span>n<span class="token number">-2</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
-<h2 id="记忆搜索法"><a href="#记忆搜索法" class="headerlink" title="记忆搜索法"></a>记忆搜索法</h2><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//  定义一个数组 初始化</span>
-<span class="token keyword">const</span> f<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
-<span class="token keyword">const</span> fibonaqi <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//  n个台阶， 对一次跳1、2、3、5、8</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token number">1</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token number">2</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">//  当n>=3时</span>
-    <span class="token comment" spellcheck="true">//  判断fibonaqi(n) 是否已经计算保存过了</span>
-    <span class="token comment" spellcheck="true">//  记住已经求解过的结果</span>
-
-    <span class="token keyword">if</span><span class="token punctuation">(</span>f<span class="token punctuation">[</span>n<span class="token punctuation">]</span> <span class="token operator">==</span> undefined<span class="token punctuation">)</span> f<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">fibonaqi</span><span class="token punctuation">(</span>n<span class="token number">-1</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token function">fibonaqi</span><span class="token punctuation">(</span>n<span class="token number">-2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> f<span class="token punctuation">[</span>n<span class="token punctuation">]</span>
-<span class="token punctuation">}</span></code></pre>
-<h2 id="动态规划法"><a href="#动态规划法" class="headerlink" title="动态规划法"></a>动态规划法</h2><pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> fobonaqi <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//  定义一个初始化数组</span>
-    <span class="token keyword">const</span> f <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//  定义1 2</span>
-    f<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span>
-    f<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">2</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;=</span>n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        f<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>f<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span>f<span class="token punctuation">[</span>i<span class="token number">-2</span><span class="token punctuation">]</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> f<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>列出状态转移方程，出现反复计算的结果。</p>
-<h1 id="背包模型"><a href="#背包模型" class="headerlink" title="背包模型"></a>背包模型</h1><p><strong>题目</strong><br>有 n 件物品，物品体积用一个名为 w 的数组存起来，物品的价值用一个名为 value 的数组存起来；每件物品的体积用 w[i] 来表示，每件物品的价值用 value[i] 来表示。现在有一个容量为 c 的背包，问你如何选取物品放入背包，才能使得背包内的物品总价值最大？</p>
-<p>注意：每种物品都只有1件</p>
-<h2 id="暴力枚举法"><a href="#暴力枚举法" class="headerlink" title="暴力枚举法"></a>暴力枚举法</h2><h2 id="动态规划-1"><a href="#动态规划-1" class="headerlink" title="动态规划"></a>动态规划</h2><h1 id="最长上升子序列"><a href="#最长上升子序列" class="headerlink" title="最长上升子序列"></a>最长上升子序列</h1><h1 id="最长公共子序列"><a href="#最长公共子序列" class="headerlink" title="最长公共子序列"></a>最长公共子序列</h1><h1 id="最长公共子串"><a href="#最长公共子串" class="headerlink" title="最长公共子串"></a>最长公共子串</h1><h1 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h1><h1 id="N皇后"><a href="#N皇后" class="headerlink" title="N皇后"></a>N皇后</h1><h1 id><a href="#" class="headerlink" title></a></h1><p>小结<br>经过本节的讲解，相信大家已经对动态规划的概念和通用解题模板有了掌握。但仅仅依靠这些，可能还不足以支撑起你全部的底气——动态规划问题千姿百态，有着繁多的题型分支。在下一节，我们就将围绕这些分支中考察频率最高的一部分，提取出通用的解题模型，帮助大家更进一步。</p>
-]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>javascript查缺补漏，快上车</title>
+      <link href="archives/37724.html"/>
+      <url>archives/37724.html</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>“天行健，君子以自强不息”<br>一入前端深似海，回首已是社畜人，灯火阑珊处，唯有一人处</p></blockquote><img data-src="\themes\next\source\images\slide-01.jpg"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote><p>写这篇文章的目的有两个，其一就是为了巩固总结自己学到的知识、体系化的梳理下javascript的基础和进阶语法，其二传播一下知识，日常更新</p></blockquote><h1 id="js基础知识"><a href="#js基础知识" class="headerlink" title="js基础知识"></a>js基础知识</h1><blockquote><p>javascript由三个部分组成，ECMAScript、DOM、BOM</p></blockquote><p><strong>ECMAScript</strong></p><ul><li>定义了js的语法规范</li><li>ES5——ES10</li></ul><p><strong>DOM</strong></p><ul><li>dom全程 document object model 文档对象模型</li><li>提供对应的属性和方法， 通过js操作浏览器页面的dom元素</li></ul><p><strong>BOM</strong></p><ul><li>区别于dom，BOM是浏览器的对象模型 Browser object model</li><li>提供浏览器的属性和方法</li></ul><h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><h2 id="创建变量的方式"><a href="#创建变量的方式" class="headerlink" title="创建变量的方式"></a>创建变量的方式</h2><ul><li>var</li><li>let</li><li>const</li><li>function</li><li>class</li><li>import/require 模块化，ES6Module和node的CommonJS规范</li></ul><h2 id="变量命名"><a href="#变量命名" class="headerlink" title="变量命名"></a>变量命名</h2><ul><li><p>严格遵守大小写</p></li><li><p>驼峰命名法<br>驼峰命名法： 由有意义的英文单词组成一个变量名字，第一个字母效写，第二个单词首字母大写</p></li><li><p>使用项目种常见的特殊意义，例如info,query,get等等，但是不能使用关键字和保留字</p></li><li><p>命名规则，使用标识符$/_/英文字母/数字命名<br>使用数字命名数字不能作为开头</p></li></ul><h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="基本数据类型（值类型-原始类型）"><a href="#基本数据类型（值类型-原始类型）" class="headerlink" title="基本数据类型（值类型/原始类型）"></a>基本数据类型（值类型/原始类型）</h2><ul><li>number</li><li>string</li><li>boolean</li><li>null</li><li>undefined</li><li>Symbol </li></ul><h2 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h2><ul><li><p>对象数据类型Object(object, array, RegExp, Date, Math)</p></li><li><p>函数数据类型function</p></li></ul><h3 id="数据类型-1"><a href="#数据类型-1" class="headerlink" title="数据类型"></a>数据类型</h3><ul><li><p>number类型</p></li><li><p>string类型</p></li><li><p>boolean类型</p></li><li><p>null类型</p></li><li><p>undefined类型</p></li><li><p>object类型</p></li><li><p>symbol类型</p></li><li><p>BigInt类型</p></li></ul><h3 id="判断数据类型和对象"><a href="#判断数据类型和对象" class="headerlink" title="判断数据类型和对象"></a>判断数据类型和对象</h3><h3 id="堆内存和栈内存的区别"><a href="#堆内存和栈内存的区别" class="headerlink" title="堆内存和栈内存的区别"></a>堆内存和栈内存的区别</h3><h2 id="数组及常用方法"><a href="#数组及常用方法" class="headerlink" title="数组及常用方法"></a>数组及常用方法</h2><h3 id="数组去重"><a href="#数组去重" class="headerlink" title="数组去重"></a>数组去重</h3><h2 id="Math"><a href="#Math" class="headerlink" title="Math"></a>Math</h2><h2 id="字符串及其用法"><a href="#字符串及其用法" class="headerlink" title="字符串及其用法"></a>字符串及其用法</h2><h3 id="千分位转化"><a href="#千分位转化" class="headerlink" title="千分位转化"></a>千分位转化</h3><h3 id="url参数处理"><a href="#url参数处理" class="headerlink" title="url参数处理"></a>url参数处理</h3><h1 id="js进阶"><a href="#js进阶" class="headerlink" title="js进阶"></a>js进阶</h1><h2 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h2><h2 id="作用域和作用域链"><a href="#作用域和作用域链" class="headerlink" title="作用域和作用域链"></a>作用域和作用域链</h2><h2 id="闭包机制"><a href="#闭包机制" class="headerlink" title="闭包机制"></a>闭包机制</h2><h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><h2 id="原型和原型链"><a href="#原型和原型链" class="headerlink" title="原型和原型链"></a>原型和原型链</h2><h2 id="原型属性方法"><a href="#原型属性方法" class="headerlink" title="原型属性方法"></a>原型属性方法</h2><h2 id="this问题"><a href="#this问题" class="headerlink" title="this问题"></a>this问题</h2><h2 id="call-apply-bind"><a href="#call-apply-bind" class="headerlink" title="call/apply/bind"></a>call/apply/bind</h2><h2 id="类数组和数组"><a href="#类数组和数组" class="headerlink" title="类数组和数组"></a>类数组和数组</h2><h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><h2 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h2><h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="深拷贝和浅拷贝"><a href="#深拷贝和浅拷贝" class="headerlink" title="深拷贝和浅拷贝"></a>深拷贝和浅拷贝</h2><h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><h2 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h2><h2 id="js操作DOM节点"><a href="#js操作DOM节点" class="headerlink" title="js操作DOM节点"></a>js操作DOM节点</h2><h2 id="js引擎"><a href="#js引擎" class="headerlink" title="js引擎"></a>js引擎</h2><h1 id="日常面试题"><a href="#日常面试题" class="headerlink" title="日常面试题"></a>日常面试题</h1><h1 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h1><p>以上就是javascript的总结了，感谢各位大佬的阅读</p><blockquote><p>平时开发</p></blockquote>]]></content>
+      
+      
       <categories>
-        <category>数据结构与算法</category>
+          
+          <category> javascript </category>
+          
       </categories>
-      <tags>
-        <tag>算法， 动态规划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>javascript查缺补漏，快上车</title>
-    <url>/archives/37724.html</url>
-    <content><![CDATA[<blockquote>
-<p>“天行健，君子以自强不息”<br>一入前端深似海，回首已是社畜人，灯火阑珊处，唯有一人处</p>
-</blockquote>
-<img data-src="\themes\next\source\images\slide-01.jpg">
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>写这篇文章的目的有两个，其一就是为了巩固总结自己学到的知识、体系化的梳理下javascript的基础和进阶语法，其二传播一下知识，日常更新</p>
-</blockquote>
-<h1 id="js基础知识"><a href="#js基础知识" class="headerlink" title="js基础知识"></a>js基础知识</h1><blockquote>
-<p>javascript由三个部分组成，ECMAScript、DOM、BOM</p>
-</blockquote>
-<p><strong>ECMAScript</strong></p>
-<ul>
-<li>定义了js的语法规范</li>
-<li>ES5——ES10</li>
-</ul>
-<p><strong>DOM</strong></p>
-<ul>
-<li>dom全程 document object model 文档对象模型</li>
-<li>提供对应的属性和方法， 通过js操作浏览器页面的dom元素</li>
-</ul>
-<p><strong>BOM</strong></p>
-<ul>
-<li>区别于dom，BOM是浏览器的对象模型 Browser object model</li>
-<li>提供浏览器的属性和方法</li>
-</ul>
-<h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><h2 id="创建变量的方式"><a href="#创建变量的方式" class="headerlink" title="创建变量的方式"></a>创建变量的方式</h2><ul>
-<li>var</li>
-<li>let</li>
-<li>const</li>
-<li>function</li>
-<li>class</li>
-<li>import/require 模块化，ES6Module和node的CommonJS规范</li>
-</ul>
-<h2 id="变量命名"><a href="#变量命名" class="headerlink" title="变量命名"></a>变量命名</h2><ul>
-<li><p>严格遵守大小写</p>
-</li>
-<li><p>驼峰命名法<br>驼峰命名法： 由有意义的英文单词组成一个变量名字，第一个字母效写，第二个单词首字母大写</p>
-</li>
-<li><p>使用项目种常见的特殊意义，例如info,query,get等等，但是不能使用关键字和保留字</p>
-</li>
-<li><p>命名规则，使用标识符$/_/英文字母/数字命名<br>使用数字命名数字不能作为开头</p>
-</li>
-</ul>
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="基本数据类型（值类型-原始类型）"><a href="#基本数据类型（值类型-原始类型）" class="headerlink" title="基本数据类型（值类型/原始类型）"></a>基本数据类型（值类型/原始类型）</h2><ul>
-<li>number</li>
-<li>string</li>
-<li>boolean</li>
-<li>null</li>
-<li>undefined</li>
-<li>Symbol </li>
-</ul>
-<h2 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h2><ul>
-<li><p>对象数据类型Object(object, array, RegExp, Date, Math)</p>
-</li>
-<li><p>函数数据类型function</p>
-</li>
-</ul>
-<h3 id="数据类型-1"><a href="#数据类型-1" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
-<li><p>number类型</p>
-</li>
-<li><p>string类型</p>
-</li>
-<li><p>boolean类型</p>
-</li>
-<li><p>null类型</p>
-</li>
-<li><p>undefined类型</p>
-</li>
-<li><p>object类型</p>
-</li>
-<li><p>symbol类型</p>
-</li>
-<li><p>BigInt类型</p>
-</li>
-</ul>
-<h3 id="判断数据类型和对象"><a href="#判断数据类型和对象" class="headerlink" title="判断数据类型和对象"></a>判断数据类型和对象</h3><h3 id="堆内存和栈内存的区别"><a href="#堆内存和栈内存的区别" class="headerlink" title="堆内存和栈内存的区别"></a>堆内存和栈内存的区别</h3><h2 id="数组及常用方法"><a href="#数组及常用方法" class="headerlink" title="数组及常用方法"></a>数组及常用方法</h2><h3 id="数组去重"><a href="#数组去重" class="headerlink" title="数组去重"></a>数组去重</h3><h2 id="Math"><a href="#Math" class="headerlink" title="Math"></a>Math</h2><h2 id="字符串及其用法"><a href="#字符串及其用法" class="headerlink" title="字符串及其用法"></a>字符串及其用法</h2><h3 id="千分位转化"><a href="#千分位转化" class="headerlink" title="千分位转化"></a>千分位转化</h3><h3 id="url参数处理"><a href="#url参数处理" class="headerlink" title="url参数处理"></a>url参数处理</h3><h1 id="js进阶"><a href="#js进阶" class="headerlink" title="js进阶"></a>js进阶</h1><h2 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h2><h2 id="作用域和作用域链"><a href="#作用域和作用域链" class="headerlink" title="作用域和作用域链"></a>作用域和作用域链</h2><h2 id="闭包机制"><a href="#闭包机制" class="headerlink" title="闭包机制"></a>闭包机制</h2><h2 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h2><h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><h2 id="原型和原型链"><a href="#原型和原型链" class="headerlink" title="原型和原型链"></a>原型和原型链</h2><h2 id="原型属性方法"><a href="#原型属性方法" class="headerlink" title="原型属性方法"></a>原型属性方法</h2><h2 id="this问题"><a href="#this问题" class="headerlink" title="this问题"></a>this问题</h2><h2 id="call-apply-bind"><a href="#call-apply-bind" class="headerlink" title="call/apply/bind"></a>call/apply/bind</h2><h2 id="类数组和数组"><a href="#类数组和数组" class="headerlink" title="类数组和数组"></a>类数组和数组</h2><h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><h2 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h2><h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="深拷贝和浅拷贝"><a href="#深拷贝和浅拷贝" class="headerlink" title="深拷贝和浅拷贝"></a>深拷贝和浅拷贝</h2><h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><h2 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h2><h2 id="js操作DOM节点"><a href="#js操作DOM节点" class="headerlink" title="js操作DOM节点"></a>js操作DOM节点</h2><h2 id="js引擎"><a href="#js引擎" class="headerlink" title="js引擎"></a>js引擎</h2><h1 id="日常面试题"><a href="#日常面试题" class="headerlink" title="日常面试题"></a>日常面试题</h1><h1 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h1><p>以上就是javascript的总结了，感谢各位大佬的阅读</p>
-<blockquote>
-<p>平时开发</p>
-</blockquote>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> javascript </tag>
+            
+            <tag> es </tag>
+            
+            <tag> 数组 </tag>
+            
+            <tag> promise </tag>
+            
+            <tag> 基本数据类型 </tag>
+            
+            <tag> 垃圾回收 </tag>
+            
+            <tag> 闭包 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>动态规划</title>
+      <link href="archives/a80d0031.html"/>
+      <url>archives/a80d0031.html</url>
+      
+        <content type="html"><![CDATA[<a id="more"></a><h1 id="动态规划概念"><a href="#动态规划概念" class="headerlink" title="动态规划概念"></a>动态规划概念</h1><p>动态规划：是把复杂的问题分解为简单的子问题来解决复杂问题的一种方法，适用于重叠子和最优结构性质的特征</p><p>对于动态规划的学习，最重要的是找到一个正确的学习切入点：如果你是一个对相关理论一无所知的初学者，自然不能急于一上来就生吞“模型”、“状态转移方程”等高端概念——大家谨记，动态规划是一种思想，所谓思想，就是非常好用，好用到爆的套路。我们学习一种思想，重要的是建立起对它的感性认知，而不是反复咀嚼那些对现在的你来说还非常生硬的文字概念——从抽象去理解抽象是意淫，从具体去理解抽象才是学习。</p><!-- more --><h1 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h1><p>一个复杂问题，分解成若干个子问题，合并子问题得出原问题的解，并进行记忆搜索存储</p><h1 id="分治思想和动态规划的异同"><a href="#分治思想和动态规划的异同" class="headerlink" title="分治思想和动态规划的异同"></a>分治思想和动态规划的异同</h1><p>分治问题的核心思想是：把一个问题分解为相互独立的子问题，逐个解决子问题后，再组合子问题的答案，就得到了问题的最终解。</p><p>动态规划的思想和“分治”有点相似。不同之处在于，“分治”思想中，各个子问题之间是独立的：比如说归并排序中，子数组之间的排序并不互相影响。而动态规划划分出的子问题，往往是相互依赖、相互影响的。</p><p><strong>共同点</strong><br>二者都是将原问题分而治之，分解成若干个子问题，解决后合并，形成原问题的解</p><p><strong>不同点</strong></p><p>分治法，子问题是独立的，用递归方法</p><p>动态规划， 子问题之间相互有练习，有重叠部分，需要记忆存储， 迭代常用</p><h1 id="爬楼梯"><a href="#爬楼梯" class="headerlink" title="爬楼梯"></a>爬楼梯</h1><h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>从“爬楼梯”问题说起<br>题目描述：假设你正在爬楼梯。需要 n 阶你才能到达楼顶。</p><p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p><pre class=" language-bash"><code class="language-bash">注意：给定 n 是一个正整数。示例 1：输入： 2输出： 2解释： 有两种方法可以爬到楼顶。1 阶 + 1 阶2 阶示例 2：输入： 3输出： 3解释： 有三种方法可以爬到楼顶。</code></pre><p>1 阶 + 1 阶 + 1 阶<br>1 阶 + 2 阶<br>2 阶 + 1 阶</p><h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>思路分析与编码实现<br>这道题目有两个关键的特征：</p><p>要求你给出达成某个目的的解法个数<br>不要求你给出每一种解法对应的具体路径<br>这样的问题，往往可以用动态规划进行求解（这个结论大家先记下来，后面我们会有很多验证它的机会）。</p><h3 id="递归思想分析"><a href="#递归思想分析" class="headerlink" title="递归思想分析"></a>递归思想分析</h3><p>Step1：递归思想分析问题<br>基于动态规划的思想来做题，我们首先要想到的思维工具就是“倒着分析问题”。“倒着分析问题”分两步走：</p><p>定位到问题的终点<br>站在终点这个视角，思考后退的可能性<br>在这道题里，“问题的终点”指的就是走到第 n 阶楼梯这个目标对应的路径数，我们把它记为 f(n)。</p><p>那么站在第 n 阶楼梯这个视角， 有哪些后退的可能性呢？按照题目中的要求，一次只能后退 1 步或者 2 步。因此可以定位到从第 n 阶楼梯只能后退到第 n-1 或者第 n-2 阶。我们把抵达第 n-1 阶楼梯对应的路径数记为f(n-1)，把抵达第 n-2 阶楼梯对应的路径数记为 f(n-2)，不难得出以下关系：</p><p>f(n) = f(n-1) + f(n-2)<br>这个关系用树形结构表示会更加形象</p><p>现在我们不难看出，要想求出 f(n)，必须求出f(n-1) 和f(n-2)（我们假设 n 是一个大于 5 的数字）。<br>接下来站在第 n-1 阶台阶上，思考后退的姿势，也无非只能是退到 n-1-1层台阶 或 n-1-2层台阶上，所以f(n-1) 和 f(n-2)、f(n-3)间同样具有以下关系：</p><p>f(n-1) = f(n-2) + f(n-3)<br>同理， f(n-2)也可以按照同样的规则进行拆分：</p><p>f(n-2) = f(n-3) + f(n-4)<br>现在我们的树结构渐渐丰满起来了：</p><p> 随着拆分的进行，一定会有一个时刻，求解到了 f(1) 或 f(2)。按照题设规则，第 1 阶楼梯只能走 1 步抵达，第 2 阶楼梯可以走 1 步或者走 2 步抵达，因此我们不难得出 f(1) 和 f(2) 的值：</p><p>f(1) = 1<br>f(2) = 2<br>我们在学习递归与回溯思想的时候，曾经给大家强调过，遇到“树形思维模型”，就要想办法往递归上靠。这道题明显用到了树形思维模型，有着明确的重复内容(不断地按照 f(n) = f(n-1) + f(n-2)的规则拆分），同时有着明确的边界条件(遇到f(1)或f(2)就可以返回了)，因此我们不难写出其对应的递归解法代码：</p><pre class=" language-bash"><code class="language-bash">/*** @param <span class="token punctuation">{</span>number<span class="token punctuation">}</span> n* @return <span class="token punctuation">{</span>number<span class="token punctuation">}</span>*/const climbStairs <span class="token operator">=</span> function<span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>    // 处理递归边界    if<span class="token punctuation">(</span>n <span class="token operator">==</span><span class="token operator">=</span> 1<span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token keyword">return</span> 1    <span class="token punctuation">}</span>    if<span class="token punctuation">(</span>n <span class="token operator">==</span><span class="token operator">=</span> 2<span class="token punctuation">)</span><span class="token punctuation">{</span>        <span class="token keyword">return</span> 2    <span class="token punctuation">}</span>    // 递归计算    <span class="token keyword">return</span> climbStairs<span class="token punctuation">(</span>n-1<span class="token punctuation">)</span> + climbStairs<span class="token punctuation">(</span>n-2<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre><p>但是这个解法问题比较大，丢进 OJ 会直接超时。我们一起来看看原因，回到我们上面这张树形结构图上来：</p><p> 这次我把 f(n-2) 和f(n-3)给标红了。大家不难看出，我们在图中对 f(n-2)和f(n-3) 进行了重复的计算。事实上，随着我们递归层级的加深，这个重复的问题会越来越严重：</p><p> （图上标红的均为发生过重复计算的结点）</p><h3 id="记忆化搜索"><a href="#记忆化搜索" class="headerlink" title="记忆化搜索"></a>记忆化搜索</h3><p>Step2：记忆化搜索来提效<br>重复计算带来了时间效率上的问题，要想解决这类问题，最直接的思路就是用空间换时间，也就是想办法记住之前已经求解过的结果。这里我们只需要定义一个数组：</p><pre class=" language-bash"><code class="language-bash">const f <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>每计算出一个 f<span class="token punctuation">(</span>n<span class="token punctuation">)</span> 的值，都把它塞进 f 数组里。下次要用到这个值的时候，直接取出来就行了：/*** @param <span class="token punctuation">{</span>number<span class="token punctuation">}</span> n* @return <span class="token punctuation">{</span>number<span class="token punctuation">}</span>*/// 定义记忆数组 fconst f <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>const climbStairs <span class="token operator">=</span> function<span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>  if<span class="token punctuation">(</span>n<span class="token operator">==</span>1<span class="token punctuation">)</span> <span class="token punctuation">{</span>      <span class="token keyword">return</span> 1  <span class="token punctuation">}</span>  if<span class="token punctuation">(</span>n<span class="token operator">==</span>2<span class="token punctuation">)</span> <span class="token punctuation">{</span>      <span class="token keyword">return</span> 2  <span class="token punctuation">}</span>  // 若f<span class="token punctuation">[</span>n<span class="token punctuation">]</span>不存在，则进行计算  if<span class="token punctuation">(</span>f<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token operator">==</span><span class="token operator">=</span>undefined<span class="token punctuation">)</span>  f<span class="token punctuation">[</span>n<span class="token punctuation">]</span> <span class="token operator">=</span> climbStairs<span class="token punctuation">(</span>n-1<span class="token punctuation">)</span> + climbStairs<span class="token punctuation">(</span>n-2<span class="token punctuation">)</span>  // 若f<span class="token punctuation">[</span>n<span class="token punctuation">]</span>已经求解过，直接返回  <span class="token keyword">return</span> f<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre><p>以上这种在递归的过程中，不断保存已经计算出的结果，从而避免重复计算的手法，叫做记忆化搜索。<br>对于一些实用派的面试官来说，“记忆化搜索”和“动态规划”没有区别，它们都能够以不错的效率帮我们达到同样的目的。这种情况下，上面这个答案就足够了。<br>但是还有一部分面试官，比较讲究，善于咀嚼理论概念。他会告诉你记忆化搜索和动态规划是两个东西，别想糊弄哥，哥要的是动态规划的解法。<br>行吧，就给你动态规划的解法。</p><h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>Step3：记忆化搜索转化为动态规划<br>要想完成记忆化搜索与动态规划之间的转化，首先要清楚两者间的区别。<br>先说记忆化搜索，记忆化搜索可以理解为优化过后的递归。递归往往可以基于树形思维模型来做，以这道题为例：</p><p>我们基于树形思维模型来解题时，实际上是站在了一个比较大的未知数量级（也就是最终的那个n），来不断进行拆分，最终拆回较小的已知数量级（f(1)、f(2)）。这个过程是一个明显的自顶向下的过程。</p><p>动态规划则恰恰相反，是一个自底向上的过程。它要求我们站在已知的角度，通过定位已知和未知之间的关系，一步一步向前推导，进而求解出未知的值。<br>在这道题中，已知 f(1) 和 f(2) 的值，要求解未知的 f(n)，我们唯一的抓手就是这个等价关系：</p><p>f(n) = f(n-1) + f(n-2)<br>以 f(1) 和 f(2) 为起点，不断求和，循环递增 n 的值，我们就能够求出f(n)了：</p><pre class=" language-bash"><code class="language-bash">/*** @param <span class="token punctuation">{</span>number<span class="token punctuation">}</span> n* @return <span class="token punctuation">{</span>number<span class="token punctuation">}</span>*/const climbStairs <span class="token operator">=</span> function<span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>    // 初始化状态数组    const f <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>    // 初始化已知值    f<span class="token punctuation">[</span>1<span class="token punctuation">]</span> <span class="token operator">=</span> 1<span class="token punctuation">;</span>    f<span class="token punctuation">[</span>2<span class="token punctuation">]</span> <span class="token operator">=</span> 2<span class="token punctuation">;</span>    // 动态更新每一层楼梯对应的结果    for<span class="token punctuation">(</span>let i <span class="token operator">=</span> 3<span class="token punctuation">;</span>i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span>i++<span class="token punctuation">)</span><span class="token punctuation">{</span>        f<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> f<span class="token punctuation">[</span>i-2<span class="token punctuation">]</span> + f<span class="token punctuation">[</span>i-1<span class="token punctuation">]</span><span class="token punctuation">;</span>    <span class="token punctuation">}</span>    // 返回目标值    <span class="token keyword">return</span> f<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre><p>以上便是这道题的动态规划解法。</p><p>从题解思路看动态规划<br>下面我们基于这个题解的过程，站在专业的角度来重新认识一下动态规划。</p><p>前面咱们在排序专题学过“分治”思想，提到了“子问题”这个概念。</p><h3 id="分治的核心思想"><a href="#分治的核心思想" class="headerlink" title="分治的核心思想"></a>分治的核心思想</h3><p>分治问题的核心思想是：把一个问题分解为相互独立的子问题，逐个解决子问题后，再组合子问题的答案，就得到了问题的最终解。</p><p>动态规划的思想和“分治”有点相似。不同之处在于，“分治”思想中，各个子问题之间是独立的：比如说归并排序中，子数组之间的排序并不互相影响。而动态规划划分出的子问题，往往是相互依赖、相互影响的。</p><h1 id="动态规划场景"><a href="#动态规划场景" class="headerlink" title="动态规划场景"></a>动态规划场景</h1><p>什么样的题应该用动态规划来做？我们要抓以下两个关键特征：</p><ul><li>最优子结构</li><li>重叠子问题<br>拿这道题的分析过程来说：</li></ul><h2 id="最优子结构"><a href="#最优子结构" class="headerlink" title="最优子结构"></a>最优子结构</h2><p>最优子结构，它指的是问题的最优解包含着子问题的最优解——不管前面的决策如何，此后的状态必须是基于当前状态（由上次决策产生）的最优决策。就这道题来说，f(n)和f(n-1)、f(n-2)之间的关系印证了这一点（这玩意儿叫状态转移方程，大家记一下）。</p><p>状态转移方程</p><h2 id="重叠子问题"><a href="#重叠子问题" class="headerlink" title="重叠子问题"></a>重叠子问题</h2><p>重叠子问题，它指的是在递归的过程中，出现了反复计算的情况。就这道题来说，图上标红的一系列重复计算的结点印证了这一点。<br>因此，这道题适合用动态规划来做。</p><h3 id="分析技巧"><a href="#分析技巧" class="headerlink" title="分析技巧"></a>分析技巧</h3><p>动态规划问题的分析技巧<br>现在，大家理解了动态规划的概念，明确了其“自底向上”的脑回路特征。但在实际做题过程中，“自底向上”分析问题往往不是最舒服的解题姿势，按照这个脑回路去想问题，容易拧巴。</p><p>什么姿势不拧巴？<br>递归！</p><p>你现在回过头去看看咱们前面递归+记忆化搜索那一通操作，你觉得拧巴吗？不拧巴！舒服不？相当舒服了——只要你掌握了递归与回溯，就不难分析出图上的树形思维模型和递归边界条件，树形思维模型将帮助我们更迅速地定位到状态转移关系，边界条件往往对应的就是已知子问题的解；基于树形思维模型，结合一下记忆化搜索，难么？不难，谁还不会初始化个记忆数组了呢；最后再把递归往迭代那么一转，答案不就有了么！</p><p>当然，咱们上面一通吹牛逼都只是为了衬托递归思路分析下来有多么爽，并不是说动态规划有多么简单。实际上，动态规划可复杂了，递归+记忆化搜索的思想只是帮助我们简化问题，但并不能送佛送到西。说到底，还是得靠我们自己。<br>动态规划到底复杂在什么地方，这里我先预告一下：</p><p>状态转移方程不好确定<br>已知的状态可能不明显<br>递归转迭代，一部分同学可能不知道怎么转（这个就是纯粹的编程基础问题了，多写多练哈）<br>多的也没法说了，大家后面慢慢体会吧：）。<br>总结一下，对于动态规划，笔者建议大家优先选择这样的分析路径：</p><p>递归思想明确树形思维模型：找到问题终点，思考倒退的姿势，往往可以帮助你更快速地明确状态间的关系<br>结合记忆化搜索，明确状态转移方程<br>递归代码转化为迭代表达（这一步不一定是必要的，1、2本身为思维路径，而并非代码实现。若你成长为熟手，2中分析出来的状态转移方程可以直接往循环里塞，根本不需要转换）。</p><h1 id="找硬币零钱问题KMP"><a href="#找硬币零钱问题KMP" class="headerlink" title="找硬币零钱问题KMP"></a>找硬币零钱问题KMP</h1><h2 id="“最值”型问题典范：如何优雅地找硬币"><a href="#“最值”型问题典范：如何优雅地找硬币" class="headerlink" title="“最值”型问题典范：如何优雅地找硬币"></a>“最值”型问题典范：如何优雅地找硬币</h2><p>题目描述：给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。</p><pre class=" language-bash"><code class="language-bash">示例1：输入: coins <span class="token operator">=</span> <span class="token punctuation">[</span>1, 2, 5<span class="token punctuation">]</span>, amount <span class="token operator">=</span> 11输出: 3解释: 11 <span class="token operator">=</span> 5 + 5 + 1示例2：输入: coins <span class="token operator">=</span> <span class="token punctuation">[</span>2<span class="token punctuation">]</span>, amount <span class="token operator">=</span> 3输出: -1</code></pre><pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> clac <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>coins<span class="token punctuation">,</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">//  初始化数组</span>    <span class="token keyword">const</span> dp <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>    <span class="token comment" spellcheck="true">//  提前定义</span>    f<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>    <span class="token comment" spellcheck="true">// 遍历[1, amount]区间硬币的总额</span>    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">&lt;=</span>amount<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token comment" spellcheck="true">//  定义最小值</span>        dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">Infinity</span>        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> j<span class="token operator">&lt;</span>coins<span class="token punctuation">.</span>length<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>            <span class="token comment" spellcheck="true">//  硬币金额小于总额</span>            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">-</span>coins<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>                Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i<span class="token operator">-</span>coins<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token punctuation">}</span>        <span class="token punctuation">}</span>    <span class="token punctuation">}</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token operator">==</span> <span class="token number">Infinity</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>    <span class="token punctuation">}</span>    <span class="token keyword">return</span> dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre><p>提示：最值问题是动态规划的常见对口题型，见到最值问题，应该想到动态规划<br>思路分析<br>现在思维工具已经给到大家了，详细的步骤我就不啰嗦了。我直接讲难点：这道题对于初学者来说，难的是状态转移方程的明确。</p><p>要明确状态转移关系，我们依然是借助“倒推”的思想：解决爬楼梯问题时，我们首先思考的是站在第 n 阶楼梯上的后退姿势。这道题也一样，我们需要思考的是站在 amount 这个组合结果上的“后退姿势”—— 我们可以假装此时手里已经有了 36 美分，只是不清楚硬币的个数，把“如何凑到36”的问题转化为“如何从36减到0”的问题。</p><p>硬币的英文是 coin，因此我们这里用 c1、c2、c3……cn 分别来表示题目中给到我们的第 1-n 个硬币。现在我如果从 36 美分的总额中拿走一个硬币，那么有以下几种可能：</p><p>拿走 c1<br>拿走 c2<br>拿走 c3<br>……<br>拿走 cn<br>重复往前推导这个“拿走”的过程，我们可以得到以下的树形思维模型：</p><p>假如用 f(x）表示每一个总额数字对应的最少硬币数，那么我们可以得到以下的对应关系：</p><p>f(36) = Math.min(f(36-c1)+1,f(36-c2)+1,f(36-c3)+1……f(36-cn)+1)<br>这套对应关系，就是本题的状态转移方程。</p><p>找出了状态转移方程，我们接下来需要思考的是递归的边界条件：在什么情况下，我的“后退”（实际是做减法）可以停下来？这里需要考虑的是硬币总额为 0 的情况，这种情况对应的硬币个数毫无疑问也会是 0，因而不需要任何的回溯计算。由此我们就得到了一个已知的最基本的子问题的结果：</p><p>f[0] = 0<br>现在，明确了状态转移方程，明确了已知子问题的解，我们来写代码：</p><p>编码实现</p><pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> coinChange <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>coins<span class="token punctuation">,</span> amount<span class="token punctuation">)</span> <span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">// 用于保存每个目标总额对应的最小硬币个数</span>    <span class="token keyword">const</span> f <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>    <span class="token comment" spellcheck="true">// 提前定义已知情况</span>    f<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>    <span class="token comment" spellcheck="true">// 遍历 [1, amount] 这个区间的硬币总额</span>    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span>amount<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token comment" spellcheck="true">// 求的是最小值，因此我们预设为无穷大，确保它一定会被更小的数更新</span>        f<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">Infinity</span>        <span class="token comment" spellcheck="true">// 循环遍历每个可用硬币的面额</span>        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>coins<span class="token punctuation">.</span>length<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>            <span class="token comment" spellcheck="true">// 若硬币面额小于目标总额，则问题成立</span>            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">-</span>coins<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>                <span class="token comment" spellcheck="true">// 状态转移方程</span>                f<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>f<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>f<span class="token punctuation">[</span>i<span class="token operator">-</span>coins<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>            <span class="token punctuation">}</span>        <span class="token punctuation">}</span>    <span class="token punctuation">}</span>    <span class="token comment" spellcheck="true">// 若目标总额对应的解为无穷大，则意味着没有一个符合条件的硬币总数来更新它，本题无解，返回-1</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>f<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token operator">===</span><span class="token number">Infinity</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span>    <span class="token punctuation">}</span>    <span class="token comment" spellcheck="true">// 若有解，直接返回解的内容</span>    <span class="token keyword">return</span> f<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre><h1 id="跳台阶问题"><a href="#跳台阶问题" class="headerlink" title="跳台阶问题"></a>跳台阶问题</h1><h2 id="递归解法斐波那契数列"><a href="#递归解法斐波那契数列" class="headerlink" title="递归解法斐波那契数列"></a>递归解法斐波那契数列</h2><pre class=" language-js"><code class="language-js"><span class="token keyword">const</span> fibonaqi <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">//  n个台阶， 对一次跳1、2、3、5、8</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token keyword">return</span> <span class="token number">1</span>    <span class="token punctuation">}</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token keyword">return</span> <span class="token number">2</span>    <span class="token punctuation">}</span>    <span class="token comment" spellcheck="true">//  当n>=3时</span>    <span class="token keyword">return</span> <span class="token function">fibonaqi</span><span class="token punctuation">(</span>n<span class="token number">-1</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token function">fibonaqi</span><span class="token punctuation">(</span>n<span class="token number">-2</span><span class="token punctuation">)</span><span class="token punctuation">}</span></code></pre><h2 id="记忆搜索法"><a href="#记忆搜索法" class="headerlink" title="记忆搜索法"></a>记忆搜索法</h2><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//  定义一个数组 初始化</span><span class="token keyword">const</span> f<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token keyword">const</span> fibonaqi <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">//  n个台阶， 对一次跳1、2、3、5、8</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token keyword">return</span> <span class="token number">1</span>    <span class="token punctuation">}</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token keyword">return</span> <span class="token number">2</span>    <span class="token punctuation">}</span>    <span class="token comment" spellcheck="true">//  当n>=3时</span>    <span class="token comment" spellcheck="true">//  判断fibonaqi(n) 是否已经计算保存过了</span>    <span class="token comment" spellcheck="true">//  记住已经求解过的结果</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>f<span class="token punctuation">[</span>n<span class="token punctuation">]</span> <span class="token operator">==</span> undefined<span class="token punctuation">)</span> f<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">fibonaqi</span><span class="token punctuation">(</span>n<span class="token number">-1</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token function">fibonaqi</span><span class="token punctuation">(</span>n<span class="token number">-2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">return</span> f<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">}</span></code></pre><h2 id="动态规划法"><a href="#动态规划法" class="headerlink" title="动态规划法"></a>动态规划法</h2><pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> fobonaqi <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">//  定义一个初始化数组</span>    <span class="token keyword">const</span> f <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//  定义1 2</span>    f<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span>    f<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">2</span>    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;=</span>n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        f<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>f<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span>f<span class="token punctuation">[</span>i<span class="token number">-2</span><span class="token punctuation">]</span>    <span class="token punctuation">}</span>    <span class="token keyword">return</span> f<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre><p>列出状态转移方程，出现反复计算的结果。</p><h1 id="背包模型"><a href="#背包模型" class="headerlink" title="背包模型"></a>背包模型</h1><p><strong>题目</strong><br>有 n 件物品，物品体积用一个名为 w 的数组存起来，物品的价值用一个名为 value 的数组存起来；每件物品的体积用 w[i] 来表示，每件物品的价值用 value[i] 来表示。现在有一个容量为 c 的背包，问你如何选取物品放入背包，才能使得背包内的物品总价值最大？</p><p>注意：每种物品都只有1件</p><h2 id="暴力枚举法"><a href="#暴力枚举法" class="headerlink" title="暴力枚举法"></a>暴力枚举法</h2><h2 id="动态规划-1"><a href="#动态规划-1" class="headerlink" title="动态规划"></a>动态规划</h2><h1 id="最长上升子序列"><a href="#最长上升子序列" class="headerlink" title="最长上升子序列"></a>最长上升子序列</h1><h1 id="最长公共子序列"><a href="#最长公共子序列" class="headerlink" title="最长公共子序列"></a>最长公共子序列</h1><h1 id="最长公共子串"><a href="#最长公共子串" class="headerlink" title="最长公共子串"></a>最长公共子串</h1><h1 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h1><h1 id="N皇后"><a href="#N皇后" class="headerlink" title="N皇后"></a>N皇后</h1><h1 id><a href="#" class="headerlink" title></a></h1><p>小结<br>经过本节的讲解，相信大家已经对动态规划的概念和通用解题模板有了掌握。但仅仅依靠这些，可能还不足以支撑起你全部的底气——动态规划问题千姿百态，有着繁多的题型分支。在下一节，我们就将围绕这些分支中考察频率最高的一部分，提取出通用的解题模型，帮助大家更进一步。</p>]]></content>
+      
+      
       <categories>
-        <category>javascript</category>
+          
+          <category> 数据结构与算法 </category>
+          
       </categories>
-      <tags>
-        <tag>javascript</tag>
-        <tag>es</tag>
-        <tag>数组</tag>
-        <tag>promise</tag>
-        <tag>基本数据类型</tag>
-        <tag>垃圾回收</tag>
-        <tag>闭包</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>路由在前端有什么特殊意义</title>
-    <url>/archives/dcb458b8.html</url>
-    <content><![CDATA[<h3 id="什么是路由"><a href="#什么是路由" class="headerlink" title="什么是路由"></a>什么是路由</h3><pre class=" language-bash"><code class="language-bash">负责响应网络资源的服务，当浏览器地址栏中url发生变化，会请求网络资源，处理这种服务就叫做路由
-早期服务端处理，演变成路由模块前端控制，前后端分离和单页应用基石，请看深入理解路由
-
-
-路由解释
-
-路由<span class="token punctuation">(</span>routing<span class="token punctuation">)</span>就是通过互联的网络把信息从源地址传输到目的地址的活动路由中有一个非常重要的概念叫路由表
-
-路由表本质上就是一个映射表, 决定了数据包的指向
-
-路由器
-
-路由器提供了两种机制: 路由和转送.
-
-路由是决定数据包从来源到目的地的路径转送将输入端的数据转移到合适的输出端
-
-
-
-
-路由是根据不同的ur地址展示不同的内容或页面<span class="token punctuation">;</span>
-路由是一个比较广义和抽象的概念, 路由的本质就是对应关系
-</code></pre>
-<p>路由，早期整个HTML页面都是由服务器来渲染的，服务器直接将渲染好对应的HTML页面，响应给客户端展示</p>
-<p>浏览器每次url变化 向服务器发出请求 刷新页面， 前后端不分离 维护难度大</p>
-<p>前端路由：ajax出现 前后端分离， 后端提供API，前端渲染数据</p>
-<p>单页面框架SPA：</p>
-<p>SPA是 single page web application 的简称, 译为单页Web应用简单说 SPA 就是一个 web 项目只有一个 html 页面, 一旦页面加载完成, SPA 不会因为用户的操作进行页面的重新加载或跳转取而代之的是利用 JS 动态的变换 html 的内容, 从而模拟多个视图间跳转<br>单页面富应用 (SPA)</p>
-<p>其实SPA最主要的特点就是在前后端分离的基础上加了一层前端路由也就是前端来维护一套路由规则</p>
-<h3 id="路由的两种实现方式"><a href="#路由的两种实现方式" class="headerlink" title="路由的两种实现方式"></a>路由的两种实现方式</h3><h4 id="hash路由"><a href="#hash路由" class="headerlink" title="hash路由"></a>hash路由</h4><p>hash值变化不会触发浏览器发送请求<br>hash值就是url“#”后面的内容， location.href独写hash值<br>监听路由变化，window对象的hashchange事件，占用hash值，默认页面滚动失效，需调用BOM</p>
-<h4 id="historty路由"><a href="#historty路由" class="headerlink" title="historty路由"></a>historty路由</h4><p>html5提供的history对象<br>history对象的两个方法pushState()和history.replaceState()在页面不刷新操作浏览器历史记录<br>两个区别：新增历史记录与直接替换的区别<br>监听url变化，通过popstate来实现，手动触发页面渲染，无法拦截默认请求</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre class=" language-bash"><code class="language-bash"><span class="token operator">&lt;</span><span class="token operator">!</span>DOCTYPE html<span class="token operator">></span>
-<span class="token operator">&lt;</span>html lang<span class="token operator">=</span><span class="token string">"en"</span><span class="token operator">></span>
-
-<span class="token operator">&lt;</span>head<span class="token operator">></span>
-  <span class="token operator">&lt;</span>meta charset<span class="token operator">=</span><span class="token string">"UTF-8"</span><span class="token operator">></span>
-  <span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string">"viewport"</span> content<span class="token operator">=</span><span class="token string">"width=device-width, initial-scale=1.0"</span><span class="token operator">></span>
-  <span class="token operator">&lt;</span>title<span class="token operator">></span>window.history路由<span class="token operator">&lt;</span>/title<span class="token operator">></span>
-<span class="token operator">&lt;</span>/head<span class="token operator">></span>
-
-<span class="token operator">&lt;</span>body<span class="token operator">></span>
-  <span class="token operator">&lt;</span>div<span class="token operator">></span>
-    <span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"routerLink"</span><span class="token operator">></span>
-      <span class="token operator">&lt;</span>div<span class="token operator">></span>
-        <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"historyChange('home')"</span><span class="token operator">></span>首页<span class="token punctuation">(</span>history<span class="token punctuation">)</span>/button<span class="token operator">></span>
-          <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"historyChange('about')"</span><span class="token operator">></span>关于<span class="token punctuation">(</span>history<span class="token punctuation">)</span><span class="token operator">&lt;</span>/button<span class="token operator">></span>
-      <span class="token operator">&lt;</span>/div<span class="token operator">></span>
-      <span class="token operator">&lt;</span>div<span class="token operator">></span>
-        <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"hashChange('home')"</span><span class="token operator">></span>首页<span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token operator">&lt;</span>/button<span class="token operator">></span>
-        <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"hashChange('about')"</span><span class="token operator">></span>关于<span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token operator">&lt;</span>/button<span class="token operator">></span>
-      <span class="token operator">&lt;</span>/div<span class="token operator">></span>
-    <span class="token operator">&lt;</span>/div<span class="token operator">></span>
-    <span class="token operator">&lt;</span>div<span class="token operator">></span>
-      <span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"routerView"</span><span class="token operator">></span>
-
-      <span class="token operator">&lt;</span>/div<span class="token operator">></span>
-    <span class="token operator">&lt;</span>/div<span class="token operator">></span>
-  <span class="token operator">&lt;</span>/div<span class="token operator">></span>
-  <span class="token operator">&lt;</span><span class="token operator">!</span>-- 2.创建子视图模板 --<span class="token operator">></span>
-  <span class="token operator">&lt;</span>template id<span class="token operator">=</span><span class="token string">"home"</span><span class="token operator">></span>
-    <span class="token operator">&lt;</span>div<span class="token operator">></span>hello,我是首页<span class="token operator">&lt;</span>/div<span class="token operator">></span>
-  <span class="token operator">&lt;</span>/template<span class="token operator">></span>
-  <span class="token operator">&lt;</span>template id<span class="token operator">=</span><span class="token string">"about"</span><span class="token operator">></span>
-    <span class="token operator">&lt;</span>div<span class="token operator">></span>hello,我是关于<span class="token operator">&lt;</span>/div<span class="token operator">></span>
-  <span class="token operator">&lt;</span>/template<span class="token operator">></span>
-  <span class="token operator">&lt;</span>script<span class="token operator">></span>
-    //1.首先创建路由表
-    const routerTable <span class="token operator">=</span> <span class="token punctuation">[</span>
-      <span class="token punctuation">{</span>
-        path: <span class="token string">'home'</span>,
-        component: <span class="token string">'#home'</span>
-      <span class="token punctuation">}</span>,
-      <span class="token punctuation">{</span>
-        path: <span class="token string">'about'</span>,
-        component: <span class="token string">'#about'</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span>
-
-    //*********** 方式一：window.history **************
-    //3.（window.history）监听路由更改，根据新路由path加载对应的内容
-    <span class="token keyword">function</span> historyChange<span class="token punctuation">(</span>path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: path <span class="token punctuation">}</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-    //添加popstate状态监听
-    window.addEventListener<span class="token punctuation">(</span><span class="token string">'popstate'</span>, <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: e.state, isPush: <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-
-    //************** 方式二：location.hash ***************
-    <span class="token keyword">function</span> hashChange<span class="token punctuation">(</span>path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: path, mode: <span class="token string">'hash'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-    //添加hashchange监听
-    window.addEventListener<span class="token punctuation">(</span><span class="token string">'hashchange'</span>, <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">let</span> path <span class="token operator">=</span> location.hash
-      //path移除开始的<span class="token comment" spellcheck="true">#</span>
-      render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: path.substring<span class="token punctuation">(</span>1, path.length - 2<span class="token punctuation">)</span>, mode: <span class="token string">'hash'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span><span class="token punctuation">)</span>
-
-    //**************公共方法*******************
-    //渲染方法
-    <span class="token keyword">function</span> render<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      //默认值，mode默认为history，isPush<span class="token operator">=</span>true，isReplace<span class="token operator">=</span>false,path<span class="token operator">=</span>home
-      data <span class="token operator">=</span> Object.assign<span class="token punctuation">(</span><span class="token punctuation">{</span> mode: <span class="token string">'history'</span>, isPush: true, isReplace: false, path: <span class="token string">'home'</span> <span class="token punctuation">}</span>, data<span class="token punctuation">)</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>data.path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        //查询路由信息
-        const route <span class="token operator">=</span> routerTable.find<span class="token punctuation">(</span>p <span class="token operator">=</span><span class="token operator">></span> p.path <span class="token operator">==</span> data.path<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>route<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-          <span class="token keyword">if</span> <span class="token punctuation">(</span>data.mode <span class="token operator">==</span> <span class="token string">'history'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>data.isPush<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-              //更改url---后退、前进不更改
-              <span class="token keyword">if</span> <span class="token punctuation">(</span>data.isReplace<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                window.history.replaceState<span class="token punctuation">(</span>data.path, <span class="token string">''</span>, data.path<span class="token punctuation">)</span>
-              <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-                window.history.pushState<span class="token punctuation">(</span>data.path, <span class="token string">''</span>, data.path<span class="token punctuation">)</span>
-              <span class="token punctuation">}</span>
-            <span class="token punctuation">}</span>
-          <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>data.mode <span class="token operator">==</span> <span class="token string">'hash'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            location.hash <span class="token operator">=</span> data.path
-          <span class="token punctuation">}</span>
-          //更新html
-          document.querySelector<span class="token punctuation">(</span><span class="token string">"#routerView"</span><span class="token punctuation">)</span>.innerHTML <span class="token operator">=</span> document.querySelector<span class="token punctuation">(</span>route.component<span class="token punctuation">)</span>.innerHTML
-        <span class="token punctuation">}</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-  <span class="token operator">&lt;</span>/script<span class="token operator">></span>
-<span class="token operator">&lt;</span>/body<span class="token operator">></span>
-<span class="token operator">&lt;</span>/html<span class="token operator">></span>
-</code></pre>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> 算法， 动态规划 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>前端总结</title>
+      <link href="archives/d5357d7d.html"/>
+      <url>archives/d5357d7d.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="前端工程化"><a href="#前端工程化" class="headerlink" title="前端工程化"></a>前端工程化</h1><p>本文转载于掘金<a href="https://juejin.im/post/6892003555818143752#comment" target="_blank" rel="external nofollow noopener noreferrer">https://juejin.im/post/6892003555818143752#comment</a></p><p>前端搭建要经历技术选型，代码风格规范，测试，部署等环节<br>开发工具： VSCode</p><h1 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h1><p>技术选型：前端三大框架，Vue、React、Angular<br>选型注意两点：</p><ul><li>技术成熟的，用的人多，技术社区生态完整，有了bug好解决</li><li>市场占有率高的<img data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62b7a34ed09e4f5ba2aec46ed7c54de8~tplv-k3u1fbpfcp-watermark.image"><img data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c78b05aa770e4b6f8f553879eaa0dc02~tplv-k3u1fbpfcp-watermark.image"></li></ul><p>UI组件库：</p><ul><li>AntDesign Vue</li><li>Vant</li><li>AntDesign react</li><li>taroUI</li><li>bootstrap</li></ul><h1 id="统一规范"><a href="#统一规范" class="headerlink" title="统一规范"></a>统一规范</h1><h2 id="代码规范"><a href="#代码规范" class="headerlink" title="代码规范"></a>代码规范</h2><p>先来看看统一代码规范的好处：</p><p>规范的代码可以促进团队合作<br>规范的代码可以降低维护成本<br>规范的代码有助于 code review（代码审查）<br>养成代码规范的习惯，有助于程序员自身的成长</p><p>当团队的成员都严格按照代码规范来写代码时，可以保证每个人的代码看起来都像是一个人写的，看别人的代码就像是在看自己的代码。更重要的是我们能够认识到规范的重要性，并坚持规范的开发习惯。</p><h2 id="git规范"><a href="#git规范" class="headerlink" title="git规范"></a>git规范</h2><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h1 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h1><h1 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h1><h1 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h1>]]></content>
+      
+      
       <categories>
-        <category>前端框架</category>
+          
+          <category> 前端工程化 </category>
+          
       </categories>
-      <tags>
-        <tag>vue</tag>
-        <tag>react</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>前端总结</title>
-    <url>/archives/d5357d7d.html</url>
-    <content><![CDATA[<h1 id="前端工程化"><a href="#前端工程化" class="headerlink" title="前端工程化"></a>前端工程化</h1><p>本文转载于掘金<a href="https://juejin.im/post/6892003555818143752#comment" target="_blank" rel="external nofollow noopener noreferrer">https://juejin.im/post/6892003555818143752#comment</a></p>
-<p>前端搭建要经历技术选型，代码风格规范，测试，部署等环节<br>开发工具： VSCode</p>
-<h1 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h1><p>技术选型：前端三大框架，Vue、React、Angular<br>选型注意两点：</p>
-<ul>
-<li>技术成熟的，用的人多，技术社区生态完整，有了bug好解决</li>
-<li>市场占有率高的<img data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62b7a34ed09e4f5ba2aec46ed7c54de8~tplv-k3u1fbpfcp-watermark.image">
-<img data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c78b05aa770e4b6f8f553879eaa0dc02~tplv-k3u1fbpfcp-watermark.image">
-
-</li>
-</ul>
-<p>UI组件库：</p>
-<ul>
-<li>AntDesign Vue</li>
-<li>Vant</li>
-<li>AntDesign react</li>
-<li>taroUI</li>
-<li>bootstrap</li>
-</ul>
-<h1 id="统一规范"><a href="#统一规范" class="headerlink" title="统一规范"></a>统一规范</h1><h2 id="代码规范"><a href="#代码规范" class="headerlink" title="代码规范"></a>代码规范</h2><p>先来看看统一代码规范的好处：</p>
-<p>规范的代码可以促进团队合作<br>规范的代码可以降低维护成本<br>规范的代码有助于 code review（代码审查）<br>养成代码规范的习惯，有助于程序员自身的成长</p>
-<p>当团队的成员都严格按照代码规范来写代码时，可以保证每个人的代码看起来都像是一个人写的，看别人的代码就像是在看自己的代码。更重要的是我们能够认识到规范的重要性，并坚持规范的开发习惯。</p>
-<h2 id="git规范"><a href="#git规范" class="headerlink" title="git规范"></a>git规范</h2><h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h1 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h1><h1 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h1><h1 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h1>]]></content>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>js深入浅出</title>
+      <link href="archives/7448dd44.html"/>
+      <url>archives/7448dd44.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
       <categories>
-        <category>前端工程化</category>
+          
+          <category> javascript </category>
+          
       </categories>
-  </entry>
-  <entry>
-    <title>js深入浅出</title>
-    <url>/archives/7448dd44.html</url>
-    <content><![CDATA[]]></content>
+      
+      
+        <tags>
+            
+            <tag> javascript </tag>
+            
+            <tag> js </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>前端今日学习</title>
+      <link href="archives/b2df75d3.html"/>
+      <url>archives/b2df75d3.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
       <categories>
-        <category>javascript</category>
+          
+          <category> 学习 </category>
+          
       </categories>
-      <tags>
-        <tag>javascript</tag>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>前端今日学习</title>
-    <url>/archives/b2df75d3.html</url>
-    <content><![CDATA[]]></content>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>双十一活动页面总结</title>
+      <link href="archives/3192c71d.html"/>
+      <url>archives/3192c71d.html</url>
+      
+        <content type="html"><![CDATA[<h1 style="text-align:center">双十一活动M端</h1><p>从十月到现在一直在忙双十一活动，现在复盘回忆一下，整体的开发和学习到的地方以及，有哪些需要优化改进的地方<br>可以点击链接查看具体活动详情页面<a href="http://m.zxxk.com/activity/20201111" target="_blank" rel="external nofollow noopener noreferrer">点击</a></p><h1 style="text-align:center">css移动端适配</h1>]]></content>
+      
+      
       <categories>
-        <category>学习</category>
+          
+          <category> 前端 </category>
+          
       </categories>
-  </entry>
-  <entry>
-    <title>双十一活动页面总结</title>
-    <url>/archives/3192c71d.html</url>
-    <content><![CDATA[<h1 style="text-align:center">双十一活动M端</h1>
-
-
-<p>从十月到现在一直在忙双十一活动，现在复盘回忆一下，整体的开发和学习到的地方以及，有哪些需要优化改进的地方<br>可以点击链接查看具体活动详情页面<a href="http://m.zxxk.com/activity/20201111" target="_blank" rel="external nofollow noopener noreferrer">点击</a></p>
-<h1 style="text-align:center">css移动端适配</h1>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> 活动页 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>微信小程序转uni-app</title>
+      <link href="archives/5ab8cddf.html"/>
+      <url>archives/5ab8cddf.html</url>
+      
+        <content type="html"><![CDATA[<p>首先安装一个将微信小程序 转换成 uni-app 的插件</p><pre class=" language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> -g miniprogram-to-uniapp// 转化成 uniapp$ wtu -i ./miniprogram-project// vant$ wtu -i ./miniprogram-to-uniapp -z// 将wxss合并 vue文件$ wtu -i /miniprogram-project -m </code></pre>]]></content>
+      
+      
       <categories>
-        <category>前端</category>
+          
+          <category> 小程序 </category>
+          
       </categories>
-      <tags>
-        <tag>活动页</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>微信小程序转uni-app</title>
-    <url>/archives/5ab8cddf.html</url>
-    <content><![CDATA[<p>首先安装一个将微信小程序 转换成 uni-app 的插件</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> -g miniprogram-to-uniapp
-// 转化成 uniapp
-$ wtu -i ./miniprogram-project
-
-// vant
-$ wtu -i ./miniprogram-to-uniapp -z
-
-// 将wxss合并 vue文件
-$ wtu -i /miniprogram-project -m </code></pre>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> uni-app </tag>
+            
+            <tag> 小程序， 多端 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>预处理器</title>
+      <link href="archives/64e805a8.html"/>
+      <url>archives/64e805a8.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
       <categories>
-        <category>小程序</category>
+          
+          <category> css </category>
+          
       </categories>
-      <tags>
-        <tag>uni-app</tag>
-        <tag>小程序， 多端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>预处理器</title>
-    <url>/archives/64e805a8.html</url>
-    <content><![CDATA[]]></content>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>路由在前端有什么特殊意义</title>
+      <link href="archives/dcb458b8.html"/>
+      <url>archives/dcb458b8.html</url>
+      
+        <content type="html"><![CDATA[<h3 id="什么是路由"><a href="#什么是路由" class="headerlink" title="什么是路由"></a>什么是路由</h3><pre class=" language-bash"><code class="language-bash">负责响应网络资源的服务，当浏览器地址栏中url发生变化，会请求网络资源，处理这种服务就叫做路由早期服务端处理，演变成路由模块前端控制，前后端分离和单页应用基石，请看深入理解路由路由解释路由<span class="token punctuation">(</span>routing<span class="token punctuation">)</span>就是通过互联的网络把信息从源地址传输到目的地址的活动路由中有一个非常重要的概念叫路由表路由表本质上就是一个映射表, 决定了数据包的指向路由器路由器提供了两种机制: 路由和转送.路由是决定数据包从来源到目的地的路径转送将输入端的数据转移到合适的输出端路由是根据不同的ur地址展示不同的内容或页面<span class="token punctuation">;</span>路由是一个比较广义和抽象的概念, 路由的本质就是对应关系</code></pre><p>路由，早期整个HTML页面都是由服务器来渲染的，服务器直接将渲染好对应的HTML页面，响应给客户端展示</p><p>浏览器每次url变化 向服务器发出请求 刷新页面， 前后端不分离 维护难度大</p><p>前端路由：ajax出现 前后端分离， 后端提供API，前端渲染数据</p><p>单页面框架SPA：</p><p>SPA是 single page web application 的简称, 译为单页Web应用简单说 SPA 就是一个 web 项目只有一个 html 页面, 一旦页面加载完成, SPA 不会因为用户的操作进行页面的重新加载或跳转取而代之的是利用 JS 动态的变换 html 的内容, 从而模拟多个视图间跳转<br>单页面富应用 (SPA)</p><p>其实SPA最主要的特点就是在前后端分离的基础上加了一层前端路由也就是前端来维护一套路由规则</p><h3 id="路由的两种实现方式"><a href="#路由的两种实现方式" class="headerlink" title="路由的两种实现方式"></a>路由的两种实现方式</h3><h4 id="hash路由"><a href="#hash路由" class="headerlink" title="hash路由"></a>hash路由</h4><p>hash值变化不会触发浏览器发送请求<br>hash值就是url“#”后面的内容， location.href独写hash值<br>监听路由变化，window对象的hashchange事件，占用hash值，默认页面滚动失效，需调用BOM</p><h4 id="historty路由"><a href="#historty路由" class="headerlink" title="historty路由"></a>historty路由</h4><p>html5提供的history对象<br>history对象的两个方法pushState()和history.replaceState()在页面不刷新操作浏览器历史记录<br>两个区别：新增历史记录与直接替换的区别<br>监听url变化，通过popstate来实现，手动触发页面渲染，无法拦截默认请求</p><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre class=" language-bash"><code class="language-bash"><span class="token operator">&lt;</span><span class="token operator">!</span>DOCTYPE html<span class="token operator">></span><span class="token operator">&lt;</span>html lang<span class="token operator">=</span><span class="token string">"en"</span><span class="token operator">></span><span class="token operator">&lt;</span>head<span class="token operator">></span>  <span class="token operator">&lt;</span>meta charset<span class="token operator">=</span><span class="token string">"UTF-8"</span><span class="token operator">></span>  <span class="token operator">&lt;</span>meta name<span class="token operator">=</span><span class="token string">"viewport"</span> content<span class="token operator">=</span><span class="token string">"width=device-width, initial-scale=1.0"</span><span class="token operator">></span>  <span class="token operator">&lt;</span>title<span class="token operator">></span>window.history路由<span class="token operator">&lt;</span>/title<span class="token operator">></span><span class="token operator">&lt;</span>/head<span class="token operator">></span><span class="token operator">&lt;</span>body<span class="token operator">></span>  <span class="token operator">&lt;</span>div<span class="token operator">></span>    <span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"routerLink"</span><span class="token operator">></span>      <span class="token operator">&lt;</span>div<span class="token operator">></span>        <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"historyChange('home')"</span><span class="token operator">></span>首页<span class="token punctuation">(</span>history<span class="token punctuation">)</span>/button<span class="token operator">></span>          <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"historyChange('about')"</span><span class="token operator">></span>关于<span class="token punctuation">(</span>history<span class="token punctuation">)</span><span class="token operator">&lt;</span>/button<span class="token operator">></span>      <span class="token operator">&lt;</span>/div<span class="token operator">></span>      <span class="token operator">&lt;</span>div<span class="token operator">></span>        <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"hashChange('home')"</span><span class="token operator">></span>首页<span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token operator">&lt;</span>/button<span class="token operator">></span>        <span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"hashChange('about')"</span><span class="token operator">></span>关于<span class="token punctuation">(</span>hash<span class="token punctuation">)</span><span class="token operator">&lt;</span>/button<span class="token operator">></span>      <span class="token operator">&lt;</span>/div<span class="token operator">></span>    <span class="token operator">&lt;</span>/div<span class="token operator">></span>    <span class="token operator">&lt;</span>div<span class="token operator">></span>      <span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"routerView"</span><span class="token operator">></span>      <span class="token operator">&lt;</span>/div<span class="token operator">></span>    <span class="token operator">&lt;</span>/div<span class="token operator">></span>  <span class="token operator">&lt;</span>/div<span class="token operator">></span>  <span class="token operator">&lt;</span><span class="token operator">!</span>-- 2.创建子视图模板 --<span class="token operator">></span>  <span class="token operator">&lt;</span>template id<span class="token operator">=</span><span class="token string">"home"</span><span class="token operator">></span>    <span class="token operator">&lt;</span>div<span class="token operator">></span>hello,我是首页<span class="token operator">&lt;</span>/div<span class="token operator">></span>  <span class="token operator">&lt;</span>/template<span class="token operator">></span>  <span class="token operator">&lt;</span>template id<span class="token operator">=</span><span class="token string">"about"</span><span class="token operator">></span>    <span class="token operator">&lt;</span>div<span class="token operator">></span>hello,我是关于<span class="token operator">&lt;</span>/div<span class="token operator">></span>  <span class="token operator">&lt;</span>/template<span class="token operator">></span>  <span class="token operator">&lt;</span>script<span class="token operator">></span>    //1.首先创建路由表    const routerTable <span class="token operator">=</span> <span class="token punctuation">[</span>      <span class="token punctuation">{</span>        path: <span class="token string">'home'</span>,        component: <span class="token string">'#home'</span>      <span class="token punctuation">}</span>,      <span class="token punctuation">{</span>        path: <span class="token string">'about'</span>,        component: <span class="token string">'#about'</span>      <span class="token punctuation">}</span>    <span class="token punctuation">]</span>    //*********** 方式一：window.history **************    //3.（window.history）监听路由更改，根据新路由path加载对应的内容    <span class="token keyword">function</span> historyChange<span class="token punctuation">(</span>path<span class="token punctuation">)</span> <span class="token punctuation">{</span>      render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: path <span class="token punctuation">}</span><span class="token punctuation">)</span>    <span class="token punctuation">}</span>    //添加popstate状态监听    window.addEventListener<span class="token punctuation">(</span><span class="token string">'popstate'</span>, <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>      <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>        render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: e.state, isPush: <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>      <span class="token punctuation">}</span>    <span class="token punctuation">}</span><span class="token punctuation">)</span>    //************** 方式二：location.hash ***************    <span class="token keyword">function</span> hashChange<span class="token punctuation">(</span>path<span class="token punctuation">)</span> <span class="token punctuation">{</span>      render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: path, mode: <span class="token string">'hash'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>    <span class="token punctuation">}</span>    //添加hashchange监听    window.addEventListener<span class="token punctuation">(</span><span class="token string">'hashchange'</span>, <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>      <span class="token keyword">let</span> path <span class="token operator">=</span> location.hash      //path移除开始的<span class="token comment" spellcheck="true">#</span>      render<span class="token punctuation">(</span><span class="token punctuation">{</span> path: path.substring<span class="token punctuation">(</span>1, path.length - 2<span class="token punctuation">)</span>, mode: <span class="token string">'hash'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>    <span class="token punctuation">}</span><span class="token punctuation">)</span>    //**************公共方法*******************    //渲染方法    <span class="token keyword">function</span> render<span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>      //默认值，mode默认为history，isPush<span class="token operator">=</span>true，isReplace<span class="token operator">=</span>false,path<span class="token operator">=</span>home      data <span class="token operator">=</span> Object.assign<span class="token punctuation">(</span><span class="token punctuation">{</span> mode: <span class="token string">'history'</span>, isPush: true, isReplace: false, path: <span class="token string">'home'</span> <span class="token punctuation">}</span>, data<span class="token punctuation">)</span>      <span class="token keyword">if</span> <span class="token punctuation">(</span>data.path<span class="token punctuation">)</span> <span class="token punctuation">{</span>        //查询路由信息        const route <span class="token operator">=</span> routerTable.find<span class="token punctuation">(</span>p <span class="token operator">=</span><span class="token operator">></span> p.path <span class="token operator">==</span> data.path<span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token keyword">if</span> <span class="token punctuation">(</span>route<span class="token punctuation">)</span> <span class="token punctuation">{</span>          <span class="token keyword">if</span> <span class="token punctuation">(</span>data.mode <span class="token operator">==</span> <span class="token string">'history'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>            <span class="token keyword">if</span> <span class="token punctuation">(</span>data.isPush<span class="token punctuation">)</span> <span class="token punctuation">{</span>              //更改url---后退、前进不更改              <span class="token keyword">if</span> <span class="token punctuation">(</span>data.isReplace<span class="token punctuation">)</span> <span class="token punctuation">{</span>                window.history.replaceState<span class="token punctuation">(</span>data.path, <span class="token string">''</span>, data.path<span class="token punctuation">)</span>              <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>                window.history.pushState<span class="token punctuation">(</span>data.path, <span class="token string">''</span>, data.path<span class="token punctuation">)</span>              <span class="token punctuation">}</span>            <span class="token punctuation">}</span>          <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>data.mode <span class="token operator">==</span> <span class="token string">'hash'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>            location.hash <span class="token operator">=</span> data.path          <span class="token punctuation">}</span>          //更新html          document.querySelector<span class="token punctuation">(</span><span class="token string">"#routerView"</span><span class="token punctuation">)</span>.innerHTML <span class="token operator">=</span> document.querySelector<span class="token punctuation">(</span>route.component<span class="token punctuation">)</span>.innerHTML        <span class="token punctuation">}</span>      <span class="token punctuation">}</span>    <span class="token punctuation">}</span>  <span class="token operator">&lt;</span>/script<span class="token operator">></span><span class="token operator">&lt;</span>/body<span class="token operator">></span><span class="token operator">&lt;</span>/html<span class="token operator">></span></code></pre>]]></content>
+      
+      
       <categories>
-        <category>css</category>
+          
+          <category> 前端框架 </category>
+          
       </categories>
-  </entry>
-  <entry>
-    <title>css总结</title>
-    <url>/archives/5aa0734.html</url>
-    <content><![CDATA[<h2 id="css新特性"><a href="#css新特性" class="headerlink" title="css新特性"></a>css新特性</h2><p>CSS3<br>    三大特性<br>        覆盖性<br>        继承性<br>        优先级<br>            基本选择器<br>                ID选择器<br>                类选择器<br>                标签选择器<br>                属性选择器<br>            伪类选择器<br>                结构伪类<br>                伪元素<br>            组合选择器<br>                相邻元素选择器<br>                兄弟选择器<br>                子选择器<br>                后代选择器<br>    属性<br>        transform<br>        transition<br>        animation<br>        box-shadow/text-shadow<br>    常见问题<br>        nth-child和nth-of-type<br>        css三大特性<br>            层叠性<br>                css样式冲突<br>                css样式冲突采取的原则，后者覆盖前者<br>            继承性<br>                继承性的样式<br>            常见选择器的叠加值<br>        div宽度100% 设置属性margin-left和margin-right的问题<br>        过渡transition不能给z-index非过渡属性<br>        开启了性能加速的属性<br>        flex：0 1 25%<br>        BFC、IFC</p>
-]]></content>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+            <tag> react </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>css总结</title>
+      <link href="archives/5aa0734.html"/>
+      <url>archives/5aa0734.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="css新特性"><a href="#css新特性" class="headerlink" title="css新特性"></a>css新特性</h2><p>CSS3<br>    三大特性<br>        覆盖性<br>        继承性<br>        优先级<br>            基本选择器<br>                ID选择器<br>                类选择器<br>                标签选择器<br>                属性选择器<br>            伪类选择器<br>                结构伪类<br>                伪元素<br>            组合选择器<br>                相邻元素选择器<br>                兄弟选择器<br>                子选择器<br>                后代选择器<br>    属性<br>        transform<br>        transition<br>        animation<br>        box-shadow/text-shadow<br>    常见问题<br>        nth-child和nth-of-type<br>        css三大特性<br>            层叠性<br>                css样式冲突<br>                css样式冲突采取的原则，后者覆盖前者<br>            继承性<br>                继承性的样式<br>            常见选择器的叠加值<br>        div宽度100% 设置属性margin-left和margin-right的问题<br>        过渡transition不能给z-index非过渡属性<br>        开启了性能加速的属性<br>        flex：0 1 25%<br>        BFC、IFC</p>]]></content>
+      
+      
       <categories>
-        <category>css</category>
+          
+          <category> css </category>
+          
       </categories>
-      <tags>
-        <tag>css</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/archives/16107.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external nofollow noopener noreferrer">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external nofollow noopener noreferrer">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external nofollow noopener noreferrer">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class=" language-bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external nofollow noopener noreferrer">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class=" language-bash"><code class="language-bash">$ hexo server</code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external nofollow noopener noreferrer">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class=" language-bash"><code class="language-bash">$ hexo generate</code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external nofollow noopener noreferrer">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class=" language-bash"><code class="language-bash">$ hexo deploy</code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="external nofollow noopener noreferrer">Deployment</a></p>
-]]></content>
-  </entry>
+      
+      
+        <tags>
+            
+            <tag> css </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="archives/16107.html"/>
+      <url>archives/16107.html</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external nofollow noopener noreferrer">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external nofollow noopener noreferrer">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external nofollow noopener noreferrer">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class=" language-bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span></code></pre><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external nofollow noopener noreferrer">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class=" language-bash"><code class="language-bash">$ hexo server</code></pre><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external nofollow noopener noreferrer">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class=" language-bash"><code class="language-bash">$ hexo generate</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external nofollow noopener noreferrer">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class=" language-bash"><code class="language-bash">$ hexo deploy</code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="external nofollow noopener noreferrer">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
 </search>
