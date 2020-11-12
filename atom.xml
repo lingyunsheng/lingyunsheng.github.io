@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://lingyunsheng.cn/"/>
-  <updated>2020-11-12T03:21:32.810Z</updated>
+  <updated>2020-11-12T07:45:28.907Z</updated>
   <id>http://lingyunsheng.cn/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>二叉树</title>
+    <link href="http://lingyunsheng.cn/archives/10764.html"/>
+    <id>http://lingyunsheng.cn/archives/10764.html</id>
+    <published>2020-11-12T05:41:45.000Z</published>
+    <updated>2020-11-12T07:45:28.907Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h1><blockquote><p>树的概念 二叉树</p></blockquote><h1 id="判断二叉树是否对称"><a href="#判断二叉树是否对称" class="headerlink" title="判断二叉树是否对称"></a>判断二叉树是否对称</h1><p><strong>题目描述</strong></p><p>给定一棵二叉树，判断琪是否是自身的镜像（即：是否对称）</p><p>备注：<br>希望你可以用递归和迭代两种方法解决这个问题</p><pre class=" language-js"><code class="language-js">输入<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">}</span>返回<span class="token boolean">false</span>输入<span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">}</span>返回<span class="token boolean">true</span></code></pre><p><strong>迭代解法</strong></p><pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">isSymmetric</span><span class="token punctuation">(</span>root<span class="token punctuation">)</span> <span class="token punctuation">{</span>    <span class="token keyword">if</span><span class="token punctuation">(</span>root <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>    <span class="token punctuation">}</span>    <span class="token keyword">function</span> <span class="token function">isSmae</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>        <span class="token keyword">if</span><span class="token punctuation">(</span>left <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span> right <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>left <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> right <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>left<span class="token punctuation">.</span>val <span class="token operator">!==</span>  right<span class="token punctuation">.</span>val<span class="token punctuation">)</span> <span class="token punctuation">{</span>            <span class="token keyword">return</span> <span class="token boolean">false</span>        <span class="token punctuation">}</span>        <span class="token keyword">return</span> <span class="token function">isSame</span><span class="token punctuation">(</span>left<span class="token punctuation">.</span>left<span class="token punctuation">,</span> right<span class="token punctuation">.</span>right<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isSmae</span><span class="token punctuation">(</span>left<span class="token punctuation">.</span>right<span class="token punctuation">,</span> right<span class="token punctuation">.</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token punctuation">}</span>    <span class="token keyword">return</span> <span class="token function">isSymmetric</span><span class="token punctuation">(</span>root<span class="token punctuation">.</span>left<span class="token punctuation">,</span> root<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre><h2 id="递归法和迭代法的区别"><a href="#递归法和迭代法的区别" class="headerlink" title="递归法和迭代法的区别"></a>递归法和迭代法的区别</h2><ul><li>递归法</li></ul><p>函数自身调用自身 并且返回结果， 递归函数自身调用自身， 递归是通过重复函数调用实现<br>重复</p><ul><li>迭代法</li></ul><p>利用变量的原值推算出变量的一个新值.如果递归是被自己调用自己的话,迭代就是A不停的调用B。</p><p>函数内某段代码实现循环</p><p>简单地说，递归是重复调用函数自身实现循环。迭代是函数内某段代码实现循环，而迭代与普通循环的区别是：循环代码中参与运算的变量同时是保存结果的变量，当前保存的结果作为下一次循环计算的初始值。</p><p><strong>递归中一定有迭代，迭代不一定有递归，递归调用函数，浪费空间，容易造成堆栈的溢出</strong></p><pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">//  迭代 1-100累加</span><span class="token keyword">var</span> sum <span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">&lt;=</span><span class="token number">100</span> <span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>    sum <span class="token operator">+</span><span class="token operator">=</span> i<span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;二叉树&quot;&gt;&lt;a href=&quot;#二叉树&quot; class=&quot;headerlink&quot; title=&quot;二叉树&quot;&gt;&lt;/a&gt;二叉树&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;树的概念 二叉树&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;判断二叉树是否对称&quot;&gt;&lt;a href
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>javascript查缺补漏，快上车</title>
@@ -112,27 +137,6 @@
   </entry>
   
   <entry>
-    <title>js深入浅出</title>
-    <link href="http://lingyunsheng.cn/archives/7448dd44.html"/>
-    <id>http://lingyunsheng.cn/archives/7448dd44.html</id>
-    <published>2020-11-06T02:36:13.000Z</published>
-    <updated>2020-11-10T08:56:22.828Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-      <category term="javascript" scheme="http://lingyunsheng.cn/categories/javascript/"/>
-    
-    
-      <category term="javascript" scheme="http://lingyunsheng.cn/tags/javascript/"/>
-    
-      <category term="js" scheme="http://lingyunsheng.cn/tags/js/"/>
-    
-  </entry>
-  
-  <entry>
     <title>前端今日学习</title>
     <link href="http://lingyunsheng.cn/archives/b2df75d3.html"/>
     <id>http://lingyunsheng.cn/archives/b2df75d3.html</id>
@@ -221,6 +225,37 @@
     
       <category term="css" scheme="http://lingyunsheng.cn/categories/css/"/>
     
+    
+  </entry>
+  
+  <entry>
+    <title>js深入浅出</title>
+    <link href="http://lingyunsheng.cn/archives/7448dd44.html"/>
+    <id>http://lingyunsheng.cn/archives/7448dd44.html</id>
+    <published>2019-07-26T02:36:13.000Z</published>
+    <updated>2019-07-31T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="js"><a href="#js" class="headerlink" title="js"></a>js</h1><blockquote><p>本文章是js必备的基本知识</p></blockquote><p>1、js事件机制e.target和e.currentTarget区别</p><p>target是指当前触发事件的DOM元素，里面的盒子</p><p>currentTarget是 引用事件侦听器正在监听的DOM元素， 外面的盒子</p><pre class=" language-bash"><code class="language-bash"><span class="token operator">&lt;</span>ul class<span class="token operator">=</span><span class="token string">"todo-list"</span><span class="token operator">></span>  <span class="token operator">&lt;</span>li class<span class="token operator">=</span><span class="token string">"item"</span><span class="token operator">></span>click<span class="token operator">&lt;</span>/li<span class="token operator">></span><span class="token operator">&lt;</span>/ul<span class="token operator">></span>const list <span class="token operator">=</span> document.querySelector<span class="token punctuation">(</span><span class="token string">'.todo-list'</span><span class="token punctuation">)</span>list.addEventListener<span class="token punctuation">(</span><span class="token string">'click'</span>, e<span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>    console.log<span class="token punctuation">(</span>e.target<span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">#    &lt;li class="item">click&lt;/li></span>    console.log<span class="token punctuation">(</span>e.currentTarget<span class="token punctuation">)</span>    <span class="token comment" spellcheck="true"># &lt;ul class="todo-list"></span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;js&quot;&gt;&lt;a href=&quot;#js&quot; class=&quot;headerlink&quot; title=&quot;js&quot;&gt;&lt;/a&gt;js&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;本文章是js必备的基本知识&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;1、js事件机制e.target和e.cur
+      
+    
+    </summary>
+    
+    
+      <category term="javascript" scheme="http://lingyunsheng.cn/categories/javascript/"/>
+    
+    
+      <category term="javascript" scheme="http://lingyunsheng.cn/tags/javascript/"/>
+    
+      <category term="js" scheme="http://lingyunsheng.cn/tags/js/"/>
     
   </entry>
   
