@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lingyunsheng.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#836FFF","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Vue.js 原理深度剖析Vue.js是构建用户视图渐进式的SPA框架，核心原理就是响应式双向绑定的原理 MVVM computed: {     fullName: {         get: function() {             return this.firstName + this.lastName         }         set: function() {">
+<meta property="og:type" content="article">
+<meta property="og:title" content="核心框架原理与进阶">
+<meta property="og:url" content="http://lingyunsheng.cn/archives/24710.html">
+<meta property="og:site_name" content="凌云生的客栈">
+<meta property="og:description" content="Vue.js 原理深度剖析Vue.js是构建用户视图渐进式的SPA框架，核心原理就是响应式双向绑定的原理 MVVM computed: {     fullName: {         get: function() {             return this.firstName + this.lastName         }         set: function() {">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cn.vuejs.org/images/data.png">
+<meta property="article:published_time" content="2020-11-17T00:50:21.000Z">
+<meta property="article:modified_time" content="2020-11-17T05:09:10.571Z">
+<meta property="article:author" content="lingyunsheng">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cn.vuejs.org/images/data.png">
+
+<link rel="canonical" href="http://lingyunsheng.cn/archives/24710.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>核心框架原理与进阶 | 凌云生的客栈</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><link rel="alternate" href="/atom.xml" title="凌云生的客栈" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凌云生的客栈</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lingyunsheng.cn/archives/24710.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="lingyunsheng">
+      <meta itemprop="description" content>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凌云生的客栈">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          核心框架原理与进阶
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-17 08:50:21 / 修改时间：13:09:10" itemprop="dateCreated datePublished" datetime="2020-11-17T08:50:21+08:00">2020-11-17</time>
+            </span>
+
+          
+          
+          <br>
+            <span id="/archives/24710.html" class="post-meta-item leancloud_visitors" data-flag-title="核心框架原理与进阶" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/24710.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/24710.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Vue-js-原理深度剖析"><a href="#Vue-js-原理深度剖析" class="headerlink" title="Vue.js 原理深度剖析"></a>Vue.js 原理深度剖析</h1><p>Vue.js是构建用户视图渐进式的SPA框架，核心原理就是响应式双向绑定的原理 MVVM</p>
+<pre class=" language-ts"><code class="language-ts">computed<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    fullName<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token keyword">get</span><span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>firstName <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>lastName
+        <span class="token punctuation">}</span>
+        <span class="token keyword">set</span><span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">var</span> names <span class="token operator">=</span> newValue<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>firstName <span class="token operator">=</span> names<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>lastName <span class="token operator">=</span> names<span class="token punctuation">[</span>names<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="v-mode原理-双向绑定"><a href="#v-mode原理-双向绑定" class="headerlink" title="v-mode原理 双向绑定"></a>v-mode原理 双向绑定</h1><p>v-model本质是一个语法糖<br>， 使用v-model绑定数据，绑定了数据，又添加了一个input事件监听, 监听用户输入的事件 更新数据</p>
+<p>自定义事件可以用于创建支持<strong>v-model</strong>的自定义输入组件</p>
+<p>v-bind绑定数据 v-bind:value=”searchText”<br>再添加一个input事件监听 v-on:input=”search=$event.target.value”</p>
+<pre class=" language-HTML"><code class="language-HTML"><input v-model="searchText">
+
+等价于：
+
+<input v-bind:value="searchText" v-on:input="searchText = $event.target.value">
+
+<!-- 组件上使用v-model -->
+<validate-input v-bind：value="value" v-on:input="searchText =$event.target.value">
+</validate-input>
+
+<validate-input v-model="value"></validate-input></code></pre>
+<h2 id="响应式原理"><a href="#响应式原理" class="headerlink" title="响应式原理"></a>响应式原理</h2><p>追踪数据的变化，vue2是Object.defineProperty, vue3使用proxy</p>
+<p>当把一个JavaScript对象传入vue实例作为data选项，vue遍历对象</p>
+<p>创建一个Observer监听器 监听数据的变更<br>所以的property， 并使用<strong>Object.defineProperty</strong>将这些property转化为getter/setter</p>
+<p>setter/getter在property被访问和修改时通知变更</p>
+<p>每个组件实例 对应着一**watcher++实例，组件渲染接触到property作为依赖，当setter触发时 watcher变更</p>
+<p>检测变化的注意事项<br>由于 JavaScript 的限制，Vue 不能检测数组和对象的变化。尽管如此我们还是有一些办法来回避这些限制并保证它们的响应性。</p>
+<p>deep监听深度</p>
+<p>immediate 为true 先进入watch的 handler事件</p>
+<img data-src="https://cn.vuejs.org/images/data.png">
+
+
+<p><strong>vue data必须是一个函数</strong></p>
+<p>每一个组件都是Vue的实例，JS的实力是通过构造函数创建，每个构造函数可以<br><strong>new</strong>出很多个实例，每个实例都会继承原型上的方法或属性</p>
+<p>vue中的data数据就是<strong>vue</strong>原型上的属性，如果data是一个对象的话</p>
+<p>那么会影响到其他组件数据 data是一个函数时，只是改变这个内存地址的数据</p>
+<h1 id="Vue-js-框架基础回顾"><a href="#Vue-js-框架基础回顾" class="headerlink" title="Vue.js 框架基础回顾"></a>Vue.js 框架基础回顾</h1><h1 id="Vue-CLI-基础设施深度解剖"><a href="#Vue-CLI-基础设施深度解剖" class="headerlink" title="Vue CLI 基础设施深度解剖"></a>Vue CLI 基础设施深度解剖</h1><h1 id="数据响应式实现原理分析"><a href="#数据响应式实现原理分析" class="headerlink" title="数据响应式实现原理分析"></a>数据响应式实现原理分析</h1><h1 id="虚拟-DOM-和-Diff-算法的实现"><a href="#虚拟-DOM-和-Diff-算法的实现" class="headerlink" title="虚拟 DOM 和 Diff 算法的实现"></a>虚拟 DOM 和 Diff 算法的实现</h1><h1 id="模板编译模块的实现原理"><a href="#模板编译模块的实现原理" class="headerlink" title="模板编译模块的实现原理"></a>模板编译模块的实现原理</h1><h1 id="Vue-Router-源码剖析"><a href="#Vue-Router-源码剖析" class="headerlink" title="Vue Router 源码剖析"></a>Vue Router 源码剖析</h1><h1 id="Vue-js-高级与进阶"><a href="#Vue-js-高级与进阶" class="headerlink" title="Vue.js 高级与进阶"></a>Vue.js 高级与进阶</h1><h1 id="封装自己的-Vue-组件库"><a href="#封装自己的-Vue-组件库" class="headerlink" title="封装自己的 Vue 组件库"></a>封装自己的 Vue 组件库</h1><h1 id="Vue-项目性能优化"><a href="#Vue-项目性能优化" class="headerlink" title="Vue 项目性能优化"></a>Vue 项目性能优化</h1><h1 id="Vuex-数据流管理方案"><a href="#Vuex-数据流管理方案" class="headerlink" title="Vuex 数据流管理方案"></a>Vuex 数据流管理方案</h1><h1 id="使用-TypeScript-开发-Vue-js-应用"><a href="#使用-TypeScript-开发-Vue-js-应用" class="headerlink" title="使用 TypeScript 开发 Vue.js 应用"></a>使用 TypeScript 开发 Vue.js 应用</h1><h1 id="原生服务端渲染（SSR）的实现、同构开发"><a href="#原生服务端渲染（SSR）的实现、同构开发" class="headerlink" title="原生服务端渲染（SSR）的实现、同构开发"></a>原生服务端渲染（SSR）的实现、同构开发</h1><h1 id="Nuxt-js-集成式-SSR-框架"><a href="#Nuxt-js-集成式-SSR-框架" class="headerlink" title="Nuxt.js 集成式 SSR 框架"></a>Nuxt.js 集成式 SSR 框架</h1><h1 id="静态站点生成（SSG）方案及-Gridsome"><a href="#静态站点生成（SSG）方案及-Gridsome" class="headerlink" title="静态站点生成（SSG）方案及 Gridsome"></a>静态站点生成（SSG）方案及 Gridsome</h1><h1 id="Vue-js-3-0-设计和用法的变化以及优势"><a href="#Vue-js-3-0-设计和用法的变化以及优势" class="headerlink" title="Vue.js 3.0 设计和用法的变化以及优势"></a>Vue.js 3.0 设计和用法的变化以及优势</h1><h1 id="Vue-js-3-0-Composition-APIs"><a href="#Vue-js-3-0-Composition-APIs" class="headerlink" title="Vue.js 3.0 Composition APIs"></a>Vue.js 3.0 Composition APIs</h1><h1 id="Vue-js-Vue-Router-Vuex-TypeScript-实战项目开发"><a href="#Vue-js-Vue-Router-Vuex-TypeScript-实战项目开发" class="headerlink" title="Vue.js + Vue Router + Vuex + TypeScript 实战项目开发"></a>Vue.js + Vue Router + Vuex + TypeScript 实战项目开发</h1><h2 id="使用vue后怎么针对搜索引擎做SEO优化"><a href="#使用vue后怎么针对搜索引擎做SEO优化" class="headerlink" title="使用vue后怎么针对搜索引擎做SEO优化"></a>使用vue后怎么针对搜索引擎做SEO优化</h2><ul>
+<li>nuxt服务端渲染框架</li>
+<li>ssr 服务端渲染框架</li>
+<li>phantom.js 针对爬虫做处理 动态更改meta</li>
+<li>vue-meta-info 与prerender-spa-plugin 预渲染</li>
+</ul>
+<h1 id="react和vue的对比比较"><a href="#react和vue的对比比较" class="headerlink" title="react和vue的对比比较"></a>react和vue的对比比较</h1><h2 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h2><ul>
+<li>使用 Virtual DOM</li>
+<li>提供了响应式 (Reactive) 和组件化 (Composable) 的视图组件。</li>
+<li>将注意力集中保持在核心库，而将其他功能如路由和全局状态管理交给相关的库。</li>
+</ul>
+<h1 id="React-设计原理解密"><a href="#React-设计原理解密" class="headerlink" title="React 设计原理解密"></a>React 设计原理解密</h1><h1 id="React-框架基础回顾、JSX-语法"><a href="#React-框架基础回顾、JSX-语法" class="headerlink" title="React 框架基础回顾、JSX 语法"></a>React 框架基础回顾、JSX 语法</h1><h1 id="分析-Virtual-DOM-目的及实现原理"><a href="#分析-Virtual-DOM-目的及实现原理" class="headerlink" title="分析 Virtual-DOM 目的及实现原理"></a>分析 Virtual-DOM 目的及实现原理</h1><h1 id="React-核心算法：Fiber"><a href="#React-核心算法：Fiber" class="headerlink" title="React 核心算法：Fiber"></a>React 核心算法：Fiber</h1><h1 id="React-框架的设计哲学"><a href="#React-框架的设计哲学" class="headerlink" title="React 框架的设计哲学"></a>React 框架的设计哲学</h1><h1 id="React-框架核心源码解读"><a href="#React-框架核心源码解读" class="headerlink" title="React 框架核心源码解读"></a>React 框架核心源码解读</h1><h1 id="React-进阶与实战"><a href="#React-进阶与实战" class="headerlink" title="React 进阶与实战"></a>React 进阶与实战</h1><h1 id="封装-React-自定义组件库"><a href="#封装-React-自定义组件库" class="headerlink" title="封装 React 自定义组件库"></a>封装 React 自定义组件库</h1><h1 id="React-组件的性能优化"><a href="#React-组件的性能优化" class="headerlink" title="React 组件的性能优化"></a>React 组件的性能优化</h1><h1 id="受控和非受控组件的选用标准"><a href="#受控和非受控组件的选用标准" class="headerlink" title="受控和非受控组件的选用标准"></a>受控和非受控组件的选用标准</h1><h1 id="React-组件的自动化测试"><a href="#React-组件的自动化测试" class="headerlink" title="React 组件的自动化测试"></a>React 组件的自动化测试</h1><h1 id="React-16-8-Hooks-特性的使用以及实现原理分析"><a href="#React-16-8-Hooks-特性的使用以及实现原理分析" class="headerlink" title="React 16.8 Hooks 特性的使用以及实现原理分析"></a>React 16.8 Hooks 特性的使用以及实现原理分析</h1><h1 id="CSS-in-JS-方案以及-emotion-库"><a href="#CSS-in-JS-方案以及-emotion-库" class="headerlink" title="CSS-in-JS 方案以及 emotion 库"></a>CSS-in-JS 方案以及 emotion 库</h1><h1 id="现代化-React-应用-UI-框架-Chakra-UI"><a href="#现代化-React-应用-UI-框架-Chakra-UI" class="headerlink" title="现代化 React 应用 UI 框架 Chakra-UI"></a>现代化 React 应用 UI 框架 Chakra-UI</h1><h1 id="使用-TypeScript-开发-React-应用"><a href="#使用-TypeScript-开发-React-应用" class="headerlink" title="使用 TypeScript 开发 React 应用"></a>使用 TypeScript 开发 React 应用</h1><h1 id="React-数据流方案：Redux、Mobx"><a href="#React-数据流方案：Redux、Mobx" class="headerlink" title="React 数据流方案：Redux、Mobx"></a>React 数据流方案：Redux、Mobx</h1><h1 id="Redux-常用中间件以及中间件的开发"><a href="#Redux-常用中间件以及中间件的开发" class="headerlink" title="Redux 常用中间件以及中间件的开发"></a>Redux 常用中间件以及中间件的开发</h1><h1 id="原生服务端渲染（SSR）的实现、同构开发-1"><a href="#原生服务端渲染（SSR）的实现、同构开发-1" class="headerlink" title="原生服务端渲染（SSR）的实现、同构开发"></a>原生服务端渲染（SSR）的实现、同构开发</h1><h1 id="Next-js-集成式-SSR-框架"><a href="#Next-js-集成式-SSR-框架" class="headerlink" title="Next.js 集成式 SSR 框架"></a>Next.js 集成式 SSR 框架</h1><h1 id="Next-js-集成式-SSR-框架-1"><a href="#Next-js-集成式-SSR-框架-1" class="headerlink" title="Next.js 集成式 SSR 框架"></a>Next.js 集成式 SSR 框架</h1><h1 id="静态站点生成（SSG）方案及-Gatsby-框架"><a href="#静态站点生成（SSG）方案及-Gatsby-框架" class="headerlink" title="静态站点生成（SSG）方案及 Gatsby 框架"></a>静态站点生成（SSG）方案及 Gatsby 框架</h1><h1 id="React-React-Router-Redux-Ant-Design-TypeScript-实战"><a href="#React-React-Router-Redux-Ant-Design-TypeScript-实战" class="headerlink" title="React + React Router + Redux + Ant Design + TypeScript 实战"></a>React + React Router + Redux + Ant Design + TypeScript 实战</h1>
+    </div>
+
+    
+    
+    
+
+    <div>
+	    
+		    
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+   <!-- JS库 sweetalert 引用本地路径 -->
+  <script src="/js/sweetalert.min.js"></script>
+  <p><span>文章作者:</span><a href="/" title="访问 lingyunsheng 的个人博客">lingyunsheng</a></p>
+  <p><span>发布时间:</span>2020年11月17日 - 08:11</p>
+  <p><span>原始链接:</span><a href="/archives/24710.html" title="核心框架原理与进阶">http://lingyunsheng.cn/archives/24710.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://lingyunsheng.cn/archives/24710.html" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+
+	    
+    </div>
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="lingyunsheng 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="lingyunsheng 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lingyunsheng
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lingyunsheng.cn/archives/24710.html" title="核心框架原理与进阶">http://lingyunsheng.cn/archives/24710.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，感兴趣的话，前往git，转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/53230.html" rel="prev" title="javascript深度剖析">
+      <i class="fa fa-chevron-left"></i> javascript深度剖析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/2240.html" rel="next" title="Git以及工作流程">
+      Git以及工作流程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue-js-原理深度剖析"><span class="nav-text">Vue.js 原理深度剖析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#v-mode原理-双向绑定"><span class="nav-text">v-mode原理 双向绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#响应式原理"><span class="nav-text">响应式原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue-js-框架基础回顾"><span class="nav-text">Vue.js 框架基础回顾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue-CLI-基础设施深度解剖"><span class="nav-text">Vue CLI 基础设施深度解剖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据响应式实现原理分析"><span class="nav-text">数据响应式实现原理分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚拟-DOM-和-Diff-算法的实现"><span class="nav-text">虚拟 DOM 和 Diff 算法的实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模板编译模块的实现原理"><span class="nav-text">模板编译模块的实现原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue-Router-源码剖析"><span class="nav-text">Vue Router 源码剖析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue-js-高级与进阶"><span class="nav-text">Vue.js 高级与进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#封装自己的-Vue-组件库"><span class="nav-text">封装自己的 Vue 组件库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue-项目性能优化"><span class="nav-text">Vue 项目性能优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vuex-数据流管理方案"><span class="nav-text">Vuex 数据流管理方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-TypeScript-开发-Vue-js-应用"><span class="nav-text">使用 TypeScript 开发 Vue.js 应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原生服务端渲染（SSR）的实现、同构开发"><span class="nav-text">原生服务端渲染（SSR）的实现、同构开发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Nuxt-js-集成式-SSR-框架"><span class="nav-text">Nuxt.js 集成式 SSR 框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#静态站点生成（SSG）方案及-Gridsome"><span class="nav-text">静态站点生成（SSG）方案及 Gridsome</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue-js-3-0-设计和用法的变化以及优势"><span class="nav-text">Vue.js 3.0 设计和用法的变化以及优势</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue-js-3-0-Composition-APIs"><span class="nav-text">Vue.js 3.0 Composition APIs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue-js-Vue-Router-Vuex-TypeScript-实战项目开发"><span class="nav-text">Vue.js + Vue Router + Vuex + TypeScript 实战项目开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用vue后怎么针对搜索引擎做SEO优化"><span class="nav-text">使用vue后怎么针对搜索引擎做SEO优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#react和vue的对比比较"><span class="nav-text">react和vue的对比比较</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相同点"><span class="nav-text">相同点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-设计原理解密"><span class="nav-text">React 设计原理解密</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-框架基础回顾、JSX-语法"><span class="nav-text">React 框架基础回顾、JSX 语法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析-Virtual-DOM-目的及实现原理"><span class="nav-text">分析 Virtual-DOM 目的及实现原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-核心算法：Fiber"><span class="nav-text">React 核心算法：Fiber</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-框架的设计哲学"><span class="nav-text">React 框架的设计哲学</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-框架核心源码解读"><span class="nav-text">React 框架核心源码解读</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-进阶与实战"><span class="nav-text">React 进阶与实战</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#封装-React-自定义组件库"><span class="nav-text">封装 React 自定义组件库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-组件的性能优化"><span class="nav-text">React 组件的性能优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#受控和非受控组件的选用标准"><span class="nav-text">受控和非受控组件的选用标准</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-组件的自动化测试"><span class="nav-text">React 组件的自动化测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-16-8-Hooks-特性的使用以及实现原理分析"><span class="nav-text">React 16.8 Hooks 特性的使用以及实现原理分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-in-JS-方案以及-emotion-库"><span class="nav-text">CSS-in-JS 方案以及 emotion 库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#现代化-React-应用-UI-框架-Chakra-UI"><span class="nav-text">现代化 React 应用 UI 框架 Chakra-UI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-TypeScript-开发-React-应用"><span class="nav-text">使用 TypeScript 开发 React 应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-数据流方案：Redux、Mobx"><span class="nav-text">React 数据流方案：Redux、Mobx</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redux-常用中间件以及中间件的开发"><span class="nav-text">Redux 常用中间件以及中间件的开发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原生服务端渲染（SSR）的实现、同构开发-1"><span class="nav-text">原生服务端渲染（SSR）的实现、同构开发</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Next-js-集成式-SSR-框架"><span class="nav-text">Next.js 集成式 SSR 框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Next-js-集成式-SSR-框架-1"><span class="nav-text">Next.js 集成式 SSR 框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#静态站点生成（SSG）方案及-Gatsby-框架"><span class="nav-text">静态站点生成（SSG）方案及 Gatsby 框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#React-React-Router-Redux-Ant-Design-TypeScript-实战"><span class="nav-text">React + React Router + Redux + Ant Design + TypeScript 实战</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="lingyunsheng" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">lingyunsheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lingyunsheng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lingyunsheng" rel="external nofollow noopener noreferrer" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1841046698@qq.com" title="E-Mail → mailto:1841046698@qq.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://juejin.im/user/729731451849134" title="掘金 → https:&#x2F;&#x2F;juejin.im&#x2F;user&#x2F;729731451849134" rel="external nofollow noopener noreferrer" target="_blank"><i class="heartbeat fa-fw"></i>掘金</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lingyunsheng</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">46k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">42 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+  <span id="busuanzi_container_site_pv">
+    本站总访问量<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>次
+  </span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"BRxjPOsqhLpeBGnhnWu544t6-MdYXbMMI","app_key":"sjOlGST3QNba2IdputiNyNBq","server_url":null,"security":true,"betterPerformance":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'BRxjPOsqhLpeBGnhnWu544t6-MdYXbMMI',
+      appKey     : 'sjOlGST3QNba2IdputiNyNBq',
+      placeholder: "Just go go",
+      avatar     : 'monsterid',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+
+
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+<!-- 爆炸烟花 -->
+<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+<script type="text/javascript" src="/js/src/firework.js"></script>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+
+<script type="text/javascript">
+  window.addEventListener('DOMContentLoaded', () => {
+  let icon = document.querySelector(".github-corner");
+  icon.innerHTML  = `<svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD;color:#fff;aria-hidden="true">
+      <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+      <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body">
+      </path>
+  </svg>`;
+},false);
+</script>
+
+
+
