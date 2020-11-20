@@ -733,6 +733,11 @@ nums<span class="token punctuation">.</span><span class="token function">sort</s
       </tags>
   </entry>
   <entry>
+    <title>分治算法之美</title>
+    <url>/archives/3371.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Git以及工作流程</title>
     <url>/archives/2240.html</url>
     <content><![CDATA[<h1 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h1><blockquote>
@@ -1344,6 +1349,23 @@ window<span class="token punctuation">.</span><span class="token function">addEv
      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'鼠标点击了'</span><span class="token punctuation">,</span><span class="token number">111</span><span class="token punctuation">)</span>
  <span class="token punctuation">}</span>
 window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'mouse-over'</span><span class="token punctuation">,</span> <span class="token function">throttles</span><span class="token punctuation">(</span>mousedown<span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<h1 id="encodeURIComponent-函数和encodeURI-通用资源标识符"><a href="#encodeURIComponent-函数和encodeURI-通用资源标识符" class="headerlink" title="encodeURIComponent()函数和encodeURI 通用资源标识符"></a>encodeURIComponent()函数和encodeURI 通用资源标识符</h1><ul>
+<li>encodeURIComponent() 函数可把字符串作为 URI 组件进行编码。</li>
+</ul>
+<p>把字符串作为URI组件进行编码<br>该方法不会对ASCII字母和数字进行编码 也不会对ASCII符号进行编码<br>其他字符也都是由ASCII进行编码的 会对一些?:/@进行编码</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token function">encodeURIComponent</span><span class="token punctuation">(</span>uri<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// 使用encodeURIComponent()对uri进行编码</span>
+<span class="token keyword">var</span> uri <span class="token operator">=</span> <span class="token string">'https://m.zxxk.com/paper?stageId=4&amp;subjectId=10'</span>
+
+<span class="token function">encodeURICompnent</span><span class="token punctuation">(</span>uri<span class="token punctuation">)</span>
+
+https
+</code></pre>
+<ul>
+<li>encodeURI</li>
+</ul>
+<p>把字符串作为URI进行编码</p>
 ]]></content>
   </entry>
   <entry>
@@ -2113,7 +2135,64 @@ nums <span class="token operator">=</span> nums<span class="token punctuation">.
 <span class="token punctuation">}</span>
 
 </code></pre>
-<h1 id><a href="#" class="headerlink" title></a></h1>]]></content>
+<h1 id="矩阵查找"><a href="#矩阵查找" class="headerlink" title="矩阵查找"></a>矩阵查找</h1><p><strong>循环</strong></p>
+<pre class=" language-js"><code class="language-js">    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span>matrix<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>matrix<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span> <span class="token operator">!==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<p><strong>二分法</strong></p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">/**
+  * 
+  * @param matrix int整型二维数组 
+  * @param target int整型 
+  * @return bool布尔型
+  */</span>
+<span class="token keyword">function</span> <span class="token function">searchMatrix</span><span class="token punctuation">(</span> matrix <span class="token punctuation">,</span>  target <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// write code here</span>
+<span class="token comment" spellcheck="true">//      数组长度</span>
+    <span class="token keyword">var</span> row <span class="token operator">=</span> matrix<span class="token punctuation">.</span>length
+<span class="token comment" spellcheck="true">//     右上角</span>
+    <span class="token keyword">var</span> col <span class="token operator">=</span> matrix<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>length
+    <span class="token comment" spellcheck="true">//  定义一维数组的x</span>
+    <span class="token keyword">var</span> l <span class="token operator">=</span> row<span class="token number">-1</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 二维数组的第0项</span>
+    <span class="token keyword">var</span> r <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>l<span class="token operator">>=</span><span class="token number">0</span> <span class="token operator">&amp;&amp;</span> r <span class="token operator">&lt;</span> col<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>matrix<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">[</span>r<span class="token punctuation">]</span> <span class="token operator">></span> target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            l<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>matrix<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">[</span>r<span class="token punctuation">]</span> <span class="token operator">&lt;</span> target <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            r<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    searchMatrix <span class="token punctuation">:</span> searchMatrix
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">//  判断数组的长度</span>
+</code></pre>
+<h1 id="在两个长度相等的排序数组中找上中位数"><a href="#在两个长度相等的排序数组中找上中位数" class="headerlink" title="在两个长度相等的排序数组中找上中位数"></a>在两个长度相等的排序数组中找上中位数</h1><p>给定两个有序数组arr1和arr2，已知两个数组的长度都为N，求两个数组中所有数的上中位数。<br>上中位数：假设递增序列长度为n，若n为奇数，则上中位数为第n/2+1个数；否则为第n个数<br>[要求]<br>时间复杂度为O(logN)O(logN)，额外空间复杂度为O(1)O(1)</p>
+<p>[1,2,3,4],[3,4,5,6]<br>3</p>
+<p>[0,1,2],[3,4,5]<br>2</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">/**
+ * find median in two sorted array
+ * @param arr1 int整型一维数组 the array1
+ * @param arr2 int整型一维数组 the array2
+ * @return int整型
+ */</span>
+<span class="token keyword">function</span> <span class="token function">findMedianinTwoSortedAray</span><span class="token punctuation">(</span> arr1 <span class="token punctuation">,</span>  arr2 <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// write code here</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">module</span><span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    findMedianinTwoSortedAray <span class="token punctuation">:</span> findMedianinTwoSortedAray
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+</code></pre>
+]]></content>
   </entry>
   <entry>
     <title>二叉树</title>
@@ -2439,6 +2518,20 @@ list.addEventListener<span class="token punctuation">(</span><span class="token 
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/archives/16107.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external nofollow noopener noreferrer">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external nofollow noopener noreferrer">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external nofollow noopener noreferrer">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class=" language-bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span></code></pre>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external nofollow noopener noreferrer">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class=" language-bash"><code class="language-bash">$ hexo server</code></pre>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external nofollow noopener noreferrer">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class=" language-bash"><code class="language-bash">$ hexo generate</code></pre>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external nofollow noopener noreferrer">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class=" language-bash"><code class="language-bash">$ hexo deploy</code></pre>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="external nofollow noopener noreferrer">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>css总结</title>
     <url>/archives/5aa0734.html</url>
     <content><![CDATA[<h2 id="css新特性"><a href="#css新特性" class="headerlink" title="css新特性"></a>css新特性</h2><p>CSS3<br>    三大特性<br>        覆盖性<br>        继承性<br>        优先级<br>            基本选择器<br>                ID选择器<br>                类选择器<br>                标签选择器<br>                属性选择器<br>            伪类选择器<br>                结构伪类<br>                伪元素<br>            组合选择器<br>                相邻元素选择器<br>                兄弟选择器<br>                子选择器<br>                后代选择器<br>    属性<br>        transform<br>        transition<br>        animation<br>        box-shadow/text-shadow<br>    常见问题<br>        nth-child和nth-of-type<br>        css三大特性<br>            层叠性<br>                css样式冲突<br>                css样式冲突采取的原则，后者覆盖前者<br>            继承性<br>                继承性的样式<br>            常见选择器的叠加值<br>        div宽度100% 设置属性margin-left和margin-right的问题<br>        过渡transition不能给z-index非过渡属性<br>        开启了性能加速的属性<br>        flex：0 1 25%<br>        BFC、IFC</p>
@@ -2455,26 +2548,135 @@ list.addEventListener<span class="token punctuation">(</span><span class="token 
 <span class="token comment" spellcheck="true">/* 当是border-box时候: width:60px height: 40px width包含padding border */</span></code></pre>
 <pre class=" language-HTML"><code class="language-HTML"><div class="box">
 </div></code></pre>
-<h1 id="背景虚化"><a href="#背景虚化" class="headerlink" title="背景虚化"></a>背景虚化</h1>]]></content>
+<h1 id="背景虚化"><a href="#背景虚化" class="headerlink" title="背景虚化"></a>背景虚化</h1><!-- 背景虚化可以使用filter属性 -->
+<p>filter：blur(0.5)</p>
+<h1 id="translate-3D-有什么用"><a href="#translate-3D-有什么用" class="headerlink" title="translate:3D 有什么用"></a>translate:3D 有什么用</h1><p><strong>translate3d()</strong>在3D空间内移动一个元素的位置，有三个矢量位置，x，y，z</p>
+<p>translate3d(tx,ty,tz) 代表立体空间三维向量x，y，z的位置左边 <strong>z轴的值不能是百分比</strong></p>
+<ul>
+<li>GPU硬加速</li>
+<li>css动画</li>
+</ul>
+<p>变换 -y 就是往上 y就是往下变换</p>
+<h1 id="css盒模型-box-sizing"><a href="#css盒模型-box-sizing" class="headerlink" title="css盒模型 box-sizing"></a>css盒模型 box-sizing</h1><p>css盒模型由四块组成： 外边距margin border边框 内边距padding 和content组成 可以设置 min-height max-height box-sizing：border-box背景可以设置 background-clip</p>
+<p>box-sizing: content-box</p>
+<p>width = width + 2padding + 2border</p>
+<p>contentWidth = width</p>
+<p>box-sizing:border-box</p>
+<p>contentWidth = width-2padding-2border</p>
+<h1 id="块级格式化上下文-BFC-和IFC-行级格式化上下文"><a href="#块级格式化上下文-BFC-和IFC-行级格式化上下文" class="headerlink" title="块级格式化上下文 BFC 和IFC 行级格式化上下文"></a>块级格式化上下文 BFC 和IFC 行级格式化上下文</h1><blockquote>
+<p><strong>块级格式化上下文（Block Formatting Context， BFC）</strong>是在页面中一个独立的容器，容器里的元素与容器外的元素互不影响，在一个Web页面的CSS渲染中，块级格式化上下文 (Block Formatting Context)是按照块级盒子布局的。W3C对BFC的定义如下：</p>
+</blockquote>
+<p>浮动元素和绝对定位元素，非块级盒子的块级容器（例如 inline-blocks, table-cells, 和 table-captions），以及overflow值不为“visiable”的块级盒子，都会为他们的内容创建新的BFC（块级格式上下文）。</p>
+<p>BFC是一个独立的布局环境，其中的元素布局是不受外界的影响，并且在一个 BFC 中，块盒与行盒（行盒由一行中所有的内联元素所组成）都会垂直的沿着其父元素的边框排列。</p>
+<p><strong>垂直的沿着父元素的边框排列</strong></p>
+<h2 id="创建块级格式化上下文"><a href="#创建块级格式化上下文" class="headerlink" title="创建块级格式化上下文"></a>创建块级格式化上下文</h2><ul>
+<li>根元素HTML</li>
+<li>浮动元素： float：none</li>
+<li>绝对定位元素： posistion为 absolute和fiexed</li>
+<li>行内块元素 display：inline-block</li>
+<li>表格元素 display：table-cell 和 display：table-caption table-row inline-table</li>
+<li>overflow不为visible</li>
+<li>display：flex或者 display：grid inline-flex inline-grid</li>
+</ul>
+<p><strong>块级格式化上下文</strong>发生的场景</p>
+<ul>
+<li>浮动定位 清除浮动</li>
+<li>垂直边距排列</li>
+<li>边距重叠</li>
+<li>计算高度时，浮动元素也会参与计算</li>
+<li>独立的容器</li>
+</ul>
+<p><strong>作用</strong></p>
+<ul>
+<li>防止边距重叠margin折叠<ul>
+<li>计算规则<ul>
+<li>两个相邻的外边距都是正数，选大的值</li>
+<li>都是负数 两个绝对值的大数</li>
+<li>一正一负，两者相加的和<br>产生折叠的必备条件：margin必须是邻接的!</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre class=" language-CSS"><code class="language-CSS">// html
+<div class="outer">
+  <p>I am paragraph one and I have a margin top and bottom of 20px;</p>
+  <p>I am paragraph one and I have a margin top and bottom of 20px;</p>
+</div>
+
+// css
+.outer {
+  background-color: #ccc;
+  margin: 0 0 40px 0;
+  overflow:auto;
+}
+
+p {
+  padding: 0;
+  margin: 20px 0 20px 0;
+  background-color: rgb(233,78,119);
+  color: #fff;
+}
+
+</code></pre>
+<ul>
+<li>阻止元素被浮动覆盖 典型案例 文字环绕效果</li>
+</ul>
+<pre class=" language-HTML"><code class="language-HTML">
+<div class="outer">
+  <div class="float">I am a floated element.</div>
+  <div>
+  I am text inside a div nested inside the outer box. If there is enough text then the text will wrap around the floated element. The border on the outer will then wrap around the text.
+  </div>
+</div>
+
+<div class="outer">
+  <div class="float">I am a floated element.</div>
+  <div class="text">
+  I am text inside a div nested inside the outer box. I have overflow auto which makes me a BFC and therefore I do not wrap.
+  </div>
+</div></code></pre>
+<pre class=" language-CSS"><code class="language-CSS">* { box-sizing: border-box; }
+
+body {
+  margin: 40px;
+  background-color: #fff;
+  color: #444;
+  font: 1.4em Arial, sans-serif;
+}
+
+.outer {
+  border: 5px dotted rgb(214,129,137);
+  border-radius: 5px;
+  width: 450px;
+  padding: 10px;
+  margin-bottom: 40px;
+}
+
+.float {
+  padding: 10px;
+  border: 5px solid rgba(214,129,137,.4);
+  border-radius: 5px;
+  background-color: rgba(233,78,119,.4);
+  color: #fff;
+  float: left;  
+  width: 200px;
+  margin: 0 20px 0 0;
+}
+
+.text {
+  overflow: auto;
+}
+</code></pre>
+<ul>
+<li>多列布局 两栏布局 三栏布局</li>
+</ul>
+]]></content>
       <categories>
         <category>css</category>
       </categories>
       <tags>
         <tag>css</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/archives/16107.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external nofollow noopener noreferrer">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external nofollow noopener noreferrer">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external nofollow noopener noreferrer">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class=" language-bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external nofollow noopener noreferrer">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class=" language-bash"><code class="language-bash">$ hexo server</code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external nofollow noopener noreferrer">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class=" language-bash"><code class="language-bash">$ hexo generate</code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external nofollow noopener noreferrer">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class=" language-bash"><code class="language-bash">$ hexo deploy</code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="external nofollow noopener noreferrer">Deployment</a></p>
-]]></content>
   </entry>
 </search>

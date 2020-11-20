@@ -77,8 +77,8 @@
   </style>
 </noscript>
 
-<link rel="alternate" href="/atom.xml" title="凌云生的客栈" type="application/atom+xml">
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><link rel="alternate" href="/atom.xml" title="凌云生的客栈" type="application/atom+xml">
+</head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -254,14 +254,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>610</span>
+              <span>3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -287,7 +287,130 @@
 <span class="token comment" spellcheck="true">/* 当是border-box时候: width:60px height: 40px width包含padding border */</span></code></pre>
 <pre class=" language-HTML"><code class="language-HTML"><div class="box">
 </div></code></pre>
-<h1 id="背景虚化"><a href="#背景虚化" class="headerlink" title="背景虚化"></a>背景虚化</h1>
+<h1 id="背景虚化"><a href="#背景虚化" class="headerlink" title="背景虚化"></a>背景虚化</h1><!-- 背景虚化可以使用filter属性 -->
+<p>filter：blur(0.5)</p>
+<h1 id="translate-3D-有什么用"><a href="#translate-3D-有什么用" class="headerlink" title="translate:3D 有什么用"></a>translate:3D 有什么用</h1><p><strong>translate3d()</strong>在3D空间内移动一个元素的位置，有三个矢量位置，x，y，z</p>
+<p>translate3d(tx,ty,tz) 代表立体空间三维向量x，y，z的位置左边 <strong>z轴的值不能是百分比</strong></p>
+<ul>
+<li>GPU硬加速</li>
+<li>css动画</li>
+</ul>
+<p>变换 -y 就是往上 y就是往下变换</p>
+<h1 id="css盒模型-box-sizing"><a href="#css盒模型-box-sizing" class="headerlink" title="css盒模型 box-sizing"></a>css盒模型 box-sizing</h1><p>css盒模型由四块组成： 外边距margin border边框 内边距padding 和content组成 可以设置 min-height max-height box-sizing：border-box背景可以设置 background-clip</p>
+<p>box-sizing: content-box</p>
+<p>width = width + 2padding + 2border</p>
+<p>contentWidth = width</p>
+<p>box-sizing:border-box</p>
+<p>contentWidth = width-2padding-2border</p>
+<h1 id="块级格式化上下文-BFC-和IFC-行级格式化上下文"><a href="#块级格式化上下文-BFC-和IFC-行级格式化上下文" class="headerlink" title="块级格式化上下文 BFC 和IFC 行级格式化上下文"></a>块级格式化上下文 BFC 和IFC 行级格式化上下文</h1><blockquote>
+<p><strong>块级格式化上下文（Block Formatting Context， BFC）</strong>是在页面中一个独立的容器，容器里的元素与容器外的元素互不影响，在一个Web页面的CSS渲染中，块级格式化上下文 (Block Formatting Context)是按照块级盒子布局的。W3C对BFC的定义如下：</p>
+</blockquote>
+<p>浮动元素和绝对定位元素，非块级盒子的块级容器（例如 inline-blocks, table-cells, 和 table-captions），以及overflow值不为“visiable”的块级盒子，都会为他们的内容创建新的BFC（块级格式上下文）。</p>
+<p>BFC是一个独立的布局环境，其中的元素布局是不受外界的影响，并且在一个 BFC 中，块盒与行盒（行盒由一行中所有的内联元素所组成）都会垂直的沿着其父元素的边框排列。</p>
+<p><strong>垂直的沿着父元素的边框排列</strong></p>
+<h2 id="创建块级格式化上下文"><a href="#创建块级格式化上下文" class="headerlink" title="创建块级格式化上下文"></a>创建块级格式化上下文</h2><ul>
+<li>根元素HTML</li>
+<li>浮动元素： float：none</li>
+<li>绝对定位元素： posistion为 absolute和fiexed</li>
+<li>行内块元素 display：inline-block</li>
+<li>表格元素 display：table-cell 和 display：table-caption table-row inline-table</li>
+<li>overflow不为visible</li>
+<li>display：flex或者 display：grid inline-flex inline-grid</li>
+</ul>
+<p><strong>块级格式化上下文</strong>发生的场景</p>
+<ul>
+<li>浮动定位 清除浮动</li>
+<li>垂直边距排列</li>
+<li>边距重叠</li>
+<li>计算高度时，浮动元素也会参与计算</li>
+<li>独立的容器</li>
+</ul>
+<p><strong>作用</strong></p>
+<ul>
+<li>防止边距重叠margin折叠<ul>
+<li>计算规则<ul>
+<li>两个相邻的外边距都是正数，选大的值</li>
+<li>都是负数 两个绝对值的大数</li>
+<li>一正一负，两者相加的和<br>产生折叠的必备条件：margin必须是邻接的!</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre class=" language-CSS"><code class="language-CSS">// html
+<div class="outer">
+  <p>I am paragraph one and I have a margin top and bottom of 20px;</p>
+  <p>I am paragraph one and I have a margin top and bottom of 20px;</p>
+</div>
+
+// css
+.outer {
+  background-color: #ccc;
+  margin: 0 0 40px 0;
+  overflow:auto;
+}
+
+p {
+  padding: 0;
+  margin: 20px 0 20px 0;
+  background-color: rgb(233,78,119);
+  color: #fff;
+}
+
+</code></pre>
+<ul>
+<li>阻止元素被浮动覆盖 典型案例 文字环绕效果</li>
+</ul>
+<pre class=" language-HTML"><code class="language-HTML">
+<div class="outer">
+  <div class="float">I am a floated element.</div>
+  <div>
+  I am text inside a div nested inside the outer box. If there is enough text then the text will wrap around the floated element. The border on the outer will then wrap around the text.
+  </div>
+</div>
+
+<div class="outer">
+  <div class="float">I am a floated element.</div>
+  <div class="text">
+  I am text inside a div nested inside the outer box. I have overflow auto which makes me a BFC and therefore I do not wrap.
+  </div>
+</div></code></pre>
+<pre class=" language-CSS"><code class="language-CSS">* { box-sizing: border-box; }
+
+body {
+  margin: 40px;
+  background-color: #fff;
+  color: #444;
+  font: 1.4em Arial, sans-serif;
+}
+
+.outer {
+  border: 5px dotted rgb(214,129,137);
+  border-radius: 5px;
+  width: 450px;
+  padding: 10px;
+  margin-bottom: 40px;
+}
+
+.float {
+  padding: 10px;
+  border: 5px solid rgba(214,129,137,.4);
+  border-radius: 5px;
+  background-color: rgba(233,78,119,.4);
+  color: #fff;
+  float: left;  
+  width: 200px;
+  margin: 0 20px 0 0;
+}
+
+.text {
+  overflow: auto;
+}
+</code></pre>
+<ul>
+<li>多列布局 两栏布局 三栏布局</li>
+</ul>
+
     </div>
 
     
@@ -376,13 +499,10 @@
 
         
     <div class="post-nav">
+      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/archives/16107.html" rel="prev" title="Hello World">
-      <i class="fa fa-chevron-left"></i> Hello World
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/archives/dcb458b8.html" rel="next" title="路由在前端有什么特殊意义">
-      路由在前端有什么特殊意义 <i class="fa fa-chevron-right"></i>
+    <a href="/archives/16107.html" rel="next" title="Hello World">
+      Hello World <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -443,7 +563,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#css新特性"><span class="nav-text">css新特性</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#红色区域的面积"><span class="nav-text">红色区域的面积</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景虚化"><span class="nav-text">背景虚化</span></a></li></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#css新特性"><span class="nav-text">css新特性</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#红色区域的面积"><span class="nav-text">红色区域的面积</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景虚化"><span class="nav-text">背景虚化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#translate-3D-有什么用"><span class="nav-text">translate:3D 有什么用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#css盒模型-box-sizing"><span class="nav-text">css盒模型 box-sizing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#块级格式化上下文-BFC-和IFC-行级格式化上下文"><span class="nav-text">块级格式化上下文 BFC 和IFC 行级格式化上下文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建块级格式化上下文"><span class="nav-text">创建块级格式化上下文</span></a></li></ol></li></div>
       </div>
       <!--/noindex-->
 
@@ -458,7 +578,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -518,12 +638,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">48k</span>
+    <span title="站点总字数">51k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">43 分钟</span>
+    <span title="站点阅读时长">46 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
