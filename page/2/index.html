@@ -72,8 +72,8 @@
   </style>
 </noscript>
 
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><link rel="alternate" href="/atom.xml" title="凌云生的客栈" type="application/atom+xml">
-</head>
+<link rel="alternate" href="/atom.xml" title="凌云生的客栈" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -179,6 +179,387 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lingyunsheng.cn/archives/2240.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="lingyunsheng">
+      <meta itemprop="description" content>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凌云生的客栈">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/2240.html" class="post-title-link" itemprop="url">Git以及工作流程</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-17 09:16:50 / 修改时间：09:56:46" itemprop="dateCreated datePublished" datetime="2020-11-17T09:16:50+08:00">2020-11-17</time>
+            </span>
+
+          
+          
+          <br>
+            <span id="/archives/2240.html" class="post-meta-item leancloud_visitors" data-flag-title="Git以及工作流程" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/2240.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/2240.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h1><blockquote>
+<p>不管多人协作还是一个人开发在使用git时都需要一套流程规范来执行</p>
+</blockquote>
+<ul>
+<li>git flow</li>
+</ul>
+<p>目前我所在公司是采用的多分枝开发，有的是采用单一master开发，submodule的方式，有的公司一个分支一个项目</p>
+<p>开发环境的区分分为： 生产环境（线上环境）、预发布环境、测试环境、开发环境（本地）<br>沙盒环境，基于DOcker前后端根据每一个commit发布</p>
+<p>可以选择性的提交单个文件 git stash</p>
+<p><strong>git stash</strong></p>
+<p>git stash 用于保存当前的修改，回到上一次的提交，将当前的更改存到本地，切换到<strong>HEAD</strong>提交</p>
+<p>通过git stash存储的修改列表,可以通过git stash list查看.git stash show用于校验,git stash apply用于重新存储.直接执行git stash等同于git stash save.</p>
+<p>最新的存储保存在refs/stash中.老的存储可以通过相关的参数获得,例如stash@{0}获取最新的存储,stash@{1}获取次新.stash@{2.hour.ago}获取两小时之前的.存储可以直接通过索引的位置来获得stash@{n}.</p>
+<p>git stash的每个存储单元在工作仓库中是通过commit的形式由树结构展示的.它的根节点是HEAD所在的提交.以下图标来表示stash和branch的关系.</p>
+<p><strong>git stash的应用常见</strong></p>
+<ul>
+<li><p>开发到一般，需要同步远端代码，没有冲突直接git pull 有冲突</p>
+<ul>
+<li>先保存本地代码 git stash</li>
+<li>进行pull</li>
+<li>将本地代码添加到最新代码后 git stash pop</li>
+</ul>
+</li>
+<li><p>工作流被打断，做其他需求</p>
+<ul>
+<li>方法一<ul>
+<li>创建一个新分支 当前代码提交过去再merge <pre class=" language-ts"><code class="language-ts">   git checkout <span class="token operator">-</span>b dev<span class="token operator">-</span>master
+   git commit <span class="token operator">-</span>m <span class="token operator">-</span>a <span class="token string">'update'</span>
+   git checkout master
+   git commit <span class="token operator">-</span>m <span class="token operator">-</span>a <span class="token string">'fix'</span>
+   git reset <span class="token operator">--</span>soft HEAD<span class="token operator">^</span>  
+   <span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span> 返回上一次回滚 <span class="token operator">--</span><span class="token operator">></span>
+   git reset <span class="token operator">--</span>hasr <span class="token operator">^</span>HEAD<span class="token operator">^</span>  
+   git reflog 查看当前的</code></pre>
+<ul>
+<li>方法二git stash</li>
+</ul>
+</li>
+<li>保存开发一半的代码  git stash</li>
+<li>提交到缓存区 git commit -a -m ‘sss’</li>
+<li>git stash pop // 将代码追加到最新提交后</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>提交特定文件，修改了多个文件，只想提交几个文件，先暂存修改 使用<strong>git stash save –keep-index</strong></p>
+<ul>
+<li>将第一部分加入管理the index  git add –patch foo</li>
+<li>其余部分保存下来 git stash  save –key-index</li>
+<li>提交全部git管理的代码 gitcommit -m ‘save’</li>
+<li>继续进行存储的工作 git stash pop</li>
+</ul>
+</li>
+<li><p>恢复被错误<strong>clear/drop</strong>的存储</p>
+</li>
+</ul>
+<p><strong>git commit</strong></p>
+<p>项目提交的描述如果没有一定的规范，随性而为的话，就会让其它人误解。通常提交采用英文作为描述，可以多行文字。在社区中有很多流行的方案(比如Conventional Commit)，更多的是采用Angular的方式。</p>
+<p><strong>Change Log</strong></p>
+<p>如果采用了社区统一的commit方式，那么我们就可以基于提交来生成变更记录，在每一次版本发布时自动关联Jira中的Issue。</p>
+<p><strong>版本号生成</strong></p>
+<p>这个通常是按照Semantic Versioning的规范来打tag，具休怎么做可以自行尝试</p>
+<p>在项目中通常使用gitHooks和husky这二个node包来配置上面提到的这些。在git钩子中我们在每次提交、push前跑一次单元测试、代码覆盖率。前端代码覆盖率一般来说没有必要加，不然很痛苦。</p>
+<pre class=" language-JSON"><code class="language-JSON">{
+  "name": "your-project-name",
+  "version": "0.1.0",
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint --no-fix",
+    "stylelint": "stylelint src/**/*.{scss,css,less,css,vue,jsx} --fix",
+    "eslint": "eslint --ext .js,.jsx,.vue src --fix",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.transsion.com/mi/mi-bigdata-admin.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "babel-eslint": "^10.0.1",
+    "conventional-changelog-cli": "^2.0.23",
+    "eslint": "^6.2.1",
+    "eslint-plugin-vue": "^5.2.3",
+    "husky": "^3.0.4",
+    "lint-staged": "^9.2.3",
+    "stylelint": "^10.1.0",
+    "stylelint-config-standard": "^18.3.0",
+    "stylelint-scss": "^3.9.4",
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "vue-cli-service lint",
+      "eslint --fix --ext .js,.vue src",
+      "git add"
+    ],
+    "*.{css,scss,less,vue}": [
+      "stylelint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}</code></pre>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// 创建一个本地的开发分支</span>
+git checkout <span class="token operator">-</span>b local<span class="token operator">-</span>develop
+
+git branch local<span class="token operator">-</span>develop
+
+<span class="token comment" spellcheck="true">//  推送到远程 本地和远程同步</span>
+git push <span class="token operator">-</span>u origin local<span class="token operator">-</span>develop
+
+<span class="token comment" spellcheck="true">//  也可以这样写</span>
+
+git checout <span class="token operator">-</span>b local<span class="token operator">-</span>develop origin<span class="token operator">/</span>local<span class="token operator">-</span>develop
+
+
+</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+	    
+    </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lingyunsheng.cn/archives/24710.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="lingyunsheng">
+      <meta itemprop="description" content>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凌云生的客栈">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/archives/24710.html" class="post-title-link" itemprop="url">核心框架原理与进阶</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-17 08:50:21 / 修改时间：13:09:10" itemprop="dateCreated datePublished" datetime="2020-11-17T08:50:21+08:00">2020-11-17</time>
+            </span>
+
+          
+          
+          <br>
+            <span id="/archives/24710.html" class="post-meta-item leancloud_visitors" data-flag-title="核心框架原理与进阶" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/24710.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/24710.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vue-js-原理深度剖析"><a href="#Vue-js-原理深度剖析" class="headerlink" title="Vue.js 原理深度剖析"></a>Vue.js 原理深度剖析</h1><p>Vue.js是构建用户视图渐进式的SPA框架，核心原理就是响应式双向绑定的原理 MVVM</p>
+<pre class=" language-ts"><code class="language-ts">computed<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    fullName<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token keyword">get</span><span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>firstName <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>lastName
+        <span class="token punctuation">}</span>
+        <span class="token keyword">set</span><span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">var</span> names <span class="token operator">=</span> newValue<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>firstName <span class="token operator">=</span> names<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>lastName <span class="token operator">=</span> names<span class="token punctuation">[</span>names<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="v-mode原理-双向绑定"><a href="#v-mode原理-双向绑定" class="headerlink" title="v-mode原理 双向绑定"></a>v-mode原理 双向绑定</h1><p>v-model本质是一个语法糖<br>， 使用v-model绑定数据，绑定了数据，又添加了一个input事件监听, 监听用户输入的事件 更新数据</p>
+<p>自定义事件可以用于创建支持<strong>v-model</strong>的自定义输入组件</p>
+<p>v-bind绑定数据 v-bind:value=”searchText”<br>再添加一个input事件监听 v-on:input=”search=$event.target.value”</p>
+<pre class=" language-HTML"><code class="language-HTML"><input v-model="searchText">
+
+等价于：
+
+<input v-bind:value="searchText" v-on:input="searchText = $event.target.value">
+
+<!-- 组件上使用v-model -->
+<validate-input v-bind：value="value" v-on:input="searchText =$event.target.value">
+</validate-input>
+
+<validate-input v-model="value"></validate-input></code></pre>
+<h2 id="响应式原理"><a href="#响应式原理" class="headerlink" title="响应式原理"></a>响应式原理</h2><p>追踪数据的变化，vue2是Object.defineProperty, vue3使用proxy</p>
+<p>当把一个JavaScript对象传入vue实例作为data选项，vue遍历对象</p>
+<p>创建一个Observer监听器 监听数据的变更<br>所以的property， 并使用<strong>Object.defineProperty</strong>将这些property转化为getter/setter</p>
+<p>setter/getter在property被访问和修改时通知变更</p>
+<p>每个组件实例 对应着一**watcher++实例，组件渲染接触到property作为依赖，当setter触发时 watcher变更</p>
+<p>检测变化的注意事项<br>由于 JavaScript 的限制，Vue 不能检测数组和对象的变化。尽管如此我们还是有一些办法来回避这些限制并保证它们的响应性。</p>
+<p>deep监听深度</p>
+<p>immediate 为true 先进入watch的 handler事件</p>
+<img data-src="https://cn.vuejs.org/images/data.png">
+
+
+<p><strong>vue data必须是一个函数</strong></p>
+<p>每一个组件都是Vue的实例，JS的实力是通过构造函数创建，每个构造函数可以<br><strong>new</strong>出很多个实例，每个实例都会继承原型上的方法或属性</p>
+<p>vue中的data数据就是<strong>vue</strong>原型上的属性，如果data是一个对象的话</p>
+<p>那么会影响到其他组件数据 data是一个函数时，只是改变这个内存地址的数据</p>
+<h1 id="Vue-js-框架基础回顾"><a href="#Vue-js-框架基础回顾" class="headerlink" title="Vue.js 框架基础回顾"></a>Vue.js 框架基础回顾</h1><h1 id="Vue-CLI-基础设施深度解剖"><a href="#Vue-CLI-基础设施深度解剖" class="headerlink" title="Vue CLI 基础设施深度解剖"></a>Vue CLI 基础设施深度解剖</h1><h1 id="数据响应式实现原理分析"><a href="#数据响应式实现原理分析" class="headerlink" title="数据响应式实现原理分析"></a>数据响应式实现原理分析</h1><h1 id="虚拟-DOM-和-Diff-算法的实现"><a href="#虚拟-DOM-和-Diff-算法的实现" class="headerlink" title="虚拟 DOM 和 Diff 算法的实现"></a>虚拟 DOM 和 Diff 算法的实现</h1><h1 id="模板编译模块的实现原理"><a href="#模板编译模块的实现原理" class="headerlink" title="模板编译模块的实现原理"></a>模板编译模块的实现原理</h1><h1 id="Vue-Router-源码剖析"><a href="#Vue-Router-源码剖析" class="headerlink" title="Vue Router 源码剖析"></a>Vue Router 源码剖析</h1><h1 id="Vue-js-高级与进阶"><a href="#Vue-js-高级与进阶" class="headerlink" title="Vue.js 高级与进阶"></a>Vue.js 高级与进阶</h1><h1 id="封装自己的-Vue-组件库"><a href="#封装自己的-Vue-组件库" class="headerlink" title="封装自己的 Vue 组件库"></a>封装自己的 Vue 组件库</h1><h1 id="Vue-项目性能优化"><a href="#Vue-项目性能优化" class="headerlink" title="Vue 项目性能优化"></a>Vue 项目性能优化</h1><h1 id="Vuex-数据流管理方案"><a href="#Vuex-数据流管理方案" class="headerlink" title="Vuex 数据流管理方案"></a>Vuex 数据流管理方案</h1><h1 id="使用-TypeScript-开发-Vue-js-应用"><a href="#使用-TypeScript-开发-Vue-js-应用" class="headerlink" title="使用 TypeScript 开发 Vue.js 应用"></a>使用 TypeScript 开发 Vue.js 应用</h1><h1 id="原生服务端渲染（SSR）的实现、同构开发"><a href="#原生服务端渲染（SSR）的实现、同构开发" class="headerlink" title="原生服务端渲染（SSR）的实现、同构开发"></a>原生服务端渲染（SSR）的实现、同构开发</h1><h1 id="Nuxt-js-集成式-SSR-框架"><a href="#Nuxt-js-集成式-SSR-框架" class="headerlink" title="Nuxt.js 集成式 SSR 框架"></a>Nuxt.js 集成式 SSR 框架</h1><h1 id="静态站点生成（SSG）方案及-Gridsome"><a href="#静态站点生成（SSG）方案及-Gridsome" class="headerlink" title="静态站点生成（SSG）方案及 Gridsome"></a>静态站点生成（SSG）方案及 Gridsome</h1><h1 id="Vue-js-3-0-设计和用法的变化以及优势"><a href="#Vue-js-3-0-设计和用法的变化以及优势" class="headerlink" title="Vue.js 3.0 设计和用法的变化以及优势"></a>Vue.js 3.0 设计和用法的变化以及优势</h1><h1 id="Vue-js-3-0-Composition-APIs"><a href="#Vue-js-3-0-Composition-APIs" class="headerlink" title="Vue.js 3.0 Composition APIs"></a>Vue.js 3.0 Composition APIs</h1><h1 id="Vue-js-Vue-Router-Vuex-TypeScript-实战项目开发"><a href="#Vue-js-Vue-Router-Vuex-TypeScript-实战项目开发" class="headerlink" title="Vue.js + Vue Router + Vuex + TypeScript 实战项目开发"></a>Vue.js + Vue Router + Vuex + TypeScript 实战项目开发</h1><h2 id="使用vue后怎么针对搜索引擎做SEO优化"><a href="#使用vue后怎么针对搜索引擎做SEO优化" class="headerlink" title="使用vue后怎么针对搜索引擎做SEO优化"></a>使用vue后怎么针对搜索引擎做SEO优化</h2><ul>
+<li>nuxt服务端渲染框架</li>
+<li>ssr 服务端渲染框架</li>
+<li>phantom.js 针对爬虫做处理 动态更改meta</li>
+<li>vue-meta-info 与prerender-spa-plugin 预渲染</li>
+</ul>
+<h1 id="react和vue的对比比较"><a href="#react和vue的对比比较" class="headerlink" title="react和vue的对比比较"></a>react和vue的对比比较</h1><h2 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h2><ul>
+<li>使用 Virtual DOM</li>
+<li>提供了响应式 (Reactive) 和组件化 (Composable) 的视图组件。</li>
+<li>将注意力集中保持在核心库，而将其他功能如路由和全局状态管理交给相关的库。</li>
+</ul>
+<h1 id="React-设计原理解密"><a href="#React-设计原理解密" class="headerlink" title="React 设计原理解密"></a>React 设计原理解密</h1><h1 id="React-框架基础回顾、JSX-语法"><a href="#React-框架基础回顾、JSX-语法" class="headerlink" title="React 框架基础回顾、JSX 语法"></a>React 框架基础回顾、JSX 语法</h1><h1 id="分析-Virtual-DOM-目的及实现原理"><a href="#分析-Virtual-DOM-目的及实现原理" class="headerlink" title="分析 Virtual-DOM 目的及实现原理"></a>分析 Virtual-DOM 目的及实现原理</h1><h1 id="React-核心算法：Fiber"><a href="#React-核心算法：Fiber" class="headerlink" title="React 核心算法：Fiber"></a>React 核心算法：Fiber</h1><h1 id="React-框架的设计哲学"><a href="#React-框架的设计哲学" class="headerlink" title="React 框架的设计哲学"></a>React 框架的设计哲学</h1><h1 id="React-框架核心源码解读"><a href="#React-框架核心源码解读" class="headerlink" title="React 框架核心源码解读"></a>React 框架核心源码解读</h1><h1 id="React-进阶与实战"><a href="#React-进阶与实战" class="headerlink" title="React 进阶与实战"></a>React 进阶与实战</h1><h1 id="封装-React-自定义组件库"><a href="#封装-React-自定义组件库" class="headerlink" title="封装 React 自定义组件库"></a>封装 React 自定义组件库</h1><h1 id="React-组件的性能优化"><a href="#React-组件的性能优化" class="headerlink" title="React 组件的性能优化"></a>React 组件的性能优化</h1><h1 id="受控和非受控组件的选用标准"><a href="#受控和非受控组件的选用标准" class="headerlink" title="受控和非受控组件的选用标准"></a>受控和非受控组件的选用标准</h1><h1 id="React-组件的自动化测试"><a href="#React-组件的自动化测试" class="headerlink" title="React 组件的自动化测试"></a>React 组件的自动化测试</h1><h1 id="React-16-8-Hooks-特性的使用以及实现原理分析"><a href="#React-16-8-Hooks-特性的使用以及实现原理分析" class="headerlink" title="React 16.8 Hooks 特性的使用以及实现原理分析"></a>React 16.8 Hooks 特性的使用以及实现原理分析</h1><h1 id="CSS-in-JS-方案以及-emotion-库"><a href="#CSS-in-JS-方案以及-emotion-库" class="headerlink" title="CSS-in-JS 方案以及 emotion 库"></a>CSS-in-JS 方案以及 emotion 库</h1><h1 id="现代化-React-应用-UI-框架-Chakra-UI"><a href="#现代化-React-应用-UI-框架-Chakra-UI" class="headerlink" title="现代化 React 应用 UI 框架 Chakra-UI"></a>现代化 React 应用 UI 框架 Chakra-UI</h1><h1 id="使用-TypeScript-开发-React-应用"><a href="#使用-TypeScript-开发-React-应用" class="headerlink" title="使用 TypeScript 开发 React 应用"></a>使用 TypeScript 开发 React 应用</h1><h1 id="React-数据流方案：Redux、Mobx"><a href="#React-数据流方案：Redux、Mobx" class="headerlink" title="React 数据流方案：Redux、Mobx"></a>React 数据流方案：Redux、Mobx</h1><h1 id="Redux-常用中间件以及中间件的开发"><a href="#Redux-常用中间件以及中间件的开发" class="headerlink" title="Redux 常用中间件以及中间件的开发"></a>Redux 常用中间件以及中间件的开发</h1><h1 id="原生服务端渲染（SSR）的实现、同构开发-1"><a href="#原生服务端渲染（SSR）的实现、同构开发-1" class="headerlink" title="原生服务端渲染（SSR）的实现、同构开发"></a>原生服务端渲染（SSR）的实现、同构开发</h1><h1 id="Next-js-集成式-SSR-框架"><a href="#Next-js-集成式-SSR-框架" class="headerlink" title="Next.js 集成式 SSR 框架"></a>Next.js 集成式 SSR 框架</h1><h1 id="Next-js-集成式-SSR-框架-1"><a href="#Next-js-集成式-SSR-框架-1" class="headerlink" title="Next.js 集成式 SSR 框架"></a>Next.js 集成式 SSR 框架</h1><h1 id="静态站点生成（SSG）方案及-Gatsby-框架"><a href="#静态站点生成（SSG）方案及-Gatsby-框架" class="headerlink" title="静态站点生成（SSG）方案及 Gatsby 框架"></a>静态站点生成（SSG）方案及 Gatsby 框架</h1><h1 id="React-React-Router-Redux-Ant-Design-TypeScript-实战"><a href="#React-React-Router-Redux-Ant-Design-TypeScript-实战" class="headerlink" title="React + React Router + Redux + Ant Design + TypeScript 实战"></a>React + React Router + Redux + Ant Design + TypeScript 实战</h1>
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+	    
+    </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -2721,363 +3102,10 @@ list.addEventListener<span class="token punctuation">(</span><span class="token 
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://lingyunsheng.cn/archives/5aa0734.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="lingyunsheng">
-      <meta itemprop="description" content>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="凌云生的客栈">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/5aa0734.html" class="post-title-link" itemprop="url">css总结</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-02-05 11:15:49" itemprop="dateCreated datePublished" datetime="2019-02-05T11:15:49+08:00">2019-02-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index"><span itemprop="name">css</span></a>
-                </span>
-            </span>
-
-          
-          
-          <br>
-            <span id="/archives/5aa0734.html" class="post-meta-item leancloud_visitors" data-flag-title="css总结" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/archives/5aa0734.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/archives/5aa0734.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="css新特性"><a href="#css新特性" class="headerlink" title="css新特性"></a>css新特性</h2><p>CSS3<br>    三大特性<br>        覆盖性<br>        继承性<br>        优先级<br>            基本选择器<br>                ID选择器<br>                类选择器<br>                标签选择器<br>                属性选择器<br>            伪类选择器<br>                结构伪类<br>                伪元素<br>            组合选择器<br>                相邻元素选择器<br>                兄弟选择器<br>                子选择器<br>                后代选择器<br>    属性<br>        transform<br>        transition<br>        animation<br>        box-shadow/text-shadow<br>    常见问题<br>        nth-child和nth-of-type<br>        css三大特性<br>            层叠性<br>                css样式冲突<br>                css样式冲突采取的原则，后者覆盖前者<br>            继承性<br>                继承性的样式<br>            常见选择器的叠加值<br>        div宽度100% 设置属性margin-left和margin-right的问题<br>        过渡transition不能给z-index非过渡属性<br>        开启了性能加速的属性<br>        flex：0 1 25%<br>        BFC、IFC</p>
-<h1 id="红色区域的面积"><a href="#红色区域的面积" class="headerlink" title="红色区域的面积"></a>红色区域的面积</h1><pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.box</span> </span><span class="token punctuation">{</span>
-   <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
-   <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">80</span>px<span class="token punctuation">;</span>
-   <span class="token property">background</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
-   <span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">20</span>px solid <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
-   <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">20</span>px<span class="token punctuation">;</span>
-   <span class="token property">margin</span><span class="token punctuation">:</span> <span class="token number">20</span>px<span class="token punctuation">;</span>
-   <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">/* 当是默认的content-box width： 180px height: 160px width就是内容的宽高，不包含padding border*/</span>
-<span class="token comment" spellcheck="true">/* 当是border-box时候: width:60px height: 40px width包含padding border */</span></code></pre>
-<pre class=" language-HTML"><code class="language-HTML"><div class="box">
-</div></code></pre>
-<h1 id="背景虚化"><a href="#背景虚化" class="headerlink" title="背景虚化"></a>背景虚化</h1><!-- 背景虚化可以使用filter属性 -->
-<p>filter：blur(0.5)</p>
-<h1 id="translate-3D-有什么用"><a href="#translate-3D-有什么用" class="headerlink" title="translate:3D 有什么用"></a>translate:3D 有什么用</h1><p><strong>translate3d()</strong>在3D空间内移动一个元素的位置，有三个矢量位置，x，y，z</p>
-<p>translate3d(tx,ty,tz) 代表立体空间三维向量x，y，z的位置左边 <strong>z轴的值不能是百分比</strong></p>
-<ul>
-<li>GPU硬加速</li>
-<li>css动画</li>
-</ul>
-<p>变换 -y 就是往上 y就是往下变换</p>
-<h1 id="css盒模型-box-sizing"><a href="#css盒模型-box-sizing" class="headerlink" title="css盒模型 box-sizing"></a>css盒模型 box-sizing</h1><p>css盒模型由四块组成： 外边距margin border边框 内边距padding 和content组成 可以设置 min-height max-height box-sizing：border-box背景可以设置 background-clip</p>
-<p>box-sizing: content-box</p>
-<p>width = width + 2padding + 2border</p>
-<p>contentWidth = width</p>
-<p>box-sizing:border-box</p>
-<p>contentWidth = width-2padding-2border</p>
-<h1 id="块级格式化上下文-BFC-和IFC-行级格式化上下文"><a href="#块级格式化上下文-BFC-和IFC-行级格式化上下文" class="headerlink" title="块级格式化上下文 BFC 和IFC 行级格式化上下文"></a>块级格式化上下文 BFC 和IFC 行级格式化上下文</h1><blockquote>
-<p><strong>块级格式化上下文（Block Formatting Context， BFC）</strong>是在页面中一个独立的容器，容器里的元素与容器外的元素互不影响，在一个Web页面的CSS渲染中，块级格式化上下文 (Block Formatting Context)是按照块级盒子布局的。W3C对BFC的定义如下：</p>
-</blockquote>
-<p>浮动元素和绝对定位元素，非块级盒子的块级容器（例如 inline-blocks, table-cells, 和 table-captions），以及overflow值不为“visiable”的块级盒子，都会为他们的内容创建新的BFC（块级格式上下文）。</p>
-<p>BFC是一个独立的布局环境，其中的元素布局是不受外界的影响，并且在一个 BFC 中，块盒与行盒（行盒由一行中所有的内联元素所组成）都会垂直的沿着其父元素的边框排列。</p>
-<p><strong>垂直的沿着父元素的边框排列</strong></p>
-<h2 id="创建块级格式化上下文"><a href="#创建块级格式化上下文" class="headerlink" title="创建块级格式化上下文"></a>创建块级格式化上下文</h2><ul>
-<li>根元素HTML</li>
-<li>浮动元素： float：none</li>
-<li>绝对定位元素： posistion为 absolute和fiexed</li>
-<li>行内块元素 display：inline-block</li>
-<li>表格元素 display：table-cell 和 display：table-caption table-row inline-table</li>
-<li>overflow不为visible</li>
-<li>display：flex或者 display：grid inline-flex inline-grid</li>
-</ul>
-<p><strong>块级格式化上下文</strong>发生的场景</p>
-<ul>
-<li>浮动定位 清除浮动</li>
-<li>垂直边距排列</li>
-<li>边距重叠</li>
-<li>计算高度时，浮动元素也会参与计算</li>
-<li>独立的容器</li>
-</ul>
-<p><strong>作用</strong></p>
-<ul>
-<li>防止边距重叠margin折叠<ul>
-<li>计算规则<ul>
-<li>两个相邻的外边距都是正数，选大的值</li>
-<li>都是负数 两个绝对值的大数</li>
-<li>一正一负，两者相加的和<br>产生折叠的必备条件：margin必须是邻接的!</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<pre class=" language-CSS"><code class="language-CSS">// html
-<div class="outer">
-  <p>I am paragraph one and I have a margin top and bottom of 20px;</p>
-  <p>I am paragraph one and I have a margin top and bottom of 20px;</p>
-</div>
-
-// css
-.outer {
-  background-color: #ccc;
-  margin: 0 0 40px 0;
-  overflow:auto;
-}
-
-p {
-  padding: 0;
-  margin: 20px 0 20px 0;
-  background-color: rgb(233,78,119);
-  color: #fff;
-}
-
-</code></pre>
-<ul>
-<li>阻止元素被浮动覆盖 典型案例 文字环绕效果</li>
-</ul>
-<pre class=" language-HTML"><code class="language-HTML">
-<div class="outer">
-  <div class="float">I am a floated element.</div>
-  <div>
-  I am text inside a div nested inside the outer box. If there is enough text then the text will wrap around the floated element. The border on the outer will then wrap around the text.
-  </div>
-</div>
-
-<div class="outer">
-  <div class="float">I am a floated element.</div>
-  <div class="text">
-  I am text inside a div nested inside the outer box. I have overflow auto which makes me a BFC and therefore I do not wrap.
-  </div>
-</div></code></pre>
-<pre class=" language-CSS"><code class="language-CSS">* { box-sizing: border-box; }
-
-body {
-  margin: 40px;
-  background-color: #fff;
-  color: #444;
-  font: 1.4em Arial, sans-serif;
-}
-
-.outer {
-  border: 5px dotted rgb(214,129,137);
-  border-radius: 5px;
-  width: 450px;
-  padding: 10px;
-  margin-bottom: 40px;
-}
-
-.float {
-  padding: 10px;
-  border: 5px solid rgba(214,129,137,.4);
-  border-radius: 5px;
-  background-color: rgba(233,78,119,.4);
-  color: #fff;
-  float: left;  
-  width: 200px;
-  margin: 0 20px 0 0;
-}
-
-.text {
-  overflow: auto;
-}
-</code></pre>
-<ul>
-<li>多列布局 两栏布局 三栏布局</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	    
-    </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://lingyunsheng.cn/archives/16107.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="lingyunsheng">
-      <meta itemprop="description" content>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="凌云生的客栈">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/archives/16107.html" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-02-05 11:15:49" itemprop="dateCreated datePublished" datetime="2019-02-05T11:15:49+08:00">2019-02-05</time>
-            </span>
-
-          
-          
-          <br>
-            <span id="/archives/16107.html" class="post-meta-item leancloud_visitors" data-flag-title="Hello World" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/archives/16107.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/archives/16107.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>363</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external nofollow noopener noreferrer">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external nofollow noopener noreferrer">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external nofollow noopener noreferrer">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class=" language-bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external nofollow noopener noreferrer">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class=" language-bash"><code class="language-bash">$ hexo server</code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external nofollow noopener noreferrer">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class=" language-bash"><code class="language-bash">$ hexo generate</code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external nofollow noopener noreferrer">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class=" language-bash"><code class="language-bash">$ hexo deploy</code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="external nofollow noopener noreferrer">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	    
-    </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -3144,7 +3172,7 @@ body {
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -3204,12 +3232,12 @@ body {
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">70k</span>
+    <span title="站点总字数">76k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:04</span>
+    <span title="站点阅读时长">1:09</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

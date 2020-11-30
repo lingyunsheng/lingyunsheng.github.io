@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lingyunsheng.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#836FFF","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="学习GO语言1.1 起源与发展Go语言起源2007年，2009年对外正式发布，谷歌公司研发的，这是一个由计算机领域 “发明之父” 所组成的黄金团队，他们对系统编程语言，操作系统和并行都有着非常深刻的见解 Go语言官网：https:&#x2F;&#x2F;golang.org&#x2F; 开源社区： http:&#x2F;&#x2F;go-lang.cat-v.org&#x2F; 搜索工具：https:&#x2F;&#x2F;gowalker.org&#x2F; 时间轴  2007 年">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go语言">
+<meta property="og:url" content="http://lingyunsheng.cn/archives/197.html">
+<meta property="og:site_name" content="凌云生的客栈">
+<meta property="og:description" content="学习GO语言1.1 起源与发展Go语言起源2007年，2009年对外正式发布，谷歌公司研发的，这是一个由计算机领域 “发明之父” 所组成的黄金团队，他们对系统编程语言，操作系统和并行都有着非常深刻的见解 Go语言官网：https:&#x2F;&#x2F;golang.org&#x2F; 开源社区： http:&#x2F;&#x2F;go-lang.cat-v.org&#x2F; 搜索工具：https:&#x2F;&#x2F;gowalker.org&#x2F; 时间轴  2007 年">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-30T03:13:43.000Z">
+<meta property="article:modified_time" content="2020-11-30T06:22:27.666Z">
+<meta property="article:author" content="lingyunsheng">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://lingyunsheng.cn/archives/197.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>go语言 | 凌云生的客栈</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="凌云生的客栈" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凌云生的客栈</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lingyunsheng.cn/archives/197.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="lingyunsheng">
+      <meta itemprop="description" content>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凌云生的客栈">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          go语言
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-30 11:13:43 / 修改时间：14:22:27" itemprop="dateCreated datePublished" datetime="2020-11-30T11:13:43+08:00">2020-11-30</time>
+            </span>
+
+          
+          
+          <br>
+            <span id="/archives/197.html" class="post-meta-item leancloud_visitors" data-flag-title="go语言" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/197.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/197.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="学习GO语言"><a href="#学习GO语言" class="headerlink" title="学习GO语言"></a>学习GO语言</h1><h2 id="1-1-起源与发展"><a href="#1-1-起源与发展" class="headerlink" title="1.1 起源与发展"></a>1.1 起源与发展</h2><p>Go语言起源2007年，2009年对外正式发布，谷歌公司研发的，<br><strong>这是一个由计算机领域 “发明之父” 所组成的黄金团队，他们对系统编程语言，操作系统和并行都有着非常深刻的见解</strong></p>
+<p>Go语言官网：<a href="https://golang.org/" target="_blank" rel="external nofollow noopener noreferrer">https://golang.org/</a></p>
+<p>开源社区： <a href="http://go-lang.cat-v.org/" target="_blank" rel="external nofollow noopener noreferrer">http://go-lang.cat-v.org/</a></p>
+<p>搜索工具：<a href="https://gowalker.org/" target="_blank" rel="external nofollow noopener noreferrer">https://gowalker.org/</a></p>
+<p><strong>时间轴</strong></p>
+<ul>
+<li>2007 年 9 月 21 日：雏形设计</li>
+<li>2009 年 11 月 10日：首次公开发布</li>
+<li>2010 年 1 月 8 日：当选 2009 年年度语言</li>
+<li>2010 年 5 月：谷歌投入使用</li>
+<li>2011 年 5 月 5 日：Google App Engine 支持 Go 语言</li>
+</ul>
+<h2 id="1-2-语言的主要特性与发展的环境和影响因素"><a href="#1-2-语言的主要特性与发展的环境和影响因素" class="headerlink" title="1.2 语言的主要特性与发展的环境和影响因素"></a>1.2 语言的主要特性与发展的环境和影响因素</h2><h3 id="1-2-1-Go语言与C-C-Java关系"><a href="#1-2-1-Go语言与C-C-Java关系" class="headerlink" title="1.2.1 Go语言与C/C++/Java关系"></a>1.2.1 Go语言与C/C++/Java关系</h3><p>正如 “21 世纪的 C 语言” 这句话所说，Go 语言并不是凭空而造的，而是和 C++、Java 和 C# 一样属于 C 系。不仅如此，设计者们还汲取了其它编程语言的精粹部分融入到 Go 语言当中。</p>
+<p>在声明和包的设计方面，Go 语言受到 Pascal、Modula 和 Oberon 系语言的影响；在并发原理的设计上，Go 语言从同样受到 Tony Hoare 的 CSP（通信序列进程 Communicating Sequential Processes）理论影响的 Limbo 和 Newsqueak 的实践中借鉴了一些经验，并使用了和 Erlang 类似的机制。</p>
+<p>这是一门完全开源的编程语言，因为它使用 BSD 授权许可，所以任何人都可以进行商业软件的开发而不需要支付任何费用。</p>
+<p>尽管为了能够让目前主流的开发者们能够对 Go 语言中的类 C 语言的语法感到非常亲切而易于转型，但是它在极大程度上简化了这些语法，使得它们比 C/C++ 的语法更加简洁和干净。同时，Go 语言也拥有一些动态语言的特性，这使得使用 Python 和 Ruby 的开发者们在使用 Go 语言的时候感觉非常容易上手。</p>
+<p>下图展示了一些其它编程语言对 Go 语言的影响：</p>
+<h3 id="1-2-2-go语言的出现"><a href="#1-2-2-go语言的出现" class="headerlink" title="1.2.2 go语言的出现"></a>1.2.2 go语言的出现</h3><p>Go语言新的系统编程语言 高层次概念的低级语言 编译速度快执行效率高</p>
+<p><strong>快速编译，高效执行，易于开发</strong></p>
+<h3 id="1-2-3-发展目标"><a href="#1-2-3-发展目标" class="headerlink" title="1.2.3 发展目标"></a>1.2.3 发展目标</h3><p>Go语言 将静态语言的安全性和高效性与动态语言的易开发性进行有机结合，达到完美平衡，从而使编程变得更加有乐趣，而不是在艰难抉择中痛苦前行。</p>
+<p>GO语言是一门类型安全和内存安全的编程语言，构建快 执行快 </p>
+<p><strong>go install</strong>进行第三方包的部署</p>
+<h3 id="1-2-4-语言特性"><a href="#1-2-4-语言特性" class="headerlink" title="1.2.4 语言特性"></a>1.2.4 语言特性</h3><p>GO语言通过 程序和结构方面实现并发编程</p>
+<p>Go没有类和继承概念 通过接口（interface）实现多态性 go语言有一个清晰易懂的<br>轻量级类型系统 一门混合型的语言</p>
+<p>Go语言的函数式编程 静态类型</p>
+<p>Go 语言支持交叉编译，比如说你可以在运行 Linux 系统的计算机上开发运行 Windows 下运行的应用程序。这是第一门完全支持 UTF-8 的编程语言，这不仅体现在它可以处理使用 UTF-8 编码的字符串，就连它的源码文件格式都是使用的 UTF-8 编码。Go 语言做到了真正的国际化！</p>
+<h3 id="1-2-4-Go语言的优点和缺点"><a href="#1-2-4-Go语言的优点和缺点" class="headerlink" title="1.2.4 Go语言的优点和缺点"></a>1.2.4 Go语言的优点和缺点</h3><p><strong>优点</strong></p>
+<ul>
+<li>简化问题，易于学习</li>
+<li>内存管理，简洁语法，易于使用</li>
+<li>快速编译，高效开发</li>
+<li>高效执行</li>
+<li>并发支持，轻松驾驭</li>
+<li>静态类型</li>
+<li>标准类库，规范统一</li>
+<li>易于部署</li>
+<li>文档全面</li>
+<li>免费开源</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>为了简化设计，不支持函数重载和操作符重载</li>
+<li>为了避免在 C/C++ 开发中的一些 Bug 和混乱，不支持隐式转换</li>
+<li>Go 语言通过另一种途径实现面向对象设计（第 10-11 章）来放弃类和类型的继承</li>
+<li>尽管在接口的使用方面（第 11 章）可以实现类似变体类型的功能，但本身不支持变体类型</li>
+<li>不支持动态加载代码</li>
+<li>不支持动态链接库</li>
+<li>不支持泛型</li>
+<li>通过 recover 和 panic 来替代异常机制（第 13.2-3 节）</li>
+<li>不支持静态变量</li>
+</ul>
+<h1 id="安装与运行环境"><a href="#安装与运行环境" class="headerlink" title="安装与运行环境"></a>安装与运行环境</h1><h2 id="2-1-平台与架构"><a href="#2-1-平台与架构" class="headerlink" title="2.1 平台与架构"></a>2.1 平台与架构</h2><p>Go语言适用以下操作系统的编译器：</p>
+<p>Linux<br>FreeBSD<br>Mac OS X（也称为 Darwin）<br>目前有2个版本的编译器：Go 原生编译器 gc 和非原生编译器 gccgo，这两款编译器都是在类 Unix 系统下工作 。其中，gc 版本的编译器已经被移植到 Windows 平台上，并集成在主要发行版中，你也可以通过安装 MinGW 从而在 Windows 平台下使用 gcc 编译器。这两个编译器都是以单通道的形式工作。</p>
+<p>你可以获取以下平台上的 Go 1.4 源码和二进制文件：</p>
+<p>Linux 2.6+：amd64、386 和 arm 架构<br>Mac OS X（Snow Leopard + Lion）：amd64 和 386 架构<br>Windows 2000+：amd64 和 386 架构<br>对于非常底层的纯 Go 语言代码或者包而言，在各个操作系统平台上的可移植性是非常强的，只需要将源码拷贝到相应平台上进行编译即可，或者可以使用交叉编译来构建目标平台的应用程序（第 2.2 节）。但如果你打算使用 cgo 或者类似文件监控系统的软件，就需要根据实际情况进行相应地修改了。</p>
+<p>Go 原生编译器 gc：</p>
+<p>主要基于 Ken Thompson 先前在 Plan 9 操作系统上使用的 C 工具链。</p>
+<p>Go 语言的编译器和链接器都是使用 C 语言编写并产生本地代码，Go 不存在自我引导之类的功能。因此如果使用一个有不同指令集的编译器来构建 Go 程序，就需要针对操作系统和处理器架构（32 位操作系统或 64 位操作系统）进行区别对待。（ 译者注：Go从1.5版本开始已经实现自举。Go语言的编译器和链接器都是Go语言编写的）</p>
+<p>这款编译器使用非分代、无压缩和并行的方式进行编译，它的编译速度要比 gccgo 更快，产生更好的本地代码，但编译后的程序不能够使用 gcc 进行链接。</p>
+<p>编译器目前支持以下基于 Intel 或 AMD 处理器架构的程序构建。</p>
+<p>图2.1 gc 编译器支持的处理器架构</p>
+<p>当你第一次看到这套命名系统的时候你会觉得很奇葩，不过这些命名都是来自于 Plan 9 项目。</p>
+<p> g = 编译器：将源代码编译为项目代码（程序文本）<br> l = 链接器：将项目代码链接到可执行的二进制文件（机器代码）<br>（相关的 C 编译器名称为 6c、8c 和 5c，相关的汇编器名称为 6a、8a 和 5a）</p>
+<p>标记（Flags） 是指可以通过命令行设置可选参数来影响编译器或链接器的构建过程或得到一个特殊的目标结果。</p>
+<p>可用的编译器标记如下：</p>
+<p> flags:<br> -I 针对包的目录搜索<br> -d 打印声明信息<br> -e 不限制错误打印的个数<br> -f 打印栈结构<br> -h 发生错误时进入恐慌（panic）状态<br> -o 指定输出文件名 // 详见第3.4节<br> -S 打印产生的汇编代码<br> -V 打印编译器版本 // 详见第2.3节<br> -u 禁止使用 unsafe 包中的代码<br> -w 打印归类后的语法解析树<br> -x 打印 lex tokens<br>从 Go 1.0.3 版本开始，不再使用 8g，8l 之类的指令进行程序的构建，取而代之的是统一的 go build 和 go install 等命令，而这些指令会自动调用相关的编译器或链接器。</p>
+<p>如果你想获得更深层次的信息，你可以在目录 $GOROOT/src/cmd 下找到编译器和链接器的源代码。Go 语言本身是由 C 语言开发的，而不是 Go 语言（Go 1.5 开始自举）。词法分析程序是 GNU bison，语法分析程序是名为 $GOROOT/src/cmd/gc/go.y 的 yacc 文件，它会在同一目录输出 y.tab.{c,h} 文件。如果你想知道更多有关构建过程的信息，你可以在 $GOROOT/src/make.bash 中找到。</p>
+<p>大部分的目录都包含了名为 doc.go 的文件，这个文件提供了更多详细的信息。</p>
+<p>gccgo 编译器：</p>
+<p>一款相对于 gc 而言更加传统的编译器，使用 GCC 作为后端。GCC 是一款非常流行的 GNU 编译器，它能够构建基于众多处理器架构的应用程序。编译速度相对 gc 较慢，但产生的本地代码运行要稍微快一点。它同时也提供一些与 C 语言之间的互操作性。</p>
+<p>从 Go 1 版本开始，gc 和 gccgo 在编译方面都有等价的功能。</p>
+<p>文件扩展名与包（package）：</p>
+<p>Go 语言源文件的扩展名很显然就是 .go。</p>
+<p>C 文件使用后缀名 .c，汇编文件使用后缀名 .s。所有的源代码文件都是通过包（packages）来组织。包含可执行代码的包文件在被压缩后使用扩展名 .a（AR 文档）。</p>
+<p>Go 语言的标准库（第 9.1 节）包文件在被安装后就是使用这种格式的文件。</p>
+<p>注意 当你在创建目录时，文件夹名称永远不应该包含空格，而应该使用下划线 “_” 或者其它一般符号代替。</p>
+<h2 id="2-2-Go环境变量"><a href="#2-2-Go环境变量" class="headerlink" title="2.2 Go环境变量"></a>2.2 Go环境变量</h2><p>Go 开发环境依赖于一些操作系统环境变量，你最好在安装 Go 之前就已经设置好他们。如果你使用的是 Windows 的话，你完全不用进行手动设置，Go 将被默认安装在目录 c:/go 下。这里列举几个最为重要的环境变量：</p>
+<p>$GOROOT 表示 Go 在你的电脑上的安装位置，它的值一般都是 $HOME/go，当然，你也可以安装在别的地方。<br>$GOARCH 表示目标机器的处理器架构，它的值可以是 386、amd64 或 arm。<br>$GOOS 表示目标机器的操作系统，它的值可以是 darwin、freebsd、linux 或 windows。<br>$GOBIN 表示编译器和链接器的安装位置，默认是 $GOROOT/bin，如果你使用的是 Go 1.0.3 及以后的版本，一般情况下你可以将它的值设置为空，Go 将会使用前面提到的默认值。<br>目标机器是指你打算运行你的 Go 应用程序的机器。</p>
+<p>Go 编译器支持交叉编译，也就是说你可以在一台机器上构建运行在具有不同操作系统和处理器架构上运行的应用程序，也就是说编写源代码的机器可以和目标机器有完全不同的特性（操作系统与处理器架构）。</p>
+<p>为了区分本地机器和目标机器，你可以使用 $GOHOSTOS 和 $GOHOSTARCH 设置本地机器的操作系统名称和编译体系结构，这两个变量只有在进行交叉编译的时候才会用到，如果你不进行显示设置，他们的值会和本地机器（$GOOS 和 $GOARCH）一样。</p>
+<p>$GOPATH 默认采用和 $GOROOT 一样的值，但从 Go 1.1 版本开始，你必须修改为其它路径。它可以包含多个 Go 语言源码文件、包文件和可执行文件的路径，而这些路径下又必须分别包含三个规定的目录：src、pkg 和 bin，这三个目录分别用于存放源码文件、包文件和可执行文件。<br>$GOARM 专门针对基于 arm 架构的处理器，它的值可以是 5 或 6，默认为 6。<br>$GOMAXPROCS 用于设置应用程序可使用的处理器个数与核数，详见第 14.1.3 节。<br>在接下来的章节中，我们将会讨论如何在 Linux、Mac OS X 和 Windows 上安装 Go 语言。在 FreeBSD 上的安装和 Linux 非常类似。开发团队正在尝试将 Go 语言移植到其它例如 OpenBSD、DragonFlyBSD、NetBSD、Plan 9、Haiku 和 Solaris 操作系统上，你可以在这个页面找到最近的动态：Go Porting Efforts。</p>
+<h2 id="2-3-安装工具"><a href="#2-3-安装工具" class="headerlink" title="2.3 安装工具"></a>2.3 安装工具</h2><p>你的 Go 安装目录（$GOROOT）的文件夹结构应该如下所示：</p>
+<p>README.md, AUTHORS, CONTRIBUTORS, LICENSE</p>
+<p>/bin：包含可执行文件，如：编译器，Go 工具<br>/doc：包含示例程序，代码工具，本地文档等<br>/lib：包含文档模版<br>/misc：包含与支持 Go 编辑器有关的配置文件以及 cgo 的示例<br>/os_arch：包含标准库的包的对象文件（.a）<br>/src：包含源代码构建脚本和标准库的包的完整源代码（Go 是一门开源语言）<br>/src/cmd：包含 Go 和 C 的编译器和命令行脚本</p>
+<h2 id="Go运行时run-time"><a href="#Go运行时run-time" class="headerlink" title="Go运行时run time"></a>Go运行时run time</h2><p>Go编译器产生的是本地可执行代码 运行在Go的runtime 这个 runtime 类似 Java 和 .NET 语言所用到的虚拟机，它负责管理包括内存分配、垃圾回收（第 10.8 节）、栈处理、goroutine、channel、切片（slice）、map 和反射（reflection）等等。</p>
+<p>垃圾回收器 Go 拥有简单却高效的标记-清除回收器。它的主要思想来源于 IBM 的可复用垃圾回收器，旨在打造一个高效、低延迟的并发回收器。目前 gccgo 还没有回收器，同时适用 gc 和 gccgo 的新回收器正在研发中。使用一门具有垃圾回收功能的编程语言不代表你可以避免内存分配所带来的问题，分配和回收内容都是消耗 CPU 资源的一种行为。</p>
+<p>Go 的可执行文件都比相对应的源代码文件要大很多，这恰恰说明了 Go 的 runtime 嵌入到了每一个可执行文件当中。当然，在部署到数量巨大的集群时，较大的文件体积也是比较头疼的问题。但总的来说，Go 的部署工作还是要比 Java 和 Python 轻松得多。因为 Go 不需要依赖任何其它文件，它只需要一个单独的静态文件，这样你也不会像使用其它语言一样在各种不同版本的依赖文件之间混淆。</p>
+<h1 id="Go编辑器、集成开发环境和其他工具"><a href="#Go编辑器、集成开发环境和其他工具" class="headerlink" title="Go编辑器、集成开发环境和其他工具"></a>Go编辑器、集成开发环境和其他工具</h1><h2 id="3-1-Go-开发环境的基本要求"><a href="#3-1-Go-开发环境的基本要求" class="headerlink" title="3.1 Go 开发环境的基本要求"></a>3.1 Go 开发环境的基本要求</h2><p>这里有一个可以用来开发 Go 的集成开发环境，你期待有以下哪些特性，从而替代你使用文本编辑器写代码和命令行编译与链接程序的方式？</p>
+<p>语法高亮是必不可少的功能，这也是每个开发工具都提供配置文件来实现自定义配置的原因。<br>可以自动保存代码，至少在每次编译前都会保存。<br>可以显示代码所在的行数。<br>拥有较好的项目文件纵览和导航能力，可以同时编辑多个源文件并设置书签，能够匹配括号，能够跳转到某个函数或类型的定义部分。<br>完美的查找和替换功能，替换之前最好还能预览结果。<br>可以注释或取消注释选中的一行或多行代码。<br>当有编译错误时，双击错误提示可以跳转到发生错误的位置。<br>跨平台，能够在 Linux、Mac OS X 和 Windows 下工作，这样就可以专注于一个开发环境。<br>最好是免费的，不过有些开发者还是希望能够通过支付一定金额以获得更好的开发环境。<br>最好是开源的。<br>能够通过插件架构来轻易扩展和替换某个功能。<br>尽管集成开发环境本身就是非常复杂的，但一定要让人感觉操作方便。<br>能够通过代码模版来简化编码过程从而提升编码速度。<br>使用 Go 项目的概念来浏览和管理项目中的文件，同时还要拥有构建系统的概念，这样才能更加方便的构建、清理或运行我们建立的程序或项目。构建出的程序需要能够通过命令行或 IDE 内部的控制台运行。<br>拥有断点、检查变量值、单步执行、逐过程执行标识库中代码的能力。<br>能够方便的存取最近使用过的文件或项目。<br>拥有对包、类型、变量、函数和方法的智能代码补全的功能。<br>能够对项目或包中的代码建立抽象语法树视图（AST-view）。<br>内置 Go 的相关工具。<br>能够方便完整地查阅 Go 文档。<br>能够方便地在不同的 Go 环境之间切换。<br>能够导出不同格式的代码文件，如：PDF，HTML 或格式化后的代码。<br>针对一些特定的项目有项目模板，如：Web 应用，App Engine 项目，从而能够更快地开始开发工作。<br>具备代码重构的能力。<br>集成像 hg 或 git 这样的版本控制工具。<br>集成 Google App Engine 开发及调试的功能。</p>
+<h2 id="3-2-编辑器和集成开发环境"><a href="#3-2-编辑器和集成开发环境" class="headerlink" title="3.2 编辑器和集成开发环境"></a>3.2 编辑器和集成开发环境</h2>
+    </div>
+
+    
+    
+    
+
+    <div>
+	    
+		    
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+   <!-- JS库 sweetalert 引用本地路径 -->
+  <script src="/js/sweetalert.min.js"></script>
+  <p><span>文章作者:</span><a href="/" title="访问 lingyunsheng 的个人博客">lingyunsheng</a></p>
+  <p><span>发布时间:</span>2020年11月30日 - 11:11</p>
+  <p><span>原始链接:</span><a href="/archives/197.html" title="go语言">http://lingyunsheng.cn/archives/197.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://lingyunsheng.cn/archives/197.html" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+
+	    
+    </div>
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="lingyunsheng 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="lingyunsheng 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lingyunsheng
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lingyunsheng.cn/archives/197.html" title="go语言">http://lingyunsheng.cn/archives/197.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，感兴趣的话，前往git，转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/53469.html" rel="prev" title="如何搭建一个博客">
+      <i class="fa fa-chevron-left"></i> 如何搭建一个博客
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#学习GO语言"><span class="nav-text">学习GO语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-起源与发展"><span class="nav-text">1.1 起源与发展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-语言的主要特性与发展的环境和影响因素"><span class="nav-text">1.2 语言的主要特性与发展的环境和影响因素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-Go语言与C-C-Java关系"><span class="nav-text">1.2.1 Go语言与C&#x2F;C++&#x2F;Java关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-go语言的出现"><span class="nav-text">1.2.2 go语言的出现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-发展目标"><span class="nav-text">1.2.3 发展目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-4-语言特性"><span class="nav-text">1.2.4 语言特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-4-Go语言的优点和缺点"><span class="nav-text">1.2.4 Go语言的优点和缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装与运行环境"><span class="nav-text">安装与运行环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-平台与架构"><span class="nav-text">2.1 平台与架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Go环境变量"><span class="nav-text">2.2 Go环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-安装工具"><span class="nav-text">2.3 安装工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go运行时run-time"><span class="nav-text">Go运行时run time</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Go编辑器、集成开发环境和其他工具"><span class="nav-text">Go编辑器、集成开发环境和其他工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-Go-开发环境的基本要求"><span class="nav-text">3.1 Go 开发环境的基本要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-编辑器和集成开发环境"><span class="nav-text">3.2 编辑器和集成开发环境</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="lingyunsheng" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">lingyunsheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lingyunsheng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lingyunsheng" rel="external nofollow noopener noreferrer" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1841046698@qq.com" title="E-Mail → mailto:1841046698@qq.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://juejin.im/user/729731451849134" title="掘金 → https:&#x2F;&#x2F;juejin.im&#x2F;user&#x2F;729731451849134" rel="external nofollow noopener noreferrer" target="_blank"><i class="heartbeat fa-fw"></i>掘金</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lingyunsheng</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">76k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:09</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+  <span id="busuanzi_container_site_pv">
+    本站总访问量<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>次
+  </span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"BRxjPOsqhLpeBGnhnWu544t6-MdYXbMMI","app_key":"sjOlGST3QNba2IdputiNyNBq","server_url":null,"security":true,"betterPerformance":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'BRxjPOsqhLpeBGnhnWu544t6-MdYXbMMI',
+      appKey     : 'sjOlGST3QNba2IdputiNyNBq',
+      placeholder: "Just go go",
+      avatar     : 'monsterid',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+
+
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+<!-- 爆炸烟花 -->
+<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+<script type="text/javascript" src="/js/src/firework.js"></script>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+
+<script type="text/javascript">
+  window.addEventListener('DOMContentLoaded', () => {
+  let icon = document.querySelector(".github-corner");
+  icon.innerHTML  = `<svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD;color:#fff;aria-hidden="true">
+      <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+      <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body">
+      </path>
+  </svg>`;
+},false);
+</script>
+
+
+
