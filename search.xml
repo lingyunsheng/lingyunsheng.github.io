@@ -1,6 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>一键全站变灰</title>
+    <url>/archives/35950.html</url>
+    <content><![CDATA[<blockquote>
+<p>很多网站包括我公司在内,重大节日或事故内默哀哀悼日,访问一些网站,全站都会变成灰色, 如果想到要立即开发,设计图修改耗费大量事件精力,这儿使用css3的filter滤镜,filter的grayscale属性</p>
+</blockquote>
+<p>filter:grayscale 可以调整元素的灰度值</p>
+<pre class=" language-CSS"><code class="language-CSS">.filter-gray {
+    /*  调整网站灰度值100% 兼容ie */
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: url("data:image/svg+xml;utf8,<svg xmlns="\'http://www.w3.org/2000/svg\'"><filter id="\'grayscale\'"><feColorMatrix 0="" 1="" type="\'matrix\'" values="\'0.3333" 0.3333="" 0\'=""/></filter></svg>#grayscale");
+    filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+    -webkit-filter:grayscale(1);
+}
+
+</code></pre>
+<p><strong>效果显示如下</strong></p>
+<img data-src="https://user-gold-cdn.xitu.io/2020/4/3/1713f02204fee215?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
+
+<p>正常情况下,导航栏是有一个吸顶效果的,鼠标无论怎么滑动,导航栏都固定在顶部,设置完一键全站变灰,<br>在css的body设置,导航栏没用固定在顶部而是穿透过屏幕外边了</p>
+<p>为什么会发生这种情况呢</p>
+<blockquote>
+<p>对于指定了filter样式值不为none时,被应用改样式的元素其子元素中如果有position为absolute和fixed的元素,会为其创建一个新的容器,使得这些元素定位于新创建的容器</p>
+</blockquote>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a><strong>解决方法</strong></h2><p>fixed是相对于html根元素定的,如果body设置了filter属性而且不为none的时候,body会创建一个新的容器,使用fixed定位的元素则相对于新容器,所以body的元素会滚出屏幕外</p>
+<p>因此,将filter的grayscale设置在根元素html,这样html创建新的定位基准元素,也不会对子孙元素产生滚动到页面外的影响</p>
+<pre class=" language-CSS"><code class="language-CSS">html {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: url("data:image/svg+xml;utf8,<svg xmlns="\'http://www.w3.org/2000/svg\'"><filter id="\'grayscale\'"><feColorMatrix 0="" 1="" type="\'matrix\'" values="\'0.3333" 0.3333="" 0\'=""/></filter></svg>#grayscale"); /*慎用 移动端和safari会失效*/
+    filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+    -webkit-filter: grayscale(1);
+    filter:gray; /**ie6-9*/
+}
+
+</code></pre>
+<p>修改后的效果<br><img data-src="https://user-gold-cdn.xitu.io/2020/4/3/1713f1672a3781c9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"></p>
+<h2 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a><strong>解决方案2</strong></h2><p>在body里增加一个gray-scale的容器 非全站变灰我们可以将需要使用filter的元素单独加上</p>
+<pre class=" language-bash"><code class="language-bash">
+
+<span class="token operator">&lt;</span>html<span class="token operator">></span>
+    <span class="token operator">&lt;</span>body<span class="token operator">></span>
+        <span class="token operator">&lt;</span>div class<span class="token operator">=</span><span class="token string">"gray-filter"</span><span class="token operator">></span><span class="token operator">&lt;</span>/div<span class="token operator">></span>
+    <span class="token operator">&lt;</span>/body<span class="token operator">></span>
+<span class="token operator">&lt;</span>/html<span class="token operator">></span>
+
+<span class="token operator">&lt;</span>style<span class="token operator">></span>
+.fixed <span class="token punctuation">{</span>
+    position: fixed<span class="token punctuation">;</span>
+    top: 100px<span class="token punctuation">;</span>
+    left: 100px<span class="token punctuation">;</span>
+    height: 100px<span class="token punctuation">;</span>
+    width: 100px<span class="token punctuation">;</span>
+    background-color: <span class="token comment" spellcheck="true">#f00;</span>
+<span class="token punctuation">}</span>
+.gray-filter <span class="token punctuation">{</span>
+    filter: grayscale<span class="token punctuation">(</span>100%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    -webkit-filter: grayscale<span class="token punctuation">(</span>100%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    -moz-filter: grayscale<span class="token punctuation">(</span>100%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    -ms-filter: grayscale<span class="token punctuation">(</span>100%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    -o-filter: grayscale<span class="token punctuation">(</span>100%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    filter: url<span class="token punctuation">(</span><span class="token string">"data:image/svg+xml;utf8,&lt;svg xmlns=\'http://www.w3.org/2000/svg\'>&lt;filter id=\'grayscale\'>&lt;feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/>&lt;/filter>&lt;/svg>#grayscale"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    filter: progid:DXImageTransform.Microsoft.BasicImage<span class="token punctuation">(</span>grayscale<span class="token operator">=</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    -webkit-filter: grayscale<span class="token punctuation">(</span>1<span class="token punctuation">)</span><span class="token punctuation">;</span>  /***/
+<span class="token punctuation">}</span>
+<span class="token operator">&lt;</span>/style<span class="token operator">></span></code></pre>
+<h2 id="解决方案3"><a href="#解决方案3" class="headerlink" title="解决方案3"></a>解决方案3</h2><p>fixed定位元素 直接加css穿透事件,pointer-events:all; css属性,让遮罩层的所有事件都传递到下一层</p>
+<h2 id="兼容IE浏览器"><a href="#兼容IE浏览器" class="headerlink" title="兼容IE浏览器"></a>兼容IE浏览器</h2><p>兼容IE浏览器,引入<strong><a href="http://www.majas-lapu-izstrade.lv/cross-browser-grayscale-ie11/" target="_blank" rel="external nofollow noopener noreferrer">grayscale.js</a></strong></p>
+<p>原理: js将color\background-color border-color等属性提取出来替换成灰色 而背景图片会使用canvas绘制处理成灰色再替换图片源</p>
+<p>demo里的判断浏览器的userAgent来识别浏览器类型与版本再进行处理</p>
+<p>grayscale.js处理 图片增加透明度</p>
+<h2 id="小程序兼容"><a href="#小程序兼容" class="headerlink" title="小程序兼容"></a>小程序兼容</h2><p>小程序直接在模板加一个容器filter-gray</p>
+<p><a href="https://caniuse.com/?search=CSS%20filter" target="_blank" rel="external nofollow noopener noreferrer">点此查看</a>浏览器是否支持css filter属性</p>
+]]></content>
+  </entry>
+  <entry>
     <title>微信小程序转uni-app</title>
     <url>/archives/5ab8cddf.html</url>
     <content><![CDATA[<p>首先安装一个将微信小程序 转换成 uni-app 的插件</p>
@@ -1097,6 +1179,11 @@ nums<span class="token punctuation">.</span><span class="token function">sort</s
         <tag>vue</tag>
         <tag>react</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>十二月倒计时</title>
+    <url>/archives/43667.html</url>
+    <content><![CDATA[<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1>]]></content>
   </entry>
   <entry>
     <title>go语言</title>
@@ -3802,7 +3889,7 @@ module<span class="token punctuation">.</span>exports <span class="token operato
     <span class="token function">dfs</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
     <span class="token keyword">return</span> res<span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<h1 id="岛屿数量"><a href="#岛屿数量" class="headerlink" title="岛屿数量"></a>岛屿数量</h1><p>给一个01矩阵，1代表是陆地，0代表海洋， 如果两个1相邻，那么这两个1属于同一个岛。我们只考虑上下左右为相邻。<br>岛屿: 相邻陆地可以组成一个岛屿（相邻:上下左右） 判断岛屿个数。</p>
+<h1 id="岛屿数量-并查集、dfs"><a href="#岛屿数量-并查集、dfs" class="headerlink" title="岛屿数量(并查集、dfs)"></a>岛屿数量(并查集、dfs)</h1><p>给一个01矩阵，1代表是陆地，0代表海洋， 如果两个1相邻，那么这两个1属于同一个岛。我们只考虑上下左右为相邻。<br>岛屿: 相邻陆地可以组成一个岛屿（相邻:上下左右） 判断岛屿个数。</p>
 <p>输入 [[1,1,0,0,0],[0,1,0,1,1],[0,0,0,1,1],[0,0,0,0,0],[0,0,1,1,1]]</p>
 <p>输出 3</p>
 <pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">/**
@@ -3866,10 +3953,45 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 <span class="token punctuation">}</span>
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
     solve <span class="token punctuation">:</span> solve
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
-    solve <span class="token punctuation">:</span> solve
 <span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<h1 id="拼接所有的字符串产生字典序最小的字符串-贪心"><a href="#拼接所有的字符串产生字典序最小的字符串-贪心" class="headerlink" title="拼接所有的字符串产生字典序最小的字符串(贪心)"></a>拼接所有的字符串产生字典序最小的字符串(贪心)</h1><p><strong>贪心算法</strong>: 又称贪婪算法,在对问题求解时,总是做出在当前看来是最好的选择,不从整体最优上加以考虑,算法得到的是在某种意义上的局部最优解. 贪心算法不是对所有问题都能得到整体最优解,<strong>关键是贪心策略的选择</strong>,不从整体最优上加以考虑吧,做出的是某种意义上的局部最优解</p>
+<p><strong>算法思路</strong></p>
+<ul>
+<li><p>建立数学模型来描述问题</p>
+</li>
+<li><p>把求解的问题 分成若干个子问题</p>
+</li>
+<li><p>对每个子问题求解, 得到子问题的局部最优解</p>
+</li>
+<li><p>把子问题的解局部最优解合成原来解问题的一个解</p>
+</li>
+</ul>
+<p>贪心算法是一种对某些求最优解问题的更简单、更迅速的设计技术。贪心算法的特点是一步一步地进行，常以当前情况为基础根据某个优化测度作最优选择，而不考虑各种可能的整体情况，省去了为找最优解要穷尽所有可能而必须耗费的大量时间。贪心算法采用自顶向下，以迭代的方法做出相继的贪心选择，每做一次贪心选择，就将所求问题简化为一个规模更小的子问题，通过每一步贪心选择，可得到问题的一个最优解。虽然每一步上都要保证能获得局部最优解，但由此产生的全局解有时不一定是最优的，所以贪心算法不要回溯 [2]  。</p>
+<p><strong>使用条件</strong></p>
+<ul>
+<li><p>贪心选择性质<br>一个问题的整体最优解可通过一系列局部的最优解的选择达到，并且每次的选择可以依赖以前作出的选择，但不依赖于后面要作出的选择。这就是贪心选择性质。对于一个具体问题，要确定它是否具有贪心选择性质，必须证明每一步所作的贪心选择最终导致问题的整体最优解 [4]  。</p>
+</li>
+<li><p>最优子结构<br>当一个问题的最优解包含其子问题的最优解时，称此问题具有最优子结构性质。问题的最优子结构性质是该问题可用贪心法求解的关键所在。在实际应用中，至于什么问题具有什么样的贪心选择性质是不确定的，需要具体问题具体分析</p>
+</li>
+</ul>
+<p><strong>题目</strong></p>
+<p>给定一个字符串的数组strs，请找到一种拼接顺序，使得所有的字符串拼接起来组成的字符串是所有可能性中字典序最小的，并返回这个字符串。</p>
+<p>[“abc”,”de”]</p>
+<p>“abcde”</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">/**
+ * 
+ * @param strs string字符串一维数组 the strings
+ * @return string字符串
+ */</span>
+<span class="token keyword">function</span> <span class="token function">minString</span><span class="token punctuation">(</span> strs <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// write code here</span>
+
+<span class="token punctuation">}</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    minString <span class="token punctuation">:</span> minString
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+</code></pre>
 ]]></content>
   </entry>
   <entry>
