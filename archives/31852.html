@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lingyunsheng.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#836FFF","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、脚手架创建项目1.1 包管理 lerna lerna是包管理工具(多包管理器)， 针对git和npm管理多包存储库的工作流程安装  npm i lerna -g 初始化  init项目初始化  lerna init  &#x2F;&#x2F; 默认初始化  lerna init --independent &#x2F;&#x2F; 使用独立版本  lerna init --exact   安装初始化后默认生成的目录  package">
+<meta property="og:type" content="article">
+<meta property="og:title" content="带你学习新的知识">
+<meta property="og:url" content="http://lingyunsheng.cn/archives/31852.html">
+<meta property="og:site_name" content="凌云生的客栈">
+<meta property="og:description" content="一、脚手架创建项目1.1 包管理 lerna lerna是包管理工具(多包管理器)， 针对git和npm管理多包存储库的工作流程安装  npm i lerna -g 初始化  init项目初始化  lerna init  &#x2F;&#x2F; 默认初始化  lerna init --independent &#x2F;&#x2F; 使用独立版本  lerna init --exact   安装初始化后默认生成的目录  package">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-03T01:06:58.000Z">
+<meta property="article:modified_time" content="2020-12-03T03:02:43.465Z">
+<meta property="article:author" content="lingyunsheng">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://lingyunsheng.cn/archives/31852.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>带你学习新的知识 | 凌云生的客栈</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="凌云生的客栈" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凌云生的客栈</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://lingyunsheng.cn/archives/31852.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="lingyunsheng">
+      <meta itemprop="description" content>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凌云生的客栈">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          带你学习新的知识
+        </h1>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-12-03 09:06:58 / 修改时间：11:02:43" itemprop="dateCreated datePublished" datetime="2020-12-03T09:06:58+08:00">2020-12-03</time>
+            </span>
+
+          
+          
+          <br>
+            <span id="/archives/31852.html" class="post-meta-item leancloud_visitors" data-flag-title="带你学习新的知识" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/archives/31852.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/archives/31852.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一、脚手架创建项目"><a href="#一、脚手架创建项目" class="headerlink" title="一、脚手架创建项目"></a>一、脚手架创建项目</h1><h2 id="1-1-包管理-lerna"><a href="#1-1-包管理-lerna" class="headerlink" title="1.1 包管理 lerna"></a>1.1 包管理 lerna</h2><blockquote>
+<p><a href="https://github.com/lerna/lerna" target="_blank" rel="external nofollow noopener noreferrer">lerna</a>是包管理工具(多包管理器)， 针对git和npm管理多包存储库的工作流程<br><strong>安装</strong></p>
+</blockquote>
+<pre class=" language-js"><code class="language-js">npm i lerna <span class="token operator">-</span>g</code></pre>
+<p><strong>初始化</strong></p>
+<ul>
+<li>init项目初始化</li>
+</ul>
+<pre class=" language-bash"><code class="language-bash">lerna init  // 默认初始化
+
+lerna init --independent // 使用独立版本
+
+lerna init --exact
+</code></pre>
+<ul>
+<li>安装初始化后默认生成的目录</li>
+</ul>
+<pre class=" language-bash"><code class="language-bash">package/  // 默认的包目录
+
+pakage.json // 配置文件
+
+lerna.json // lerna配置
+</code></pre>
+<p><strong>引入包</strong></p>
+<pre class=" language-bash"><code class="language-bash">lerna <span class="token function">import</span> package // 本地文件夹的包地址</code></pre>
+<p><strong>为所有安装的包安装依赖</strong></p>
+<pre class=" language-js"><code class="language-js">lerna add <span class="token operator">&lt;</span><span class="token keyword">package</span><span class="token operator">></span>  <span class="token comment" spellcheck="true">// 包的名称</span>
+
+<span class="token comment" spellcheck="true">// 为目标包安装依赖</span>
+
+lerna add <span class="token operator">&lt;</span><span class="token keyword">package</span><span class="token operator">></span> <span class="token operator">--</span>scope<span class="token operator">=</span><span class="token operator">&lt;</span>target<span class="token operator">></span>
+
+
+<span class="token comment" spellcheck="true">// 标记为开发依赖</span>
+
+lerna add <span class="token operator">&lt;</span><span class="token keyword">package</span><span class="token operator">></span> <span class="token operator">--</span>dev
+</code></pre>
+<p><strong>执行命令</strong></p>
+<pre class=" language-js"><code class="language-js">
+lerna run test <span class="token comment" spellcheck="true">// 执行包内的test命令</span>
+
+<span class="token comment" spellcheck="true">// 执行lerna root包的 dev命令</span>
+
+lerna run <span class="token operator">--</span>scope<span class="token operator">=</span>root dev
+
+<span class="token comment" spellcheck="true">// 创建一个新包</span>
+
+lerna create <span class="token keyword">package</span><span class="token operator">-</span>name
+
+lerna create <span class="token keyword">package</span><span class="token operator">-</span>name src
+
+<span class="token comment" spellcheck="true">// 在src目录生成包</span>
+
+<span class="token comment" spellcheck="true">//  exec执行命令</span>
+
+lerna exec <span class="token operator">--</span> rm <span class="token operator">-</span>fr lib  <span class="token comment" spellcheck="true">// 删除包的lib目录</span>
+
+lerna exec <span class="token operator">--</span>scope root <span class="token operator">--</span>ls <span class="token comment" spellcheck="true">// 查看目录</span>
+
+</code></pre>
+<p><strong>lerna.json配置</strong></p>
+<pre class=" language-JSON"><code class="language-JSON">{
+  "version": "1.1.3", // 统一包版本， 为 "independent" 时，各个包独立管理版本
+  "npmClient": "yarn", // 包命令客户端
+  "npmClientArgs": [ "--production" ], // 包命令参数
+  "packages": [ // 包管理目录
+    "packages/*",
+    "apps/*"
+  ],
+  "command": {  // 命令配置
+
+    "publish": {
+      "ignoreChanges": ["ignored-file", "*.md"],
+      "message": "chore(release): publish",
+      "registry": "https://npm.pkg.github.com"
+    },
+
+
+    "bootstrap": {
+      "ignore": "component-*",
+      "npmClientArgs": ["--no-package-lock"]
+    }
+
+
+  }</code></pre>
+<p><strong>指令</strong></p>
+<pre class=" language-js"><code class="language-js">lerna publish
+
+lerna version <span class="token comment" spellcheck="true">// lerna notice cli v3.22.1</span>
+
+lerna list
+
+lerna changed
+
+lerna diff
+
+lerna run
+
+lerna init
+
+lerna add
+
+lerna clean
+
+lerna <span class="token keyword">import</span>
+
+lerna create
+
+lerna info
+</code></pre>
+<h2 id="1-2-环境变量-dotenv"><a href="#1-2-环境变量-dotenv" class="headerlink" title="1.2 环境变量 dotenv"></a>1.2 环境变量 dotenv</h2><blockquote>
+<p>dotenv,NPM的一个库，从文件加载环境变量,开发过程中，我们会碰到不同的环境，本地环境，开发环境，测试环境，灰度环境，预发布环境，生产环境，根据不同的环境，我们要配置不同的环境变量， 因此我们是通过<strong>dotenv</strong>来管理我们的环境变量</p>
+</blockquote>
+<p><strong>安装</strong></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> --save dotenv</code></pre>
+<p><strong>根目录新建一个.env文件,配置不同开发环境的baseurl</strong></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#配置开发环境和测试环境以及生产环境</span>
+DEV_BASE_URL <span class="token operator">=</span> <span class="token string">'http://xxx.cn'</span>
+
+TEST_BASE_URL <span class="token operator">=</span> <span class="token string">'https://xxx.cn'</span>
+
+<span class="token comment" spellcheck="true">#客户端请求的url</span>
+
+CLIENT_BASE_URL <span class="token operator">=</span> <span class="token string">'http://xxx.cn'</span>
+
+<span class="token comment" spellcheck="true">#服务端请求的url</span>
+
+SERVER_BASE_URL <span class="token operator">=</span> <span class="token string">'http://xxx.cn'</span>
+
+<span class="token comment" spellcheck="true">#测试环境</span>
+
+TEST2_BASE_URL <span class="token operator">=</span> <span class="token string">'https://xxx.cn'</span>
+</code></pre>
+<p><strong>在dote.env中引入dotenv</strong></p>
+<pre class=" language-js"><code class="language-js">
+<span class="token keyword">const</span> dotenv <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// 读取env的环境dotenv.parse</span>
+
+<span class="token keyword">const</span> envConfig <span class="token operator">=</span> dotenv<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'../.env'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">//覆盖系统的环境变量。主要为了解决http_proxy代理问题。</span>
+<span class="token comment" spellcheck="true">//覆盖服务器上的http_proxy环境变量，否则在压测的时候由于代理性能不足将导致压测数值不达标的问题。</span>
+
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token keyword">in</span> envConfig<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    process<span class="token punctuation">.</span>env<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> envConfig<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+<p>在nuxt.config.js或者vue.dev.config.js中配置</p>
+<p>引入dotenv</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">requir</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">let</span> baseUrl <span class="token operator">=</span> <span class="token string">''</span>
+<span class="token comment" spellcheck="true">//  根据不同环境选择</span>
+<span class="token keyword">switch</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>BASE<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">'dev'</span><span class="token punctuation">:</span>
+         baseUrl <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>DEV_BASE_URL<span class="token punctuation">;</span>
+         <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token string">'production'</span><span class="token punctuation">:</span>
+         baseUrl <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>PRO_BASE_URL<span class="token punctuation">;</span>
+         <span class="token keyword">break</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    env<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        baseUrl<span class="token punctuation">:</span> baseUrl
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="1-3-命令行commander"><a href="#1-3-命令行commander" class="headerlink" title="1.3 命令行commander"></a>1.3 命令行commander</h2><p><a href="https://github.com/tj/commander.js/blob/master/Readme_zh-CN.md" target="_blank" rel="external nofollow noopener noreferrer">commander</a>命令行<br>node.js完整的命令行解决方案</p>
+<h2 id="l-4-log定制-npmlog"><a href="#l-4-log定制-npmlog" class="headerlink" title="l.4 log定制 npmlog"></a>l.4 log定制 npmlog</h2><h2 id="1-5-版本检查semver"><a href="#1-5-版本检查semver" class="headerlink" title="1.5 版本检查semver"></a>1.5 版本检查semver</h2><h2 id="1-6-npm-i"><a href="#1-6-npm-i" class="headerlink" title="1.6 npm i"></a>1.6 npm i</h2><h2 id="1-7-npm包安装：-npm-install"><a href="#1-7-npm包安装：-npm-install" class="headerlink" title="1.7 npm包安装： npm install"></a>1.7 npm包安装： npm install</h2><h2 id="1-8-通用package类封装"><a href="#1-8-通用package类封装" class="headerlink" title="1.8 通用package类封装"></a>1.8 通用package类封装</h2><h2 id="1-9-命令行交互-inquirer"><a href="#1-9-命令行交互-inquirer" class="headerlink" title="1.9 命令行交互 inquirer"></a>1.9 命令行交互 inquirer</h2><h2 id="1-10-命令行loading：spinner"><a href="#1-10-命令行loading：spinner" class="headerlink" title="1.10 命令行loading：spinner"></a>1.10 命令行loading：spinner</h2><h2 id="1-11-ejs模板渲染"><a href="#1-11-ejs模板渲染" class="headerlink" title="1.11 ejs模板渲染"></a>1.11 ejs模板渲染</h2><h2 id="1-12-文件匹配器-global"><a href="#1-12-文件匹配器-global" class="headerlink" title="1.12 文件匹配器 global"></a>1.12 文件匹配器 global</h2><h2 id="1-13-egg-js"><a href="#1-13-egg-js" class="headerlink" title="1.13 egg.js"></a>1.13 egg.js</h2>
+    </div>
+
+    
+    
+    
+
+    <div>
+	    
+		    
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+   <!-- JS库 sweetalert 引用本地路径 -->
+  <script src="/js/sweetalert.min.js"></script>
+  <p><span>文章作者:</span><a href="/" title="访问 lingyunsheng 的个人博客">lingyunsheng</a></p>
+  <p><span>发布时间:</span>2020年12月03日 - 09:12</p>
+  <p><span>原始链接:</span><a href="/archives/31852.html" title="带你学习新的知识">http://lingyunsheng.cn/archives/31852.html</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://lingyunsheng.cn/archives/31852.html" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+      $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+        });
+    });  
+</script>
+
+
+	    
+    </div>
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="lingyunsheng 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="lingyunsheng 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lingyunsheng
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lingyunsheng.cn/archives/31852.html" title="带你学习新的知识">http://lingyunsheng.cn/archives/31852.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，感兴趣的话，前往git，转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/43667.html" rel="prev" title="十二月倒计时">
+      <i class="fa fa-chevron-left"></i> 十二月倒计时
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/archives/23685.html" rel="next" title="前端TOB">
+      前端TOB <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          个人主页
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、脚手架创建项目"><span class="nav-text">一、脚手架创建项目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-包管理-lerna"><span class="nav-text">1.1 包管理 lerna</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-环境变量-dotenv"><span class="nav-text">1.2 环境变量 dotenv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-命令行commander"><span class="nav-text">1.3 命令行commander</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#l-4-log定制-npmlog"><span class="nav-text">l.4 log定制 npmlog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-版本检查semver"><span class="nav-text">1.5 版本检查semver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-npm-i"><span class="nav-text">1.6 npm i</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-npm包安装：-npm-install"><span class="nav-text">1.7 npm包安装： npm install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8-通用package类封装"><span class="nav-text">1.8 通用package类封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-9-命令行交互-inquirer"><span class="nav-text">1.9 命令行交互 inquirer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-10-命令行loading：spinner"><span class="nav-text">1.10 命令行loading：spinner</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-11-ejs模板渲染"><span class="nav-text">1.11 ejs模板渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-12-文件匹配器-global"><span class="nav-text">1.12 文件匹配器 global</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-13-egg-js"><span class="nav-text">1.13 egg.js</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="lingyunsheng" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">lingyunsheng</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lingyunsheng" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lingyunsheng" rel="external nofollow noopener noreferrer" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1841046698@qq.com" title="E-Mail → mailto:1841046698@qq.com" rel="external nofollow noopener noreferrer" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://juejin.im/user/729731451849134" title="掘金 → https:&#x2F;&#x2F;juejin.im&#x2F;user&#x2F;729731451849134" rel="external nofollow noopener noreferrer" target="_blank"><i class="heartbeat fa-fw"></i>掘金</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lingyunsheng</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">90k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:22</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="external nofollow noopener noreferrer" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+  <span id="busuanzi_container_site_pv">
+    本站总访问量<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>次
+  </span>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"BRxjPOsqhLpeBGnhnWu544t6-MdYXbMMI","app_key":"sjOlGST3QNba2IdputiNyNBq","server_url":null,"security":true,"betterPerformance":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'BRxjPOsqhLpeBGnhnWu544t6-MdYXbMMI',
+      appKey     : 'sjOlGST3QNba2IdputiNyNBq',
+      placeholder: "Just go go",
+      avatar     : 'monsterid',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+
+
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+<!-- 爆炸烟花 -->
+<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+<script type="text/javascript" src="/js/src/firework.js"></script>
+
+<!--浏览器搞笑标题-->
+<script type="text/javascript" src="/js/src/FunnyTitle.js"></script>
+
+<script type="text/javascript">
+  window.addEventListener('DOMContentLoaded', () => {
+  let icon = document.querySelector(".github-corner");
+  icon.innerHTML  = `<svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD;color:#fff;aria-hidden="true">
+      <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+      <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body">
+      </path>
+  </svg>`;
+},false);
+</script>
+
+
+

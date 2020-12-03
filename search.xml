@@ -1181,6 +1181,278 @@ nums<span class="token punctuation">.</span><span class="token function">sort</s
       </tags>
   </entry>
   <entry>
+    <title>性能优化</title>
+    <url>/archives/4227.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>脚手架-发布项目</title>
+    <url>/archives/29950.html</url>
+    <content><![CDATA[<h1 id="云构建CloudBuild"><a href="#云构建CloudBuild" class="headerlink" title="云构建CloudBuild"></a>云构建CloudBuild</h1><h1 id="Github-amp-Gitee-API接入"><a href="#Github-amp-Gitee-API接入" class="headerlink" title="Github &amp; Gitee API接入"></a>Github &amp; Gitee API接入</h1><h1 id="git操作-simple-git"><a href="#git操作-simple-git" class="headerlink" title="git操作 simple-git"></a>git操作 simple-git</h1><h1 id="git-flow-自动化"><a href="#git-flow-自动化" class="headerlink" title="git flow 自动化"></a>git flow 自动化</h1><h1 id="npm-自动化"><a href="#npm-自动化" class="headerlink" title="npm 自动化"></a>npm 自动化</h1><h1 id="websocket"><a href="#websocket" class="headerlink" title="websocket"></a>websocket</h1><h1 id="egg-socket-io"><a href="#egg-socket-io" class="headerlink" title="egg-socket.io"></a>egg-socket.io</h1><h1 id="egg-redis"><a href="#egg-redis" class="headerlink" title="egg-redis"></a>egg-redis</h1><h1 id="base64加密解密"><a href="#base64加密解密" class="headerlink" title="base64加密解密"></a>base64加密解密</h1><h1 id="命令行link"><a href="#命令行link" class="headerlink" title="命令行link"></a>命令行link</h1>]]></content>
+  </entry>
+  <entry>
+    <title>静态资源处理</title>
+    <url>/archives/23333.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>加密 Crypto</title>
+    <url>/archives/27175.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>输入输出验证Validator&amp;&amp;JSON Schema</title>
+    <url>/archives/39653.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>日志分析</title>
+    <url>/archives/57974.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>定时任务</title>
+    <url>/archives/21635.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>文件上传</title>
+    <url>/archives/11796.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>GraphQL</title>
+    <url>/archives/26407.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>缓存</title>
+    <url>/archives/34055.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>mongoose</title>
+    <url>/archives/58285.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>ORM框架 Sequelize</title>
+    <url>/archives/30793.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>模板引擎pug</title>
+    <url>/archives/21457.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>跨域配置CORS</title>
+    <url>/archives/21511.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>登录验证JWT</title>
+    <url>/archives/55038.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>koa2</title>
+    <url>/archives/31876.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>rollup</title>
+    <url>/archives/57892.html</url>
+    <content><![CDATA[<h1 id="rollup打包"><a href="#rollup打包" class="headerlink" title="rollup打包"></a>rollup打包</h1><h1 id="rollup-vue插件"><a href="#rollup-vue插件" class="headerlink" title="rollup vue插件"></a>rollup vue插件</h1><h1 id="ts插件"><a href="#ts插件" class="headerlink" title="ts插件"></a>ts插件</h1><h1 id="commonjs插件"><a href="#commonjs插件" class="headerlink" title="commonjs插件"></a>commonjs插件</h1><h1 id="css-only插件"><a href="#css-only插件" class="headerlink" title="css-only插件"></a>css-only插件</h1><h1 id="sourcemap"><a href="#sourcemap" class="headerlink" title="sourcemap"></a>sourcemap</h1><h1 id="vue-test-utils"><a href="#vue-test-utils" class="headerlink" title="vue-test-utils"></a>vue-test-utils</h1><h1 id="npm发布与配置"><a href="#npm发布与配置" class="headerlink" title="npm发布与配置"></a>npm发布与配置</h1>]]></content>
+  </entry>
+  <entry>
+    <title>前端SSR</title>
+    <url>/archives/37181.html</url>
+    <content><![CDATA[<h1 id="vue-ssr"><a href="#vue-ssr" class="headerlink" title="vue ssr"></a>vue ssr</h1><h1 id="移动端响应式"><a href="#移动端响应式" class="headerlink" title="移动端响应式"></a>移动端响应式</h1><h1 id="微信分享"><a href="#微信分享" class="headerlink" title="微信分享"></a>微信分享</h1><h1 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h1><h1 id="埋点统计"><a href="#埋点统计" class="headerlink" title="埋点统计"></a>埋点统计</h1>]]></content>
+  </entry>
+  <entry>
+    <title>前端TOB</title>
+    <url>/archives/23685.html</url>
+    <content><![CDATA[<h1 id="Ant-Design-Vue以及二次开发"><a href="#Ant-Design-Vue以及二次开发" class="headerlink" title="Ant Design Vue以及二次开发"></a>Ant Design Vue以及二次开发</h1><h1 id="截图：-html2canvas"><a href="#截图：-html2canvas" class="headerlink" title="截图： html2canvas"></a>截图： html2canvas</h1><h1 id="图片裁剪-cropperjs"><a href="#图片裁剪-cropperjs" class="headerlink" title="图片裁剪 cropperjs"></a>图片裁剪 cropperjs</h1><h1 id="快捷键-hotkeys-js"><a href="#快捷键-hotkeys-js" class="headerlink" title="快捷键 hotkeys-js"></a>快捷键 hotkeys-js</h1><h1 id="二维码-qrcodejs2"><a href="#二维码-qrcodejs2" class="headerlink" title="二维码 qrcodejs2"></a>二维码 qrcodejs2</h1><h1 id="拖动排序-vue-draggable"><a href="#拖动排序-vue-draggable" class="headerlink" title="拖动排序 vue-draggable"></a>拖动排序 vue-draggable</h1><h1 id="echarts"><a href="#echarts" class="headerlink" title="echarts"></a>echarts</h1><h1 id="组件拖动"><a href="#组件拖动" class="headerlink" title="组件拖动"></a>组件拖动</h1><h1 id="组件移动"><a href="#组件移动" class="headerlink" title="组件移动"></a>组件移动</h1><h1 id="组件缩放"><a href="#组件缩放" class="headerlink" title="组件缩放"></a>组件缩放</h1><h1 id="右键菜单"><a href="#右键菜单" class="headerlink" title="右键菜单"></a>右键菜单</h1><h1 id="复制粘贴"><a href="#复制粘贴" class="headerlink" title="复制粘贴"></a>复制粘贴</h1><h1 id="撤销重做"><a href="#撤销重做" class="headerlink" title="撤销重做"></a>撤销重做</h1><h1 id="动态表单"><a href="#动态表单" class="headerlink" title="动态表单"></a>动态表单</h1>]]></content>
+  </entry>
+  <entry>
+    <title>带你学习新的知识</title>
+    <url>/archives/31852.html</url>
+    <content><![CDATA[<h1 id="一、脚手架创建项目"><a href="#一、脚手架创建项目" class="headerlink" title="一、脚手架创建项目"></a>一、脚手架创建项目</h1><h2 id="1-1-包管理-lerna"><a href="#1-1-包管理-lerna" class="headerlink" title="1.1 包管理 lerna"></a>1.1 包管理 lerna</h2><blockquote>
+<p><a href="https://github.com/lerna/lerna" target="_blank" rel="external nofollow noopener noreferrer">lerna</a>是包管理工具(多包管理器)， 针对git和npm管理多包存储库的工作流程<br><strong>安装</strong></p>
+</blockquote>
+<pre class=" language-js"><code class="language-js">npm i lerna <span class="token operator">-</span>g</code></pre>
+<p><strong>初始化</strong></p>
+<ul>
+<li>init项目初始化</li>
+</ul>
+<pre class=" language-bash"><code class="language-bash">lerna init  // 默认初始化
+
+lerna init --independent // 使用独立版本
+
+lerna init --exact
+</code></pre>
+<ul>
+<li>安装初始化后默认生成的目录</li>
+</ul>
+<pre class=" language-bash"><code class="language-bash">package/  // 默认的包目录
+
+pakage.json // 配置文件
+
+lerna.json // lerna配置
+</code></pre>
+<p><strong>引入包</strong></p>
+<pre class=" language-bash"><code class="language-bash">lerna <span class="token function">import</span> package // 本地文件夹的包地址</code></pre>
+<p><strong>为所有安装的包安装依赖</strong></p>
+<pre class=" language-js"><code class="language-js">lerna add <span class="token operator">&lt;</span><span class="token keyword">package</span><span class="token operator">></span>  <span class="token comment" spellcheck="true">// 包的名称</span>
+
+<span class="token comment" spellcheck="true">// 为目标包安装依赖</span>
+
+lerna add <span class="token operator">&lt;</span><span class="token keyword">package</span><span class="token operator">></span> <span class="token operator">--</span>scope<span class="token operator">=</span><span class="token operator">&lt;</span>target<span class="token operator">></span>
+
+
+<span class="token comment" spellcheck="true">// 标记为开发依赖</span>
+
+lerna add <span class="token operator">&lt;</span><span class="token keyword">package</span><span class="token operator">></span> <span class="token operator">--</span>dev
+</code></pre>
+<p><strong>执行命令</strong></p>
+<pre class=" language-js"><code class="language-js">
+lerna run test <span class="token comment" spellcheck="true">// 执行包内的test命令</span>
+
+<span class="token comment" spellcheck="true">// 执行lerna root包的 dev命令</span>
+
+lerna run <span class="token operator">--</span>scope<span class="token operator">=</span>root dev
+
+<span class="token comment" spellcheck="true">// 创建一个新包</span>
+
+lerna create <span class="token keyword">package</span><span class="token operator">-</span>name
+
+lerna create <span class="token keyword">package</span><span class="token operator">-</span>name src
+
+<span class="token comment" spellcheck="true">// 在src目录生成包</span>
+
+<span class="token comment" spellcheck="true">//  exec执行命令</span>
+
+lerna exec <span class="token operator">--</span> rm <span class="token operator">-</span>fr lib  <span class="token comment" spellcheck="true">// 删除包的lib目录</span>
+
+lerna exec <span class="token operator">--</span>scope root <span class="token operator">--</span>ls <span class="token comment" spellcheck="true">// 查看目录</span>
+
+</code></pre>
+<p><strong>lerna.json配置</strong></p>
+<pre class=" language-JSON"><code class="language-JSON">{
+  "version": "1.1.3", // 统一包版本， 为 "independent" 时，各个包独立管理版本
+  "npmClient": "yarn", // 包命令客户端
+  "npmClientArgs": [ "--production" ], // 包命令参数
+  "packages": [ // 包管理目录
+    "packages/*",
+    "apps/*"
+  ],
+  "command": {  // 命令配置
+
+    "publish": {
+      "ignoreChanges": ["ignored-file", "*.md"],
+      "message": "chore(release): publish",
+      "registry": "https://npm.pkg.github.com"
+    },
+
+
+    "bootstrap": {
+      "ignore": "component-*",
+      "npmClientArgs": ["--no-package-lock"]
+    }
+
+
+  }</code></pre>
+<p><strong>指令</strong></p>
+<pre class=" language-js"><code class="language-js">lerna publish
+
+lerna version <span class="token comment" spellcheck="true">// lerna notice cli v3.22.1</span>
+
+lerna list
+
+lerna changed
+
+lerna diff
+
+lerna run
+
+lerna init
+
+lerna add
+
+lerna clean
+
+lerna <span class="token keyword">import</span>
+
+lerna create
+
+lerna info
+</code></pre>
+<h2 id="1-2-环境变量-dotenv"><a href="#1-2-环境变量-dotenv" class="headerlink" title="1.2 环境变量 dotenv"></a>1.2 环境变量 dotenv</h2><blockquote>
+<p>dotenv,NPM的一个库，从文件加载环境变量,开发过程中，我们会碰到不同的环境，本地环境，开发环境，测试环境，灰度环境，预发布环境，生产环境，根据不同的环境，我们要配置不同的环境变量， 因此我们是通过<strong>dotenv</strong>来管理我们的环境变量</p>
+</blockquote>
+<p><strong>安装</strong></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> --save dotenv</code></pre>
+<p><strong>根目录新建一个.env文件,配置不同开发环境的baseurl</strong></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#配置开发环境和测试环境以及生产环境</span>
+DEV_BASE_URL <span class="token operator">=</span> <span class="token string">'http://xxx.cn'</span>
+
+TEST_BASE_URL <span class="token operator">=</span> <span class="token string">'https://xxx.cn'</span>
+
+<span class="token comment" spellcheck="true">#客户端请求的url</span>
+
+CLIENT_BASE_URL <span class="token operator">=</span> <span class="token string">'http://xxx.cn'</span>
+
+<span class="token comment" spellcheck="true">#服务端请求的url</span>
+
+SERVER_BASE_URL <span class="token operator">=</span> <span class="token string">'http://xxx.cn'</span>
+
+<span class="token comment" spellcheck="true">#测试环境</span>
+
+TEST2_BASE_URL <span class="token operator">=</span> <span class="token string">'https://xxx.cn'</span>
+</code></pre>
+<p><strong>在dote.env中引入dotenv</strong></p>
+<pre class=" language-js"><code class="language-js">
+<span class="token keyword">const</span> dotenv <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'path'</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// 读取env的环境dotenv.parse</span>
+
+<span class="token keyword">const</span> envConfig <span class="token operator">=</span> dotenv<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">'../.env'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">//覆盖系统的环境变量。主要为了解决http_proxy代理问题。</span>
+<span class="token comment" spellcheck="true">//覆盖服务器上的http_proxy环境变量，否则在压测的时候由于代理性能不足将导致压测数值不达标的问题。</span>
+
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token keyword">in</span> envConfig<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    process<span class="token punctuation">.</span>env<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> envConfig<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
+<p>在nuxt.config.js或者vue.dev.config.js中配置</p>
+<p>引入dotenv</p>
+<pre class=" language-js"><code class="language-js"><span class="token function">requir</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">let</span> baseUrl <span class="token operator">=</span> <span class="token string">''</span>
+<span class="token comment" spellcheck="true">//  根据不同环境选择</span>
+<span class="token keyword">switch</span><span class="token punctuation">(</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>BASE<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">'dev'</span><span class="token punctuation">:</span>
+         baseUrl <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>DEV_BASE_URL<span class="token punctuation">;</span>
+         <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token string">'production'</span><span class="token punctuation">:</span>
+         baseUrl <span class="token operator">=</span> process<span class="token punctuation">.</span>env<span class="token punctuation">.</span>PRO_BASE_URL<span class="token punctuation">;</span>
+         <span class="token keyword">break</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    env<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        baseUrl<span class="token punctuation">:</span> baseUrl
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="1-3-命令行commander"><a href="#1-3-命令行commander" class="headerlink" title="1.3 命令行commander"></a>1.3 命令行commander</h2><p><a href="https://github.com/tj/commander.js/blob/master/Readme_zh-CN.md" target="_blank" rel="external nofollow noopener noreferrer">commander</a>命令行<br>node.js完整的命令行解决方案</p>
+<h2 id="l-4-log定制-npmlog"><a href="#l-4-log定制-npmlog" class="headerlink" title="l.4 log定制 npmlog"></a>l.4 log定制 npmlog</h2><h2 id="1-5-版本检查semver"><a href="#1-5-版本检查semver" class="headerlink" title="1.5 版本检查semver"></a>1.5 版本检查semver</h2><h2 id="1-6-npm-i"><a href="#1-6-npm-i" class="headerlink" title="1.6 npm i"></a>1.6 npm i</h2><h2 id="1-7-npm包安装：-npm-install"><a href="#1-7-npm包安装：-npm-install" class="headerlink" title="1.7 npm包安装： npm install"></a>1.7 npm包安装： npm install</h2><h2 id="1-8-通用package类封装"><a href="#1-8-通用package类封装" class="headerlink" title="1.8 通用package类封装"></a>1.8 通用package类封装</h2><h2 id="1-9-命令行交互-inquirer"><a href="#1-9-命令行交互-inquirer" class="headerlink" title="1.9 命令行交互 inquirer"></a>1.9 命令行交互 inquirer</h2><h2 id="1-10-命令行loading：spinner"><a href="#1-10-命令行loading：spinner" class="headerlink" title="1.10 命令行loading：spinner"></a>1.10 命令行loading：spinner</h2><h2 id="1-11-ejs模板渲染"><a href="#1-11-ejs模板渲染" class="headerlink" title="1.11 ejs模板渲染"></a>1.11 ejs模板渲染</h2><h2 id="1-12-文件匹配器-global"><a href="#1-12-文件匹配器-global" class="headerlink" title="1.12 文件匹配器 global"></a>1.12 文件匹配器 global</h2><h2 id="1-13-egg-js"><a href="#1-13-egg-js" class="headerlink" title="1.13 egg.js"></a>1.13 egg.js</h2>]]></content>
+  </entry>
+  <entry>
     <title>十二月倒计时</title>
     <url>/archives/43667.html</url>
     <content><![CDATA[<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1>]]></content>
